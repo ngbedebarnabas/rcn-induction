@@ -23,13 +23,13 @@ const Navbar = () => {
             alt="RCN Logo" 
             className="h-12 w-auto" 
           />
-          <span className="font-semibold text-xl hidden md:inline-block text-gray-800">
+          <span className="font-semibold text-xl hidden md:inline-block text-primary">
             RCN Induction Programme
           </span>
         </NavLink>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex space-x-8">
+        <nav className="hidden md:flex items-center space-x-8">
           {navLinks.map((link) => (
             <NavLink
               key={link.name}
@@ -43,6 +43,11 @@ const Navbar = () => {
               {link.name}
             </NavLink>
           ))}
+          <Button asChild className="ml-4 bg-primary hover:bg-primary/90">
+            <NavLink to="/registration">
+              Register
+            </NavLink>
+          </Button>
         </nav>
 
         {/* Mobile Navigation Toggle */}
@@ -75,6 +80,13 @@ const Navbar = () => {
                 {link.name}
               </NavLink>
             ))}
+            <div className="p-4">
+              <Button asChild className="w-full bg-primary hover:bg-primary/90">
+                <NavLink to="/registration" onClick={() => setIsMenuOpen(false)}>
+                  Register
+                </NavLink>
+              </Button>
+            </div>
           </nav>
         </div>
       )}
