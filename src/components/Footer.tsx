@@ -72,8 +72,8 @@ const Footer = () => {
               ))}
             </div>
             <div className="text-sm text-gray-300">
-              <p>Email: contact@rcninduction.org</p>
-              <p>Phone: +1 (123) 456-7890</p>
+              <p>Email: info@ordinand.org</p>
+              <p>Phone: +234 807 309 5885 (WhatsApp Only)</p>
             </div>
           </div>
         </div>

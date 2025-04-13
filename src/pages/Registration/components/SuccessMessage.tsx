@@ -12,7 +12,7 @@ const SuccessMessage = ({ onRegisterAnother }: SuccessMessageProps) => {
       <CheckCircle className="h-16 w-16 text-green-500 mb-4" />
       <h2 className="text-2xl font-bold mb-2">Registration Successful!</h2>
       <p className="text-gray-600 mb-6">
-        Thank you for registering for the RCN Induction Training Programme. We've sent a confirmation email with further details.
+        Thank you for registering for the RCN Induction Training Programme.
       </p>
       <Button onClick={onRegisterAnother}>Register Another Person</Button>
     </div>

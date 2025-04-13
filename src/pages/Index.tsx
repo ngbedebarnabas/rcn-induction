@@ -77,9 +77,9 @@ const Index = () => {
 
   return (
     <div>
-      {/* Hero Section with Background Image */}
+      {/* Hero Section with Background Image - Now 75vh height */}
       <section 
-        className="relative bg-cover bg-center py-24 md:py-32" 
+        className="relative bg-cover bg-center h-[75vh] flex items-center" 
         style={{ 
           backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/lovable-uploads/58f1478c-d1dd-44f8-ba7c-7c2ac9498182.png')`,
           backgroundSize: 'cover',
@@ -142,7 +142,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Benefits Section (Replacing Features Section) */}
+      {/* Benefits Section */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12 text-gray-800">

@@ -2,12 +2,20 @@
 import { useState } from "react";
 import { toast } from "@/components/ui/use-toast";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import RegistrationStepOne from "./components/RegistrationStepOne";
 import RegistrationStepTwo from "./components/RegistrationStepTwo";
 import SuccessMessage from "./components/SuccessMessage";
 import { StepOneFormData, StepTwoFormData } from "./types";
+import PageHeader from "@/components/PageHeader";
 
 const Registration = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -19,6 +27,7 @@ const Registration = () => {
   const [passportImage, setPassportImage] = useState<File | null>(null);
   const [passportPreview, setPassportPreview] = useState<string | null>(null);
   const [stepOneData, setStepOneData] = useState<StepOneFormData | null>(null);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
 
   // Add another spiritual history entry
   const addSpiritualHistory = () => {
@@ -101,6 +110,8 @@ const Registration = () => {
     });
 
     setIsSubmitted(true);
+    // Show payment modal after successful registration
+    setShowPaymentModal(true);
   };
 
   const resetForm = () => {
@@ -111,59 +122,86 @@ const Registration = () => {
     setSelectedFile(null);
     setPassportImage(null);
     setPassportPreview(null);
+    setShowPaymentModal(false);
+  };
+
+  const proceedToPayment = () => {
+    window.location.href = "https://paystack.com/pay/rcnordinands";
   };
 
   return (
-    <div className="container mx-auto py-10 px-4">
-      <h1 className="text-3xl font-bold mb-2 text-center">Registration Form</h1>
-      <p className="text-gray-600 mb-8 text-center max-w-2xl mx-auto">
-        Complete the form below to register for the RCN Induction Training Programme. All fields marked with an asterisk (*) are required.
-      </p>
+    <div>
+      <PageHeader 
+        title="Registration Form"
+        subtitle="Complete the form below to register for the RCN Induction Training Programme"
+      />
+      
+      <div className="container mx-auto py-10 px-4">
+        <p className="text-gray-600 mb-8 text-center max-w-2xl mx-auto">
+          The RCN Induction Training Programme is a dedicated ministry designed to equip and empower ministers in Christian service. All fields marked with an asterisk (*) are required.
+        </p>
 
-      {isSubmitted ? (
-        <Card className="max-w-2xl mx-auto">
-          <CardContent className="pt-6">
-            <SuccessMessage onRegisterAnother={resetForm} />
-          </CardContent>
-        </Card>
-      ) : (
-        <Card className="max-w-2xl mx-auto">
-          <CardHeader>
-            <CardTitle>
-              {currentStep === 1 
-                ? "Step 1: Spiritual Information" 
-                : "Step 2: MINISTERIAL CREDENTIAL APPLICATION (MCA) FORM"}
-            </CardTitle>
-            <CardDescription>
-              {currentStep === 1 
-                ? "Please provide your spiritual background details." 
-                : "Please provide your ministerial credential application details."}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            {currentStep === 1 ? (
-              <RegistrationStepOne 
-                onSubmit={onSubmitStepOne}
-                spiritualHistory={spiritualHistory}
-                addSpiritualHistory={addSpiritualHistory}
-                updateSpiritualHistory={updateSpiritualHistory}
-                removeSpiritualHistory={removeSpiritualHistory}
-                passportPreview={passportPreview}
-                handlePassportChange={handlePassportChange}
-                removePassport={removePassport}
-              />
-            ) : (
-              <RegistrationStepTwo
-                onSubmit={onSubmitStepTwo}
-                handleFileChange={handleFileChange}
-                selectedFile={selectedFile}
-                removeFile={removeFile}
-                onBack={() => setCurrentStep(1)}
-              />
-            )}
-          </CardContent>
-        </Card>
-      )}
+        {isSubmitted ? (
+          <Card className="max-w-2xl mx-auto">
+            <CardContent className="pt-6">
+              <SuccessMessage onRegisterAnother={resetForm} />
+            </CardContent>
+          </Card>
+        ) : (
+          <Card className="max-w-2xl mx-auto">
+            <CardHeader>
+              <CardTitle>
+                {currentStep === 1 
+                  ? "Step 1: Spiritual Information" 
+                  : "Step 2: MINISTERIAL CREDENTIAL APPLICATION (MCA) FORM"}
+              </CardTitle>
+              <CardDescription>
+                {currentStep === 1 
+                  ? "Please provide your spiritual background details." 
+                  : "Please provide your ministerial credential application details."}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              {currentStep === 1 ? (
+                <RegistrationStepOne 
+                  onSubmit={onSubmitStepOne}
+                  spiritualHistory={spiritualHistory}
+                  addSpiritualHistory={addSpiritualHistory}
+                  updateSpiritualHistory={updateSpiritualHistory}
+                  removeSpiritualHistory={removeSpiritualHistory}
+                  passportPreview={passportPreview}
+                  handlePassportChange={handlePassportChange}
+                  removePassport={removePassport}
+                />
+              ) : (
+                <RegistrationStepTwo
+                  onSubmit={onSubmitStepTwo}
+                  handleFileChange={handleFileChange}
+                  selectedFile={selectedFile}
+                  removeFile={removeFile}
+                  onBack={() => setCurrentStep(1)}
+                />
+              )}
+            </CardContent>
+          </Card>
+        )}
+      </div>
+
+      {/* Payment Dialog */}
+      <Dialog open={showPaymentModal} onOpenChange={setShowPaymentModal}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Complete Your Registration</DialogTitle>
+            <DialogDescription>
+              Thank you for registering for the RCN Induction Training Programme. To complete your registration, please proceed to make a payment.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowPaymentModal(false)}>Later</Button>
+            <Button onClick={proceedToPayment}>Proceed to Payment</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

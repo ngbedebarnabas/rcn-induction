@@ -1,167 +1,169 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import PageHeader from "@/components/PageHeader";
+import { GraduationCap, Book, Award, Zap, Users } from "lucide-react";
 
 const About = () => {
+  const benefits = [
+    {
+      icon: <GraduationCap className="h-10 w-10 text-primary" />,
+      title: "Intensive Ministerial Trainings",
+      description: "Comprehensive training sessions led by experienced ministers to develop your spiritual leadership skills."
+    },
+    {
+      icon: <Book className="h-10 w-10 text-primary" />,
+      title: "Access to Training Resources",
+      description: "Extensive library of books, videos, and study materials to support your spiritual growth journey."
+    },
+    {
+      icon: <Award className="h-10 w-10 text-primary" />,
+      title: "Certificate of Ordination",
+      description: "Official recognition of your ministerial qualifications upon successful completion of the programme."
+    },
+    {
+      icon: <Zap className="h-10 w-10 text-primary" />,
+      title: "Impartations",
+      description: "Spiritual impartation sessions to activate and strengthen your ministerial gifts and calling."
+    },
+    {
+      icon: <Users className="h-10 w-10 text-primary" />,
+      title: "Access and Networking",
+      description: "Connect with a global network of ministers for collaboration, mentorship, and fellowship."
+    }
+  ];
+
   return (
-    <div className="container mx-auto py-10 px-4">
-      <div className="max-w-3xl mx-auto">
-        <h1 className="text-3xl font-bold mb-6 text-center">About RCN Induction Programme</h1>
-        
-        <div className="mb-10 bg-slate-50 p-6 rounded-lg">
-          <p className="text-lg leading-relaxed mb-4">
-            The RCN Induction Training Programme is designed to provide new members with a comprehensive introduction to their roles and responsibilities within the organization.
-          </p>
-          <p className="text-lg leading-relaxed">
-            Our structured curriculum ensures that all participants gain the necessary knowledge, skills, and understanding to excel in their positions and contribute effectively to the organization's goals.
-          </p>
-        </div>
-        
-        <Tabs defaultValue="overview" className="mb-10">
-          <TabsList className="grid grid-cols-3 mb-8">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="curriculum">Curriculum</TabsTrigger>
-            <TabsTrigger value="schedule">Schedule</TabsTrigger>
-          </TabsList>
-          
-          <TabsContent value="overview" className="space-y-4">
-            <h2 className="text-2xl font-semibold">Programme Overview</h2>
-            <p className="text-gray-700">
-              The RCN Induction Programme spans over a period of 4 weeks, combining online learning modules, interactive workshops, and practical sessions. Participants will be guided through various aspects of their role, organizational policies, procedures, and best practices.
+    <div>
+      <PageHeader 
+        title="About RCN Induction Programme"
+        subtitle="Empowering ministers for Kingdom service"
+      />
+      
+      <div className="container mx-auto py-10 px-4">
+        <div className="max-w-3xl mx-auto">
+          <div className="mb-10 bg-slate-50 p-6 rounded-lg">
+            <p className="text-lg leading-relaxed">
+              The RCN Induction Training Programme is a dedicated ministry designed to equip and empower ministers in Christian service. Our programme offers comprehensive training, rooted in biblical truth, to prepare you for impactful leadership and faithful stewardship. Through practical teaching, mentorship, and spiritual formation, we aim to support your calling, fostering growth in faith, wisdom, and ministry skills. Join us as we journey together to advance God's Kingdom with passion and purpose.
             </p>
-            <h3 className="text-xl font-medium mt-6">Programme Objectives</h3>
-            <ul className="list-disc pl-6 space-y-2 text-gray-700">
-              <li>Familiarize new members with the organization's structure, culture, and values</li>
-              <li>Provide essential knowledge and skills required for specific roles</li>
-              <li>Establish clear expectations and performance standards</li>
-              <li>Foster integration into teams and departments</li>
-              <li>Encourage professional development and continuous learning</li>
-            </ul>
-          </TabsContent>
+          </div>
           
-          <TabsContent value="curriculum" className="space-y-4">
-            <h2 className="text-2xl font-semibold">Curriculum Details</h2>
-            <p className="text-gray-700 mb-6">
-              Our curriculum is structured into four main modules, each focusing on specific aspects of professional development and organizational knowledge.
-            </p>
+          <Tabs defaultValue="schedule" className="mb-10">
+            <TabsList className="grid grid-cols-1 mb-8">
+              <TabsTrigger value="schedule">Schedule</TabsTrigger>
+            </TabsList>
             
-            <div className="space-y-6">
-              <Card>
-                <CardContent className="pt-6">
-                  <h3 className="text-xl font-medium mb-2">Module 1: Organizational Introduction</h3>
-                  <ul className="list-disc pl-6 space-y-1 text-gray-700">
-                    <li>History and mission of the organization</li>
-                    <li>Organizational structure and departments</li>
-                    <li>Core values and culture</li>
-                    <li>Key policies and procedures</li>
-                  </ul>
-                </CardContent>
-              </Card>
+            <TabsContent value="schedule" className="space-y-4">
+              <h2 className="text-2xl font-semibold">Programme Schedule</h2>
+              <p className="text-gray-700 mb-6">
+                The programme follows a structured schedule over six days to ensure comprehensive coverage of all essential topics. Sessions are designed to accommodate different learning styles and provide practical application of concepts.
+              </p>
               
-              <Card>
-                <CardContent className="pt-6">
-                  <h3 className="text-xl font-medium mb-2">Module 2: Role-Specific Training</h3>
-                  <ul className="list-disc pl-6 space-y-1 text-gray-700">
-                    <li>Job responsibilities and expectations</li>
-                    <li>Technical skills and competencies</li>
-                    <li>Tools and resources</li>
-                    <li>Best practices and standards</li>
-                  </ul>
-                </CardContent>
-              </Card>
-              
-              <Card>
-                <CardContent className="pt-6">
-                  <h3 className="text-xl font-medium mb-2">Module 3: Professional Development</h3>
-                  <ul className="list-disc pl-6 space-y-1 text-gray-700">
-                    <li>Communication skills</li>
-                    <li>Team collaboration</li>
-                    <li>Time management</li>
-                    <li>Problem-solving techniques</li>
-                  </ul>
-                </CardContent>
-              </Card>
-              
-              <Card>
-                <CardContent className="pt-6">
-                  <h3 className="text-xl font-medium mb-2">Module 4: Integration and Networking</h3>
-                  <ul className="list-disc pl-6 space-y-1 text-gray-700">
-                    <li>Team integration activities</li>
-                    <li>Mentorship program</li>
-                    <li>Cross-departmental networking</li>
-                    <li>Future growth opportunities</li>
-                  </ul>
-                </CardContent>
-              </Card>
-            </div>
-          </TabsContent>
+              <div className="space-y-6">
+                <Card>
+                  <CardContent className="pt-6">
+                    <h3 className="text-xl font-medium mb-2">Day 1: Orientation</h3>
+                    <ul className="list-disc pl-6 space-y-1 text-gray-700">
+                      <li>Organizational Introduction</li>
+                      <li>Systems and Tools Overview</li>
+                      <li>Health & Safety Training</li>
+                      <li>Team Introduction and Social Event</li>
+                    </ul>
+                  </CardContent>
+                </Card>
+                
+                <Card>
+                  <CardContent className="pt-6">
+                    <h3 className="text-xl font-medium mb-2">Day 2: Core Training</h3>
+                    <ul className="list-disc pl-6 space-y-1 text-gray-700">
+                      <li>Role-Specific Technical Training</li>
+                      <li>Best Practices Workshop</li>
+                      <li>Progress Assessment</li>
+                    </ul>
+                  </CardContent>
+                </Card>
+                
+                <Card>
+                  <CardContent className="pt-6">
+                    <h3 className="text-xl font-medium mb-2">Day 3: Skills Development</h3>
+                    <ul className="list-disc pl-6 space-y-1 text-gray-700">
+                      <li>Communication Skills Workshop</li>
+                      <li>Team Collaboration Exercises</li>
+                      <li>Problem-Solving Techniques</li>
+                    </ul>
+                  </CardContent>
+                </Card>
+                
+                <Card>
+                  <CardContent className="pt-6">
+                    <h3 className="text-xl font-medium mb-2">Day 4: Ministry Application</h3>
+                    <ul className="list-disc pl-6 space-y-1 text-gray-700">
+                      <li>Practical Ministry Sessions</li>
+                      <li>Field Experience</li>
+                      <li>Mentorship Connections</li>
+                    </ul>
+                  </CardContent>
+                </Card>
+                
+                <Card>
+                  <CardContent className="pt-6">
+                    <h3 className="text-xl font-medium mb-2">Day 5: Integration</h3>
+                    <ul className="list-disc pl-6 space-y-1 text-gray-700">
+                      <li>Department Rotations</li>
+                      <li>Leadership Training</li>
+                      <li>Ministry Strategy Development</li>
+                    </ul>
+                  </CardContent>
+                </Card>
+                
+                <Card>
+                  <CardContent className="pt-6">
+                    <h3 className="text-xl font-medium mb-2">Day 6: Graduation</h3>
+                    <ul className="list-disc pl-6 space-y-1 text-gray-700">
+                      <li>Final Assessment</li>
+                      <li>Certification Ceremony</li>
+                      <li>Graduation Celebration</li>
+                      <li>Ministry Commissioning</li>
+                    </ul>
+                  </CardContent>
+                </Card>
+              </div>
+            </TabsContent>
+          </Tabs>
           
-          <TabsContent value="schedule" className="space-y-4">
-            <h2 className="text-2xl font-semibold">Programme Schedule</h2>
-            <p className="text-gray-700 mb-6">
-              The programme follows a structured schedule to ensure comprehensive coverage of all essential topics. Sessions are designed to accommodate different learning styles and provide practical application of concepts.
-            </p>
+          {/* Benefits Section */}
+          <section className="py-8">
+            <h2 className="text-2xl font-semibold text-center mb-8">What You Will Benefit</h2>
             
-            <div className="space-y-6">
-              <Card>
-                <CardContent className="pt-6">
-                  <h3 className="text-xl font-medium mb-2">Week 1: Orientation</h3>
-                  <ul className="list-disc pl-6 space-y-1 text-gray-700">
-                    <li>Monday & Tuesday: Organizational Introduction</li>
-                    <li>Wednesday: Systems and Tools Overview</li>
-                    <li>Thursday: Health & Safety Training</li>
-                    <li>Friday: Team Introduction and Social Event</li>
-                  </ul>
-                </CardContent>
-              </Card>
-              
-              <Card>
-                <CardContent className="pt-6">
-                  <h3 className="text-xl font-medium mb-2">Week 2: Core Training</h3>
-                  <ul className="list-disc pl-6 space-y-1 text-gray-700">
-                    <li>Monday-Wednesday: Role-Specific Technical Training</li>
-                    <li>Thursday: Best Practices Workshop</li>
-                    <li>Friday: Progress Assessment</li>
-                  </ul>
-                </CardContent>
-              </Card>
-              
-              <Card>
-                <CardContent className="pt-6">
-                  <h3 className="text-xl font-medium mb-2">Week 3: Skills Development</h3>
-                  <ul className="list-disc pl-6 space-y-1 text-gray-700">
-                    <li>Monday: Communication Skills Workshop</li>
-                    <li>Tuesday: Team Collaboration Exercises</li>
-                    <li>Wednesday: Problem-Solving Techniques</li>
-                    <li>Thursday & Friday: Practical Application Sessions</li>
-                  </ul>
-                </CardContent>
-              </Card>
-              
-              <Card>
-                <CardContent className="pt-6">
-                  <h3 className="text-xl font-medium mb-2">Week 4: Integration</h3>
-                  <ul className="list-disc pl-6 space-y-1 text-gray-700">
-                    <li>Monday & Tuesday: Department Rotations</li>
-                    <li>Wednesday: Mentorship Pairing</li>
-                    <li>Thursday: Final Assessment</li>
-                    <li>Friday: Graduation and Certification</li>
-                  </ul>
-                </CardContent>
-              </Card>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {benefits.map((benefit, index) => (
+                <Card key={index} className="border-none shadow-lg hover:shadow-xl transition-shadow">
+                  <CardContent className="pt-6">
+                    <div className="flex items-start gap-4">
+                      <div className="shrink-0 mt-1">
+                        {benefit.icon}
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-semibold mb-2">{benefit.title}</h3>
+                        <p className="text-gray-600">{benefit.description}</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
-          </TabsContent>
-        </Tabs>
-        
-        <div className="text-center">
-          <h2 className="text-2xl font-semibold mb-4">Ready to Join?</h2>
-          <p className="text-gray-700 mb-6">
-            If you're interested in participating in our comprehensive induction programme, we encourage you to register today.
-          </p>
-          <div className="flex justify-center">
-            <a href="/registration" className="bg-primary text-white px-6 py-3 rounded-md hover:bg-primary/90 transition-colors">
-              Register for the Programme
-            </a>
+          </section>
+          
+          <div className="text-center mt-10">
+            <h2 className="text-2xl font-semibold mb-4">Ready to Join?</h2>
+            <p className="text-gray-700 mb-6">
+              If you're interested in participating in our comprehensive induction programme, we encourage you to register today.
+            </p>
+            <div className="flex justify-center">
+              <a href="/registration" className="bg-primary text-white px-6 py-3 rounded-md hover:bg-primary/90 transition-colors">
+                Register for the Programme
+              </a>
+            </div>
           </div>
         </div>
       </div>

@@ -84,7 +84,7 @@ const RegistrationStepTwo = ({
   removeFile,
   onBack
 }: RegistrationStepTwoProps) => {
-  const form = useForm<z.infer<typeof stepTwoSchema>>({
+  const form = useForm<StepTwoFormData>({
     resolver: zodResolver(stepTwoSchema),
     defaultValues: {
       address: "",
