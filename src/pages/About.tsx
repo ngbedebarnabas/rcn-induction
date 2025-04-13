@@ -43,7 +43,7 @@ const About = () => {
       <div className="container mx-auto py-10 px-4">
         <div className="max-w-3xl mx-auto">
           <div className="mb-10 bg-slate-50 p-6 rounded-lg">
-            <p className="text-lg leading-relaxed">
+            <p className="text-lg leading-relaxed text-left">
               The RCN Induction Training Programme is a dedicated ministry designed to equip and empower ministers in Christian service. Our programme offers comprehensive training, rooted in biblical truth, to prepare you for impactful leadership and faithful stewardship. Through practical teaching, mentorship, and spiritual formation, we aim to support your calling, fostering growth in faith, wisdom, and ministry skills. Join us as we journey together to advance God's Kingdom with passion and purpose.
             </p>
           </div>
@@ -54,16 +54,16 @@ const About = () => {
             </TabsList>
             
             <TabsContent value="schedule" className="space-y-4">
-              <h2 className="text-2xl font-semibold">Programme Schedule</h2>
-              <p className="text-gray-700 mb-6">
+              <h2 className="text-2xl font-semibold text-left">Programme Schedule</h2>
+              <p className="text-gray-700 mb-6 text-left">
                 The programme follows a structured schedule over six days to ensure comprehensive coverage of all essential topics. Sessions are designed to accommodate different learning styles and provide practical application of concepts.
               </p>
               
               <div className="space-y-6">
                 <Card>
                   <CardContent className="pt-6">
-                    <h3 className="text-xl font-medium mb-2">Day 1: Orientation</h3>
-                    <ul className="list-disc pl-6 space-y-1 text-gray-700">
+                    <h3 className="text-xl font-medium mb-2 text-left">Day 1: Orientation</h3>
+                    <ul className="list-disc pl-6 space-y-1 text-gray-700 text-left">
                       <li>Organizational Introduction</li>
                       <li>Systems and Tools Overview</li>
                       <li>Health & Safety Training</li>
@@ -133,7 +133,7 @@ const About = () => {
           
           {/* Benefits Section */}
           <section className="py-8">
-            <h2 className="text-2xl font-semibold text-center mb-8">What You Will Benefit</h2>
+            <h2 className="text-2xl font-semibold mb-8 text-left">What You Will Benefit</h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {benefits.map((benefit, index) => (
@@ -143,7 +143,7 @@ const About = () => {
                       <div className="shrink-0 mt-1">
                         {benefit.icon}
                       </div>
-                      <div>
+                      <div className="text-left">
                         <h3 className="text-lg font-semibold mb-2">{benefit.title}</h3>
                         <p className="text-gray-600">{benefit.description}</p>
                       </div>

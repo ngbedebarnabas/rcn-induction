@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
@@ -77,13 +76,14 @@ const Index = () => {
 
   return (
     <div>
-      {/* Hero Section with Background Image - Now 75vh height */}
+      {/* Hero Section with Background Image - Now 75vh height and full width */}
       <section 
-        className="relative bg-cover bg-center h-[75vh] flex items-center" 
+        className="relative bg-cover bg-center h-[75vh] flex items-center w-full" 
         style={{ 
           backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/lovable-uploads/58f1478c-d1dd-44f8-ba7c-7c2ac9498182.png')`,
           backgroundSize: 'cover',
-          backgroundPosition: 'center'
+          backgroundPosition: '50% 50%', // Center the image more effectively
+          backgroundRepeat: 'no-repeat'
         }}
       >
         <div className="container mx-auto px-4 text-center text-white">

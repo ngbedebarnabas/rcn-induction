@@ -73,7 +73,7 @@ const Contact = () => {
       />
       
       <div className="container mx-auto py-10 px-4">
-        <p className="text-gray-600 mb-10 text-center max-w-2xl mx-auto">
+        <p className="text-gray-600 mb-10 text-left max-w-2xl mx-auto">
           The RCN Induction Training Programme is a dedicated ministry designed to equip and empower ministers in Christian service. Our programme offers comprehensive training, rooted in biblical truth, to prepare you for impactful leadership and faithful stewardship.
         </p>
 
@@ -82,12 +82,12 @@ const Contact = () => {
           <div className="lg:col-span-1">
             <Card className="h-full">
               <CardContent className="pt-6">
-                <h2 className="text-xl font-semibold mb-6">Contact Information</h2>
+                <h2 className="text-xl font-semibold mb-6 text-left">Contact Information</h2>
                 <div className="space-y-6">
                   {contactInfo.map((item, index) => (
                     <div key={index} className="flex gap-3">
                       <div className="mt-0.5">{item.icon}</div>
-                      <div>
+                      <div className="text-left">
                         <h3 className="font-medium">{item.title}</h3>
                         <p className="text-gray-600">{item.details}</p>
                       </div>
@@ -96,7 +96,7 @@ const Contact = () => {
                 </div>
 
                 <div className="mt-8">
-                  <h2 className="text-xl font-semibold mb-4">Connect With Us</h2>
+                  <h2 className="text-xl font-semibold mb-4 text-left">Connect With Us</h2>
                   <div className="flex space-x-4">
                     <a href="#" className="text-gray-600 hover:text-primary transition-colors">
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
@@ -131,14 +131,14 @@ const Contact = () => {
                   </div>
                 ) : (
                   <>
-                    <h2 className="text-xl font-semibold mb-6">Send us a Message</h2>
+                    <h2 className="text-xl font-semibold mb-6 text-left">Send us a Message</h2>
                     <Form {...form}>
                       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                         <FormField
                           control={form.control}
                           name="name"
                           render={({ field }) => (
-                            <FormItem>
+                            <FormItem className="text-left">
                               <FormLabel>Full Name</FormLabel>
                               <FormControl>
                                 <Input placeholder="Your full name" {...field} />
@@ -152,7 +152,7 @@ const Contact = () => {
                           control={form.control}
                           name="email"
                           render={({ field }) => (
-                            <FormItem>
+                            <FormItem className="text-left">
                               <FormLabel>Email Address</FormLabel>
                               <FormControl>
                                 <Input type="email" placeholder="Your email address" {...field} />
@@ -166,7 +166,7 @@ const Contact = () => {
                           control={form.control}
                           name="department"
                           render={({ field }) => (
-                            <FormItem>
+                            <FormItem className="text-left">
                               <FormLabel>Department</FormLabel>
                               <Select 
                                 onValueChange={field.onChange}
@@ -194,7 +194,7 @@ const Contact = () => {
                           control={form.control}
                           name="subject"
                           render={({ field }) => (
-                            <FormItem>
+                            <FormItem className="text-left">
                               <FormLabel>Subject</FormLabel>
                               <FormControl>
                                 <Input placeholder="Message subject" {...field} />
@@ -208,7 +208,7 @@ const Contact = () => {
                           control={form.control}
                           name="message"
                           render={({ field }) => (
-                            <FormItem>
+                            <FormItem className="text-left">
                               <FormLabel>Message</FormLabel>
                               <FormControl>
                                 <Textarea 
