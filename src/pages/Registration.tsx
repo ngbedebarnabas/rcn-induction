@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
-import { CheckCircle, ArrowLeft, ArrowRight, FileUp, Trash2 } from "lucide-react";
+import { CheckCircle, ArrowLeft, ArrowRight, FileUp, Trash2, Upload, User } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
@@ -74,6 +74,9 @@ const stepTwoSchema = z.object({
   elderName: z.string().min(1, "Elder's name is required"),
   elderEmail: z.string().email("Invalid email address"),
   elderPhone: z.string().min(1, "Elder's phone is required"),
+  acceptTerms: z.boolean().refine(val => val === true, {
+    message: "You must accept the Statement of Undertaking to proceed"
+  }),
 });
 
 // Combined schema for both steps
@@ -91,6 +94,8 @@ const Registration = () => {
     { id: 1, text: "" }
   ]);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [passportImage, setPassportImage] = useState<File | null>(null);
+  const [passportPreview, setPassportPreview] = useState<string | null>(null);
 
   // Form for step 1
   const stepOneForm = useForm<z.infer<typeof stepOneSchema>>({
@@ -156,6 +161,7 @@ const Registration = () => {
       elderName: "",
       elderEmail: "",
       elderPhone: "",
+      acceptTerms: false,
     },
   });
 
@@ -188,9 +194,30 @@ const Registration = () => {
     }
   };
 
+  // Handle passport image upload
+  const handlePassportChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      setPassportImage(file);
+      
+      // Create preview URL
+      const reader = new FileReader();
+      reader.onload = () => {
+        setPassportPreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   // Remove selected file
   const removeFile = () => {
     setSelectedFile(null);
+  };
+
+  // Remove passport image
+  const removePassport = () => {
+    setPassportImage(null);
+    setPassportPreview(null);
   };
 
   // Handle form submission for step 1
@@ -207,6 +234,7 @@ const Registration = () => {
       ...data,
       spiritualHistory: spiritualHistory.map(item => item.text).filter(Boolean),
       uploadedFile: selectedFile ? selectedFile.name : null,
+      passport: passportImage ? passportImage.name : null,
     };
     
     console.log("Complete form data:", completeFormData);
@@ -270,6 +298,8 @@ const Registration = () => {
                 stepTwoForm.reset();
                 setSpiritualHistory([{ id: 1, text: "" }]);
                 setSelectedFile(null);
+                setPassportImage(null);
+                setPassportPreview(null);
               }}>Register Another Person</Button>
             </div>
           </CardContent>
@@ -463,6 +493,52 @@ const Registration = () => {
                     >
                       + Add Another Entry
                     </Button>
+                  </div>
+
+                  {/* Passport Photo Upload */}
+                  <div className="space-y-4">
+                    <FormLabel htmlFor="passport-upload">Passport Photograph *</FormLabel>
+                    <FormDescription>
+                      Please upload a clear passport photograph with a plain background (JPEG or PNG format).
+                    </FormDescription>
+
+                    {!passportPreview ? (
+                      <div className="border-2 border-dashed border-gray-300 rounded-md p-6">
+                        <div className="flex flex-col items-center space-y-2">
+                          <User className="h-12 w-12 text-gray-400" />
+                          <div className="text-center">
+                            <label htmlFor="passport-upload" className="cursor-pointer text-primary hover:underline">
+                              <span>Click to upload passport</span>
+                              <Input 
+                                id="passport-upload" 
+                                type="file" 
+                                className="sr-only" 
+                                accept="image/*"
+                                onChange={handlePassportChange}
+                              />
+                            </label>
+                            <p className="text-xs text-gray-500 mt-1">PNG, JPG up to 5MB</p>
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="relative w-32 h-32 mx-auto">
+                        <img 
+                          src={passportPreview} 
+                          alt="Passport Preview" 
+                          className="w-full h-full object-cover rounded-md"
+                        />
+                        <Button 
+                          type="button"
+                          variant="destructive" 
+                          size="icon"
+                          onClick={removePassport}
+                          className="absolute -top-2 -right-2 h-6 w-6 rounded-full"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    )}
                   </div>
 
                   <Button type="submit" className="w-full">
@@ -1159,6 +1235,51 @@ const Registration = () => {
                     </div>
                   </div>
 
+                  <Separator className="my-6" />
+
+                  {/* Statement of Undertaking */}
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-medium">STATEMENT OF UNDERTAKING</h3>
+                    
+                    <div className="bg-gray-50 p-4 border rounded-md">
+                      <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-line">
+                        I certify that the information I provided on this application is complete and accurate to the best of my knowledge, and that RCN is authorized to make whatever inquiries are necessary to certify the accuracy of my records.
+
+                        I will support the work of RCN with prayers and submit an annual report in the month of March each year. The annual reporting process is a significant ingredient of accountability, which is part of the integrity of this Ministry. 
+                        I will maintain a functioning email and agree to receive regular emails from RCN, will visit the website and social media regularly for updates, and I shall abide by the policies and procedures of this Ministry and conduct myself according to the Code of Ethical Standards established by this Ministry.
+                        I shall devote myself to spreading the Gospel of Jesus Christ and the general principles of the Church.
+                        I believe in the statement of faith of RCN and agree to uphold the high standards and reputation of the Ministry. 
+                        I do further undertake that Remnant Christian Network Ministry reserves the right to deny, revoke, repossess, or withhold the ministerial credentials for reasons stated in the Ordination Guidelines or for whatever the Presbytery considers a valid reason.
+                      </p>
+                    </div>
+                    
+                    <FormField
+                      control={stepTwoForm.control}
+                      name="acceptTerms"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-4 border rounded-md">
+                          <FormControl>
+                            <Checkbox 
+                              checked={field.value} 
+                              onCheckedChange={field.onChange} 
+                              id="acceptTerms"
+                              className={stepTwoForm.formState.errors.acceptTerms ? "border-red-500" : ""}  
+                            />
+                          </FormControl>
+                          <div className="space-y-1 leading-none">
+                            <FormLabel htmlFor="acceptTerms" className={stepTwoForm.formState.errors.acceptTerms ? "text-red-500" : ""}>
+                              I agree to the Statement of Undertaking *
+                            </FormLabel>
+                            <FormDescription>
+                              By checking this box, I confirm that I have read, understood, and agree to the Statement of Undertaking.
+                            </FormDescription>
+                            <FormMessage />
+                          </div>
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
                   <div className="flex gap-4">
                     <Button 
                       type="button" 
@@ -1183,4 +1304,3 @@ const Registration = () => {
 };
 
 export default Registration;
-
