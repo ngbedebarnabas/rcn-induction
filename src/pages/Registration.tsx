@@ -10,7 +10,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
-import { CheckCircle, ArrowLeft, ArrowRight } from "lucide-react";
+import { CheckCircle, ArrowLeft, ArrowRight, FileUp, Trash2 } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
 
 // First step form schema
 const stepOneSchema = z.object({
@@ -24,16 +27,53 @@ const stepOneSchema = z.object({
   spiritualGifts: z.string().min(1, "Spiritual gifts are required"),
 });
 
-// Second step form schema (original form fields)
+// Second step form schema (MCA form)
 const stepTwoSchema = z.object({
-  firstName: z.string().min(1, "First name is required"),
-  lastName: z.string().min(1, "Last name is required"),
+  address: z.string().min(1, "Address is required"),
+  phoneNumbers: z.string().min(1, "Phone number is required"),
   email: z.string().email("Invalid email address"),
-  phone: z.string().min(1, "Phone number is required"),
-  department: z.string().min(1, "Department is required"),
-  position: z.string().min(1, "Position is required"),
-  startDate: z.string().min(1, "Start date is required"),
-  additionalInfo: z.string().optional(),
+  socialMedia: z.string().optional(),
+  recommendedBy: z.string().min(1, "This field is required"),
+  placeOfBirth: z.string().min(1, "Place of birth is required"),
+  isDivorced: z.string().min(1, "Please select an option"),
+  divorceCount: z.string().optional(),
+  lastDivorceDate: z.string().optional(),
+  childrenCount: z.string().min(1, "Number of children is required"),
+  spouseName: z.string().min(1, "Spouse's name is required"),
+  isSpouseBeliever: z.string().min(1, "Please select an option"),
+  spouseDateOfBirth: z.string().min(1, "Spouse's date of birth is required"),
+  anniversaryDate: z.string().min(1, "Anniversary date is required"),
+  acceptedChristDate: z.string().min(1, "This date is required"),
+  waterBaptized: z.string().min(1, "Please select an option"),
+  prayInTongues: z.string().min(1, "Please select an option"),
+  believeInTongues: z.string().optional(),
+  desireTongues: z.string().optional(),
+  spiritualGiftsManifest: z.string().min(1, "This field is required"),
+  formalChristianTraining: z.string().min(1, "Please select an option"),
+  trainingInstitution: z.string().optional(),
+  trainingDuration: z.string().optional(),
+  previouslyOrdained: z.string().min(1, "Please select an option"),
+  ordinationType: z.string().optional(),
+  ordinationDate: z.string().optional(),
+  ordinationBy: z.string().optional(),
+  denominationalBackground: z.string().min(1, "This field is required"),
+  currentAffiliation: z.string().min(1, "This field is required"),
+  currentCapacity: z.string().min(1, "This field is required"),
+  ministryDescription: z.string().min(1, "This field is required"),
+  ministryDuration: z.string().min(1, "This field is required"),
+  ministryIncome: z.string().min(1, "This field is required"),
+  otherEmployment: z.string().min(1, "Please select an option"),
+  employmentDescription: z.string().optional(),
+  employmentAddress: z.string().optional(),
+  pastorName: z.string().min(1, "Pastor's name is required"),
+  pastorEmail: z.string().email("Invalid email address"),
+  pastorPhone: z.string().min(1, "Pastor's phone is required"),
+  ministerName: z.string().min(1, "Minister's name is required"),
+  ministerEmail: z.string().email("Invalid email address"),
+  ministerPhone: z.string().min(1, "Minister's phone is required"),
+  elderName: z.string().min(1, "Elder's name is required"),
+  elderEmail: z.string().email("Invalid email address"),
+  elderPhone: z.string().min(1, "Elder's phone is required"),
 });
 
 // Combined schema for both steps
@@ -50,6 +90,7 @@ const Registration = () => {
   const [spiritualHistory, setSpiritualHistory] = useState<Array<{id: number; text: string}>>([
     { id: 1, text: "" }
   ]);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   // Form for step 1
   const stepOneForm = useForm<z.infer<typeof stepOneSchema>>({
@@ -66,18 +107,55 @@ const Registration = () => {
     },
   });
 
-  // Form for step 2 (original registration form)
+  // Form for step 2 (MCA form)
   const stepTwoForm = useForm<z.infer<typeof stepTwoSchema>>({
     resolver: zodResolver(stepTwoSchema),
     defaultValues: {
-      firstName: "",
-      lastName: "",
+      address: "",
+      phoneNumbers: "",
       email: "",
-      phone: "",
-      department: "",
-      position: "",
-      startDate: "",
-      additionalInfo: "",
+      socialMedia: "",
+      recommendedBy: "",
+      placeOfBirth: "",
+      isDivorced: "",
+      divorceCount: "",
+      lastDivorceDate: "",
+      childrenCount: "",
+      spouseName: "",
+      isSpouseBeliever: "",
+      spouseDateOfBirth: "",
+      anniversaryDate: "",
+      acceptedChristDate: "",
+      waterBaptized: "",
+      prayInTongues: "",
+      believeInTongues: "",
+      desireTongues: "",
+      spiritualGiftsManifest: "",
+      formalChristianTraining: "",
+      trainingInstitution: "",
+      trainingDuration: "",
+      previouslyOrdained: "",
+      ordinationType: "",
+      ordinationDate: "",
+      ordinationBy: "",
+      denominationalBackground: "",
+      currentAffiliation: "",
+      currentCapacity: "",
+      ministryDescription: "",
+      ministryDuration: "",
+      ministryIncome: "",
+      otherEmployment: "",
+      employmentDescription: "",
+      employmentAddress: "",
+      pastorName: "",
+      pastorEmail: "",
+      pastorPhone: "",
+      ministerName: "",
+      ministerEmail: "",
+      ministerPhone: "",
+      elderName: "",
+      elderEmail: "",
+      elderPhone: "",
     },
   });
 
@@ -103,6 +181,18 @@ const Registration = () => {
     }
   };
 
+  // Handle file upload
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      setSelectedFile(event.target.files[0]);
+    }
+  };
+
+  // Remove selected file
+  const removeFile = () => {
+    setSelectedFile(null);
+  };
+
   // Handle form submission for step 1
   function onSubmitStepOne(data: z.infer<typeof stepOneSchema>) {
     console.log(data);
@@ -116,6 +206,7 @@ const Registration = () => {
       ...stepOneForm.getValues(),
       ...data,
       spiritualHistory: spiritualHistory.map(item => item.text).filter(Boolean),
+      uploadedFile: selectedFile ? selectedFile.name : null,
     };
     
     console.log("Complete form data:", completeFormData);
@@ -126,7 +217,35 @@ const Registration = () => {
     });
 
     setIsSubmitted(true);
-  }
+  };
+
+  // Yes/No radio option
+  const renderYesNoOptions = (name: string, form: any, isRequired: boolean = true, dependantField: boolean = false) => {
+    return (
+      <div className="flex gap-6">
+        <div className="flex items-center space-x-2">
+          <Input 
+            type="radio" 
+            id={`${name}-yes`}
+            value="Yes"
+            {...form.register(name, { required: isRequired && !dependantField })}
+            className="h-4 w-4"
+          />
+          <Label htmlFor={`${name}-yes`}>Yes</Label>
+        </div>
+        <div className="flex items-center space-x-2">
+          <Input 
+            type="radio" 
+            id={`${name}-no`}
+            value="No"
+            {...form.register(name, { required: isRequired && !dependantField })}
+            className="h-4 w-4"
+          />
+          <Label htmlFor={`${name}-no`}>No</Label>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <div className="container mx-auto py-10 px-4">
@@ -150,6 +269,7 @@ const Registration = () => {
                 stepOneForm.reset();
                 stepTwoForm.reset();
                 setSpiritualHistory([{ id: 1, text: "" }]);
+                setSelectedFile(null);
               }}>Register Another Person</Button>
             </div>
           </CardContent>
@@ -160,12 +280,12 @@ const Registration = () => {
             <CardTitle>
               {currentStep === 1 
                 ? "Step 1: Spiritual Information" 
-                : "Step 2: Personal and Professional Information"}
+                : "Step 2: MINISTERIAL CREDENTIAL APPLICATION (MCA) FORM"}
             </CardTitle>
             <CardDescription>
               {currentStep === 1 
                 ? "Please provide your spiritual background details." 
-                : "Please provide your personal and contact information."}
+                : "Please provide your ministerial credential application details."}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -281,24 +401,9 @@ const Registration = () => {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Ministry Gift *</FormLabel>
-                        <Select 
-                          onValueChange={field.onChange} 
-                          defaultValue={field.value}
-                        >
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select your ministry gift" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            <SelectItem value="apostle">Apostle</SelectItem>
-                            <SelectItem value="prophet">Prophet</SelectItem>
-                            <SelectItem value="evangelist">Evangelist</SelectItem>
-                            <SelectItem value="pastor">Pastor</SelectItem>
-                            <SelectItem value="teacher">Teacher</SelectItem>
-                            <SelectItem value="other">Other</SelectItem>
-                          </SelectContent>
-                        </Select>
+                        <FormControl>
+                          <Input placeholder="Enter your ministry gift" {...field} />
+                        </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -368,28 +473,92 @@ const Registration = () => {
             ) : (
               <Form {...stepTwoForm}>
                 <form onSubmit={stepTwoForm.handleSubmit(onSubmitStepTwo)} className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Personal Information Section */}
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-medium">Personal Information</h3>
+                    
                     <FormField
                       control={stepTwoForm.control}
-                      name="firstName"
+                      name="address"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>First Name *</FormLabel>
+                          <FormLabel>Address *</FormLabel>
                           <FormControl>
-                            <Input placeholder="Enter your first name" {...field} />
+                            <Input placeholder="Enter your full address" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <FormField
+                        control={stepTwoForm.control}
+                        name="phoneNumbers"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Phone Number(s) *</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Enter phone number(s)" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={stepTwoForm.control}
+                        name="email"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Email *</FormLabel>
+                            <FormControl>
+                              <Input type="email" placeholder="Enter your email" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <FormField
+                        control={stepTwoForm.control}
+                        name="socialMedia"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Social Media Handles</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Enter your social media handles" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={stepTwoForm.control}
+                        name="recommendedBy"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Who recommended you? *</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Name of your recommender" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+
                     <FormField
                       control={stepTwoForm.control}
-                      name="lastName"
+                      name="placeOfBirth"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Last Name *</FormLabel>
+                          <FormLabel>Place of Birth *</FormLabel>
                           <FormControl>
-                            <Input placeholder="Enter your last name" {...field} />
+                            <Input placeholder="Enter your place of birth" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -397,28 +566,169 @@ const Registration = () => {
                     />
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <Separator className="my-6" />
+
+                  {/* Marital Information Section */}
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-medium">Marital Information</h3>
+                    
+                    <div className="space-y-2">
+                      <FormLabel htmlFor="isDivorced">Have you been divorced? *</FormLabel>
+                      {renderYesNoOptions("isDivorced", stepTwoForm)}
+                      <FormMessage>{stepTwoForm.formState.errors.isDivorced?.message}</FormMessage>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <FormField
+                        control={stepTwoForm.control}
+                        name="divorceCount"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>How many times? (If divorced)</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Enter number" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={stepTwoForm.control}
+                        name="lastDivorceDate"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Last divorce Date (If divorced)</FormLabel>
+                            <FormControl>
+                              <Input type="date" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+
                     <FormField
                       control={stepTwoForm.control}
-                      name="email"
+                      name="childrenCount"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Email Address *</FormLabel>
+                          <FormLabel>Number of children *</FormLabel>
                           <FormControl>
-                            <Input type="email" placeholder="Enter your email" {...field} />
+                            <Input placeholder="Enter number of children" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
+
                     <FormField
                       control={stepTwoForm.control}
-                      name="phone"
+                      name="spouseName"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Phone Number *</FormLabel>
+                          <FormLabel>Name of Spouse *</FormLabel>
                           <FormControl>
-                            <Input placeholder="Enter your phone number" {...field} />
+                            <Input placeholder="Enter spouse's name" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <div className="space-y-2">
+                      <FormLabel htmlFor="isSpouseBeliever">Is spouse a believer? *</FormLabel>
+                      {renderYesNoOptions("isSpouseBeliever", stepTwoForm)}
+                      <FormMessage>{stepTwoForm.formState.errors.isSpouseBeliever?.message}</FormMessage>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <FormField
+                        control={stepTwoForm.control}
+                        name="spouseDateOfBirth"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Spouse's Date of Birth *</FormLabel>
+                            <FormControl>
+                              <Input type="date" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={stepTwoForm.control}
+                        name="anniversaryDate"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Anniversary Date *</FormLabel>
+                            <FormControl>
+                              <Input type="date" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                  </div>
+
+                  <Separator className="my-6" />
+
+                  {/* Spiritual Information Section */}
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-medium">Spiritual Information</h3>
+                    
+                    <FormField
+                      control={stepTwoForm.control}
+                      name="acceptedChristDate"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>When did you accept Christ? *</FormLabel>
+                          <FormControl>
+                            <Input type="date" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <div className="space-y-2">
+                      <FormLabel htmlFor="waterBaptized">Have you been baptized in water? *</FormLabel>
+                      {renderYesNoOptions("waterBaptized", stepTwoForm)}
+                      <FormMessage>{stepTwoForm.formState.errors.waterBaptized?.message}</FormMessage>
+                    </div>
+
+                    <div className="space-y-2">
+                      <FormLabel htmlFor="prayInTongues">Do you pray in tongues? *</FormLabel>
+                      {renderYesNoOptions("prayInTongues", stepTwoForm)}
+                      <FormMessage>{stepTwoForm.formState.errors.prayInTongues?.message}</FormMessage>
+                    </div>
+
+                    <div className="space-y-2">
+                      <FormLabel htmlFor="believeInTongues">If No, do you believe in it?</FormLabel>
+                      {renderYesNoOptions("believeInTongues", stepTwoForm, false, true)}
+                      <FormMessage>{stepTwoForm.formState.errors.believeInTongues?.message}</FormMessage>
+                    </div>
+
+                    <div className="space-y-2">
+                      <FormLabel htmlFor="desireTongues">If No - Do you desire it?</FormLabel>
+                      {renderYesNoOptions("desireTongues", stepTwoForm, false, true)}
+                      <FormMessage>{stepTwoForm.formState.errors.desireTongues?.message}</FormMessage>
+                    </div>
+
+                    <FormField
+                      control={stepTwoForm.control}
+                      name="spiritualGiftsManifest"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Have you identified any manifest spiritual gift in your life? (Describe) *</FormLabel>
+                          <FormControl>
+                            <Textarea 
+                              placeholder="Describe your spiritual gifts" 
+                              className="resize-none" 
+                              {...field}
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -426,84 +736,428 @@ const Registration = () => {
                     />
                   </div>
 
-                  <FormField
-                    control={stepTwoForm.control}
-                    name="department"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Department *</FormLabel>
-                        <Select 
-                          onValueChange={field.onChange} 
-                          defaultValue={field.value}
-                        >
+                  <Separator className="my-6" />
+
+                  {/* Education & Training Section */}
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-medium">Christian Education & Training</h3>
+                    
+                    <div className="space-y-2">
+                      <FormLabel htmlFor="formalChristianTraining">Do you have any formal Christian training or education? *</FormLabel>
+                      {renderYesNoOptions("formalChristianTraining", stepTwoForm)}
+                      <FormMessage>{stepTwoForm.formState.errors.formalChristianTraining?.message}</FormMessage>
+                    </div>
+
+                    <FormField
+                      control={stepTwoForm.control}
+                      name="trainingInstitution"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>If so, which Seminary, Bible School, or Extension courses?</FormLabel>
                           <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select your department" />
-                            </SelectTrigger>
+                            <Input placeholder="Enter institution name" {...field} />
                           </FormControl>
-                          <SelectContent>
-                            <SelectItem value="administration">Administration</SelectItem>
-                            <SelectItem value="hr">Human Resources</SelectItem>
-                            <SelectItem value="finance">Finance</SelectItem>
-                            <SelectItem value="operations">Operations</SelectItem>
-                            <SelectItem value="it">IT</SelectItem>
-                            <SelectItem value="marketing">Marketing</SelectItem>
-                            <SelectItem value="other">Other</SelectItem>
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-                  <FormField
-                    control={stepTwoForm.control}
-                    name="position"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Position/Role *</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Enter your position or role" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                    <FormField
+                      control={stepTwoForm.control}
+                      name="trainingDuration"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Total duration completed</FormLabel>
+                          <FormControl>
+                            <Input placeholder="How many days, weeks, months, years?" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
 
-                  <FormField
-                    control={stepTwoForm.control}
-                    name="startDate"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Start Date *</FormLabel>
-                        <FormControl>
-                          <Input type="date" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                  <Separator className="my-6" />
 
-                  <FormField
-                    control={stepTwoForm.control}
-                    name="additionalInfo"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Additional Information</FormLabel>
-                        <FormControl>
-                          <Textarea
-                            placeholder="Any additional information or special requirements"
-                            className="resize-none"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormDescription>
-                          Please include any additional information that might be relevant for your induction.
-                        </FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                  {/* Ministry Experience Section */}
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-medium">Ministry Experience</h3>
+                    
+                    <div className="space-y-2">
+                      <FormLabel htmlFor="previouslyOrdained">Have you ever been Commissioned, Licensed or Ordained as a minister? *</FormLabel>
+                      {renderYesNoOptions("previouslyOrdained", stepTwoForm)}
+                      <FormMessage>{stepTwoForm.formState.errors.previouslyOrdained?.message}</FormMessage>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                      <FormField
+                        control={stepTwoForm.control}
+                        name="ordinationType"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>If so, which of the above?</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Type of ordination" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={stepTwoForm.control}
+                        name="ordinationDate"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>When?</FormLabel>
+                            <FormControl>
+                              <Input type="date" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={stepTwoForm.control}
+                        name="ordinationBy"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>By Whom?</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Name of ordaining body" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+
+                    <FormField
+                      control={stepTwoForm.control}
+                      name="denominationalBackground"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>What is your denominational background? *</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter your denominational background" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={stepTwoForm.control}
+                      name="currentAffiliation"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>With what Church/Ministry are you presently affiliated? *</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter your current affiliation" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={stepTwoForm.control}
+                      name="currentCapacity"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>In what capacity? *</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter your role" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={stepTwoForm.control}
+                      name="ministryDescription"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>What is your ministry? (Describe) *</FormLabel>
+                          <FormControl>
+                            <Textarea 
+                              placeholder="Describe your ministry" 
+                              className="resize-none" 
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <FormField
+                        control={stepTwoForm.control}
+                        name="ministryDuration"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>How long have you been in this ministry? *</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Enter duration" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={stepTwoForm.control}
+                        name="ministryIncome"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>What percentage of your income is derived from your ministry? *</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Enter percentage" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                  </div>
+
+                  <Separator className="my-6" />
+
+                  {/* Employment Information Section */}
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-medium">Employment Information</h3>
+                    
+                    <div className="space-y-2">
+                      <FormLabel htmlFor="otherEmployment">Other than the ministry, do you have other employment? *</FormLabel>
+                      {renderYesNoOptions("otherEmployment", stepTwoForm)}
+                      <FormMessage>{stepTwoForm.formState.errors.otherEmployment?.message}</FormMessage>
+                    </div>
+
+                    <FormField
+                      control={stepTwoForm.control}
+                      name="employmentDescription"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>If yes, describe</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Describe your employment" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={stepTwoForm.control}
+                      name="employmentAddress"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Address of employment</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter employment address" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <Separator className="my-6" />
+
+                  {/* References Section */}
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-medium">References</h3>
+                    
+                    {/* Pastor's Reference */}
+                    <div className="space-y-4">
+                      <h4 className="font-medium">Pastor's Reference *</h4>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <FormField
+                          control={stepTwoForm.control}
+                          name="pastorName"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Name</FormLabel>
+                              <FormControl>
+                                <Input placeholder="Pastor's name" {...field} />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={stepTwoForm.control}
+                          name="pastorEmail"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Email</FormLabel>
+                              <FormControl>
+                                <Input type="email" placeholder="Pastor's email" {...field} />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={stepTwoForm.control}
+                          name="pastorPhone"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Phone</FormLabel>
+                              <FormControl>
+                                <Input placeholder="Pastor's phone" {...field} />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Local Minister's Reference */}
+                    <div className="space-y-4">
+                      <h4 className="font-medium">Local Minister's Reference *</h4>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <FormField
+                          control={stepTwoForm.control}
+                          name="ministerName"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Name</FormLabel>
+                              <FormControl>
+                                <Input placeholder="Minister's name" {...field} />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={stepTwoForm.control}
+                          name="ministerEmail"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Email</FormLabel>
+                              <FormControl>
+                                <Input type="email" placeholder="Minister's email" {...field} />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={stepTwoForm.control}
+                          name="ministerPhone"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Phone</FormLabel>
+                              <FormControl>
+                                <Input placeholder="Minister's phone" {...field} />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Elder's Reference */}
+                    <div className="space-y-4">
+                      <h4 className="font-medium">Elder's Reference *</h4>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <FormField
+                          control={stepTwoForm.control}
+                          name="elderName"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Name</FormLabel>
+                              <FormControl>
+                                <Input placeholder="Elder's name" {...field} />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={stepTwoForm.control}
+                          name="elderEmail"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Email</FormLabel>
+                              <FormControl>
+                                <Input type="email" placeholder="Elder's email" {...field} />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={stepTwoForm.control}
+                          name="elderPhone"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Phone</FormLabel>
+                              <FormControl>
+                                <Input placeholder="Elder's phone" {...field} />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <Separator className="my-6" />
+
+                  {/* File Upload Section */}
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-medium">Upload Response to Questions</h3>
+                    
+                    <div className="space-y-2">
+                      <Label htmlFor="file-upload">Upload File</Label>
+                      <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-dashed border-gray-300 rounded-md">
+                        <div className="space-y-1 text-center">
+                          <div className="flex text-sm text-gray-600">
+                            <label
+                              htmlFor="file-upload"
+                              className="relative cursor-pointer bg-white rounded-md font-medium text-primary hover:text-primary/90 focus-within:outline-none"
+                            >
+                              <span>Upload a file</span>
+                              <Input
+                                id="file-upload"
+                                name="file-upload"
+                                type="file"
+                                className="sr-only"
+                                onChange={handleFileChange}
+                              />
+                            </label>
+                            <p className="pl-1">or drag and drop</p>
+                          </div>
+                          <p className="text-xs text-gray-500">
+                            PDF, DOC up to 10MB
+                          </p>
+                        </div>
+                      </div>
+
+                      {selectedFile && (
+                        <div className="mt-2 flex items-center space-x-2 py-2 px-4 bg-gray-100 rounded-md">
+                          <FileUp size={16} />
+                          <span className="text-sm flex-1 truncate">{selectedFile.name}</span>
+                          <Button 
+                            type="button" 
+                            variant="ghost" 
+                            size="sm" 
+                            onClick={removeFile}
+                          >
+                            <Trash2 size={16} className="text-red-500" />
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
 
                   <div className="flex gap-4">
                     <Button 
@@ -529,3 +1183,4 @@ const Registration = () => {
 };
 
 export default Registration;
+
