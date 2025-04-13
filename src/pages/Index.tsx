@@ -1,7 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { GraduationCap, Book, Award, Zap, Users } from "lucide-react";
 import { 
   Carousel,
@@ -95,14 +95,14 @@ const Index = () => {
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Button asChild size="lg" className="bg-primary hover:bg-primary/90">
-              <NavLink to="/registration">
+              <Link to="/registration">
                 Register Now
-              </NavLink>
+              </Link>
             </Button>
             <Button variant="outline" size="lg" asChild className="bg-transparent border-white text-white hover:bg-white/10">
-              <NavLink to="/about">
+              <Link to="/about">
                 Learn More
-              </NavLink>
+              </Link>
             </Button>
           </div>
         </div>
@@ -173,9 +173,9 @@ const Index = () => {
             Join our induction programme today and take the first step towards excellence in your role.
           </p>
           <Button size="lg" variant="outline" className="bg-white text-primary hover:bg-gray-100" asChild>
-            <NavLink to="/registration">
+            <Link to="/registration">
               Register for the Programme
-            </NavLink>
+            </Link>
           </Button>
         </div>
       </section>

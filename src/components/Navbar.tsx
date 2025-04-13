@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 
@@ -17,7 +17,7 @@ const Navbar = () => {
   return (
     <header className="sticky top-0 z-50 bg-white border-b shadow-sm">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-        <NavLink to="/" className="flex items-center space-x-2">
+        <Link to="/" className="flex items-center space-x-2">
           <img 
             src="/lovable-uploads/7732724a-e581-4eac-a967-a55ff307a994.png" 
             alt="RCN Logo" 
@@ -26,7 +26,7 @@ const Navbar = () => {
           <span className="font-semibold text-xl hidden md:inline-block text-primary">
             RCN Induction Programme
           </span>
-        </NavLink>
+        </Link>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-8">
@@ -44,9 +44,9 @@ const Navbar = () => {
             </NavLink>
           ))}
           <Button asChild className="ml-4 bg-primary hover:bg-primary/90">
-            <NavLink to="/registration">
+            <Link to="/registration">
               Register
-            </NavLink>
+            </Link>
           </Button>
         </nav>
 
@@ -82,9 +82,9 @@ const Navbar = () => {
             ))}
             <div className="p-4">
               <Button asChild className="w-full bg-primary hover:bg-primary/90">
-                <NavLink to="/registration" onClick={() => setIsMenuOpen(false)}>
+                <Link to="/registration" onClick={() => setIsMenuOpen(false)}>
                   Register
-                </NavLink>
+                </Link>
               </Button>
             </div>
           </nav>

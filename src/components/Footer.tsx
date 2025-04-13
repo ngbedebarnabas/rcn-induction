@@ -1,5 +1,5 @@
 
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Facebook, Twitter, Instagram, Linkedin, Youtube } from 'lucide-react';
 
 const Footer = () => {
@@ -45,12 +45,12 @@ const Footer = () => {
             <ul className="space-y-2">
               {navLinks.map((link) => (
                 <li key={link.name}>
-                  <NavLink 
+                  <Link 
                     to={link.path} 
                     className="text-gray-300 hover:text-white transition-colors text-sm"
                   >
                     {link.name}
-                  </NavLink>
+                  </Link>
                 </li>
               ))}
             </ul>
