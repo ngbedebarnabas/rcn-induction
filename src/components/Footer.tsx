@@ -25,7 +25,7 @@ const Footer = () => {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           {/* Logo and Description */}
-          <div className="space-y-4">
+          <div className="space-y-4 text-left">
             <div className="flex items-center space-x-2">
               <img
                 src="/lovable-uploads/7732724a-e581-4eac-a967-a55ff307a994.png"
@@ -40,7 +40,7 @@ const Footer = () => {
           </div>
           
           {/* Sitemap */}
-          <div>
+          <div className="text-left">
             <h3 className="font-semibold text-lg mb-4">Sitemap</h3>
             <ul className="space-y-2">
               {navLinks.map((link) => (
@@ -57,7 +57,7 @@ const Footer = () => {
           </div>
           
           {/* Social Media & Contact */}
-          <div>
+          <div className="text-left">
             <h3 className="font-semibold text-lg mb-4">Connect With Us</h3>
             <div className="flex space-x-4 mb-4">
               {socialLinks.map((link) => (
@@ -78,7 +78,7 @@ const Footer = () => {
           </div>
         </div>
         
-        <div className="border-t border-gray-700 pt-6 text-center text-gray-400 text-sm">
+        <div className="border-t border-gray-700 pt-6 text-left text-gray-400 text-sm">
           <p>&copy; {currentYear} RCN Induction Training Programme. All rights reserved.</p>
         </div>
       </div>

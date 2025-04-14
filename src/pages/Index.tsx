@@ -1,14 +1,8 @@
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
 import { GraduationCap, Book, Award, Zap, Users } from "lucide-react";
-import { 
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious
-} from "@/components/ui/carousel";
 
 const Index = () => {
   const benefits = [
@@ -76,9 +70,9 @@ const Index = () => {
 
   return (
     <div>
-      {/* Hero Section with Background Image - Now 75vh height and full width */}
+      {/* Hero Section with Background Image - Now 60vh height and full width */}
       <section 
-        className="relative bg-cover bg-center h-[75vh] flex items-center w-full" 
+        className="relative bg-cover bg-center h-[60vh] flex items-center w-full" 
         style={{ 
           backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/lovable-uploads/58f1478c-d1dd-44f8-ba7c-7c2ac9498182.png')`,
           backgroundSize: 'cover',
@@ -108,7 +102,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Gallery Section */}
+      {/* Gallery Section - Now a 3x3 grid */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-4 text-gray-800">
@@ -118,27 +112,17 @@ const Index = () => {
             Explore moments from our previous training sessions and community building activities.
           </p>
           
-          <Carousel className="max-w-4xl mx-auto">
-            <CarouselContent>
-              {galleryImages.map((image, index) => (
-                <CarouselItem key={index}>
-                  <div className="p-2">
-                    <Card>
-                      <CardContent className="p-0 relative aspect-[16/9] overflow-hidden rounded-lg">
-                        <img 
-                          src={image.src} 
-                          alt={image.alt}
-                          className="w-full h-full object-cover" 
-                        />
-                      </CardContent>
-                    </Card>
-                  </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious className="left-0" />
-            <CarouselNext className="right-0" />
-          </Carousel>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            {galleryImages.map((image, index) => (
+              <div key={index} className="overflow-hidden rounded-lg aspect-video">
+                <img 
+                  src={image.src} 
+                  alt={image.alt}
+                  className="w-full h-full object-cover transition-transform hover:scale-105" 
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

@@ -8,7 +8,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "@/components/ui/use-toast";
 import { Mail, Phone, MapPin, CheckCircle } from "lucide-react";
 import PageHeader from "@/components/PageHeader";
@@ -18,7 +17,6 @@ const formSchema = z.object({
   email: z.string().email("Invalid email address"),
   subject: z.string().min(1, "Subject is required"),
   message: z.string().min(10, "Message must be at least 10 characters"),
-  department: z.string().min(1, "Please select a department"),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -33,7 +31,6 @@ const Contact = () => {
       email: "",
       subject: "",
       message: "",
-      department: "",
     },
   });
 
@@ -61,7 +58,7 @@ const Contact = () => {
     {
       icon: <MapPin className="h-5 w-5 text-primary" />,
       title: "Address",
-      details: "123 Training Center, Business District, City, Country",
+      details: "RCN Embassy, beside International Market, George Akume Way, Makurdi, Benue State, Nigeria.",
     },
   ];
 
@@ -157,34 +154,6 @@ const Contact = () => {
                               <FormControl>
                                 <Input type="email" placeholder="Your email address" {...field} />
                               </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                          
-                        <FormField
-                          control={form.control}
-                          name="department"
-                          render={({ field }) => (
-                            <FormItem className="text-left">
-                              <FormLabel>Department</FormLabel>
-                              <Select 
-                                onValueChange={field.onChange}
-                                defaultValue={field.value}
-                              >
-                                <FormControl>
-                                  <SelectTrigger>
-                                    <SelectValue placeholder="Select department to contact" />
-                                  </SelectTrigger>
-                                </FormControl>
-                                <SelectContent>
-                                  <SelectItem value="admissions">Admissions</SelectItem>
-                                  <SelectItem value="programme">Programme Inquiries</SelectItem>
-                                  <SelectItem value="technical">Technical Support</SelectItem>
-                                  <SelectItem value="administration">Administration</SelectItem>
-                                  <SelectItem value="other">Other</SelectItem>
-                                </SelectContent>
-                              </Select>
                               <FormMessage />
                             </FormItem>
                           )}

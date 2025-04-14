@@ -74,8 +74,8 @@ const About = () => {
                 
                 <Card>
                   <CardContent className="pt-6">
-                    <h3 className="text-xl font-medium mb-2">Day 2: Core Training</h3>
-                    <ul className="list-disc pl-6 space-y-1 text-gray-700">
+                    <h3 className="text-xl font-medium mb-2 text-left">Day 2: Core Training</h3>
+                    <ul className="list-disc pl-6 space-y-1 text-gray-700 text-left">
                       <li>Role-Specific Technical Training</li>
                       <li>Best Practices Workshop</li>
                       <li>Progress Assessment</li>
@@ -85,8 +85,8 @@ const About = () => {
                 
                 <Card>
                   <CardContent className="pt-6">
-                    <h3 className="text-xl font-medium mb-2">Day 3: Skills Development</h3>
-                    <ul className="list-disc pl-6 space-y-1 text-gray-700">
+                    <h3 className="text-xl font-medium mb-2 text-left">Day 3: Skills Development</h3>
+                    <ul className="list-disc pl-6 space-y-1 text-gray-700 text-left">
                       <li>Communication Skills Workshop</li>
                       <li>Team Collaboration Exercises</li>
                       <li>Problem-Solving Techniques</li>
@@ -96,8 +96,8 @@ const About = () => {
                 
                 <Card>
                   <CardContent className="pt-6">
-                    <h3 className="text-xl font-medium mb-2">Day 4: Ministry Application</h3>
-                    <ul className="list-disc pl-6 space-y-1 text-gray-700">
+                    <h3 className="text-xl font-medium mb-2 text-left">Day 4: Ministry Application</h3>
+                    <ul className="list-disc pl-6 space-y-1 text-gray-700 text-left">
                       <li>Practical Ministry Sessions</li>
                       <li>Field Experience</li>
                       <li>Mentorship Connections</li>
@@ -107,8 +107,8 @@ const About = () => {
                 
                 <Card>
                   <CardContent className="pt-6">
-                    <h3 className="text-xl font-medium mb-2">Day 5: Integration</h3>
-                    <ul className="list-disc pl-6 space-y-1 text-gray-700">
+                    <h3 className="text-xl font-medium mb-2 text-left">Day 5: Integration</h3>
+                    <ul className="list-disc pl-6 space-y-1 text-gray-700 text-left">
                       <li>Department Rotations</li>
                       <li>Leadership Training</li>
                       <li>Ministry Strategy Development</li>
@@ -118,8 +118,8 @@ const About = () => {
                 
                 <Card>
                   <CardContent className="pt-6">
-                    <h3 className="text-xl font-medium mb-2">Day 6: Graduation</h3>
-                    <ul className="list-disc pl-6 space-y-1 text-gray-700">
+                    <h3 className="text-xl font-medium mb-2 text-left">Day 6: Graduation</h3>
+                    <ul className="list-disc pl-6 space-y-1 text-gray-700 text-left">
                       <li>Final Assessment</li>
                       <li>Certification Ceremony</li>
                       <li>Graduation Celebration</li>
