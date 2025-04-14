@@ -1,4 +1,3 @@
-
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -82,7 +81,7 @@ const RegistrationStepOne = ({
               <FormItem className="text-left">
                 <FormLabel>Date of Birth *</FormLabel>
                 <FormControl>
-                  <Input type="date" placeholder="DD/MM/YYYY" {...field} />
+                  <Input type="date" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -96,7 +95,7 @@ const RegistrationStepOne = ({
               <FormItem className="text-left">
                 <FormLabel>Date of New Birth *</FormLabel>
                 <FormControl>
-                  <Input type="date" placeholder="Date you gave your life to Christ" {...field} />
+                  <Input type="date" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -112,7 +111,7 @@ const RegistrationStepOne = ({
               <FormItem className="text-left">
                 <FormLabel>Date of Water Baptism *</FormLabel>
                 <FormControl>
-                  <Input type="date" placeholder="When you were baptized in water" {...field} />
+                  <Input type="date" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -126,7 +125,7 @@ const RegistrationStepOne = ({
               <FormItem className="text-left">
                 <FormLabel>Date of Holy Ghost Baptism *</FormLabel>
                 <FormControl>
-                  <Input type="date" placeholder="When you received Holy Ghost baptism" {...field} />
+                  <Input type="date" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
