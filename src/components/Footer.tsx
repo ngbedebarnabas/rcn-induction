@@ -28,7 +28,7 @@ const Footer = () => {
           <div className="space-y-4 text-left">
             <div className="flex items-center space-x-2">
               <img
-                src="/lovable-uploads/7732724a-e581-4eac-a967-a55ff307a994.png"
+                src="/lovable-uploads/171174e4-3074-43b5-b5fb-de9c6583d867.png"
                 alt="RCN Logo"
                 className="h-10 w-auto"
               />

@@ -1,6 +1,5 @@
 
 import { Card, CardContent } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import PageHeader from "@/components/PageHeader";
 import { GraduationCap, Book, Award, Zap, Users } from "lucide-react";
 
@@ -47,89 +46,6 @@ const About = () => {
               The RCN Induction Training Programme is a dedicated ministry designed to equip and empower ministers in Christian service. Our programme offers comprehensive training, rooted in biblical truth, to prepare you for impactful leadership and faithful stewardship. Through practical teaching, mentorship, and spiritual formation, we aim to support your calling, fostering growth in faith, wisdom, and ministry skills. Join us as we journey together to advance God's Kingdom with passion and purpose.
             </p>
           </div>
-          
-          <Tabs defaultValue="schedule" className="mb-10">
-            <TabsList className="grid grid-cols-1 mb-8">
-              <TabsTrigger value="schedule">Schedule</TabsTrigger>
-            </TabsList>
-            
-            <TabsContent value="schedule" className="space-y-4">
-              <h2 className="text-2xl font-semibold text-left">Programme Schedule</h2>
-              <p className="text-gray-700 mb-6 text-left">
-                The programme follows a structured schedule over six days to ensure comprehensive coverage of all essential topics. Sessions are designed to accommodate different learning styles and provide practical application of concepts.
-              </p>
-              
-              <div className="space-y-6">
-                <Card>
-                  <CardContent className="pt-6">
-                    <h3 className="text-xl font-medium mb-2 text-left">Day 1: Orientation</h3>
-                    <ul className="list-disc pl-6 space-y-1 text-gray-700 text-left">
-                      <li>Organizational Introduction</li>
-                      <li>Systems and Tools Overview</li>
-                      <li>Health & Safety Training</li>
-                      <li>Team Introduction and Social Event</li>
-                    </ul>
-                  </CardContent>
-                </Card>
-                
-                <Card>
-                  <CardContent className="pt-6">
-                    <h3 className="text-xl font-medium mb-2 text-left">Day 2: Core Training</h3>
-                    <ul className="list-disc pl-6 space-y-1 text-gray-700 text-left">
-                      <li>Role-Specific Technical Training</li>
-                      <li>Best Practices Workshop</li>
-                      <li>Progress Assessment</li>
-                    </ul>
-                  </CardContent>
-                </Card>
-                
-                <Card>
-                  <CardContent className="pt-6">
-                    <h3 className="text-xl font-medium mb-2 text-left">Day 3: Skills Development</h3>
-                    <ul className="list-disc pl-6 space-y-1 text-gray-700 text-left">
-                      <li>Communication Skills Workshop</li>
-                      <li>Team Collaboration Exercises</li>
-                      <li>Problem-Solving Techniques</li>
-                    </ul>
-                  </CardContent>
-                </Card>
-                
-                <Card>
-                  <CardContent className="pt-6">
-                    <h3 className="text-xl font-medium mb-2 text-left">Day 4: Ministry Application</h3>
-                    <ul className="list-disc pl-6 space-y-1 text-gray-700 text-left">
-                      <li>Practical Ministry Sessions</li>
-                      <li>Field Experience</li>
-                      <li>Mentorship Connections</li>
-                    </ul>
-                  </CardContent>
-                </Card>
-                
-                <Card>
-                  <CardContent className="pt-6">
-                    <h3 className="text-xl font-medium mb-2 text-left">Day 5: Integration</h3>
-                    <ul className="list-disc pl-6 space-y-1 text-gray-700 text-left">
-                      <li>Department Rotations</li>
-                      <li>Leadership Training</li>
-                      <li>Ministry Strategy Development</li>
-                    </ul>
-                  </CardContent>
-                </Card>
-                
-                <Card>
-                  <CardContent className="pt-6">
-                    <h3 className="text-xl font-medium mb-2 text-left">Day 6: Graduation</h3>
-                    <ul className="list-disc pl-6 space-y-1 text-gray-700 text-left">
-                      <li>Final Assessment</li>
-                      <li>Certification Ceremony</li>
-                      <li>Graduation Celebration</li>
-                      <li>Ministry Commissioning</li>
-                    </ul>
-                  </CardContent>
-                </Card>
-              </div>
-            </TabsContent>
-          </Tabs>
           
           {/* Benefits Section */}
           <section className="py-8">

@@ -19,7 +19,7 @@ const Navbar = () => {
       <div className="container mx-auto px-4 py-2 flex items-center justify-between">
         <Link to="/" className="flex items-center space-x-2">
           <img 
-            src="/lovable-uploads/7732724a-e581-4eac-a967-a55ff307a994.png" 
+            src="/lovable-uploads/171174e4-3074-43b5-b5fb-de9c6583d867.png" 
             alt="RCN Logo" 
             className="h-14 w-auto" 
           />
@@ -54,11 +54,11 @@ const Navbar = () => {
         <Button
           variant="ghost"
           size="icon"
-          className="md:hidden"
+          className="md:hidden h-12 w-12" // Increased size by 50%
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           aria-label="Toggle menu"
         >
-          {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
+          {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </Button>
       </div>
 

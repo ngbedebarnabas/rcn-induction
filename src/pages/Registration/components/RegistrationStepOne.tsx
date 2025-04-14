@@ -64,7 +64,7 @@ const RegistrationStepOne = ({
           control={form.control}
           name="fullName"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="text-left">
               <FormLabel>Full Name *</FormLabel>
               <FormControl>
                 <Input placeholder="surname, first name, other name(s)" {...field} />
@@ -79,10 +79,10 @@ const RegistrationStepOne = ({
             control={form.control}
             name="dateOfBirth"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="text-left">
                 <FormLabel>Date of Birth *</FormLabel>
                 <FormControl>
-                  <Input type="date" {...field} />
+                  <Input type="date" placeholder="DD/MM/YYYY" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -93,10 +93,10 @@ const RegistrationStepOne = ({
             control={form.control}
             name="dateOfNewBirth"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="text-left">
                 <FormLabel>Date of New Birth *</FormLabel>
                 <FormControl>
-                  <Input type="date" {...field} />
+                  <Input type="date" placeholder="Date you gave your life to Christ" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -109,10 +109,10 @@ const RegistrationStepOne = ({
             control={form.control}
             name="dateOfWaterBaptism"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="text-left">
                 <FormLabel>Date of Water Baptism *</FormLabel>
                 <FormControl>
-                  <Input type="date" {...field} />
+                  <Input type="date" placeholder="When you were baptized in water" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -123,10 +123,10 @@ const RegistrationStepOne = ({
             control={form.control}
             name="dateOfHolyGhostBaptism"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="text-left">
                 <FormLabel>Date of Holy Ghost Baptism *</FormLabel>
                 <FormControl>
-                  <Input type="date" {...field} />
+                  <Input type="date" placeholder="When you received Holy Ghost baptism" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -138,7 +138,7 @@ const RegistrationStepOne = ({
           control={form.control}
           name="maritalStatus"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="text-left">
               <FormLabel>Marital Status *</FormLabel>
               <Select 
                 onValueChange={field.onChange} 
@@ -167,7 +167,7 @@ const RegistrationStepOne = ({
           control={form.control}
           name="ministryGift"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="text-left">
               <FormLabel>Ministry Gift *</FormLabel>
               <FormControl>
                 <Input placeholder="Enter your ministry gift" {...field} />
@@ -181,7 +181,7 @@ const RegistrationStepOne = ({
           control={form.control}
           name="spiritualGifts"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="text-left">
               <FormLabel>Gift(s) of the Spirit in Manifestation *</FormLabel>
               <FormControl>
                 <Textarea 
@@ -195,7 +195,7 @@ const RegistrationStepOne = ({
           )}
         />
 
-        <div className="space-y-4">
+        <div className="space-y-4 text-left">
           <FormLabel>Spiritual History with dates</FormLabel>
           <FormDescription>
             All the major capacities in the various churches/ministries you have ever served with dates.
@@ -234,7 +234,7 @@ const RegistrationStepOne = ({
         </div>
 
         {/* Passport Photo Upload */}
-        <div className="space-y-4">
+        <div className="space-y-4 text-left">
           <FormLabel htmlFor="passport-upload">Passport Photograph *</FormLabel>
           <FormDescription>
             Please upload a clear passport photograph with a plain background (JPEG or PNG format).
