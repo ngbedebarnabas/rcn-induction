@@ -16,20 +16,20 @@ const Navbar = () => {
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b shadow-sm">
-      <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+      <div className="container mx-auto px-4 py-2 flex items-center justify-between">
         <Link to="/" className="flex items-center space-x-2">
           <img 
             src="/lovable-uploads/7732724a-e581-4eac-a967-a55ff307a994.png" 
             alt="RCN Logo" 
-            className="h-12 w-auto" 
+            className="h-14 w-auto" 
           />
-          <span className="font-semibold text-xl hidden md:inline-block text-primary">
+          <span className="font-semibold text-lg md:text-xl hidden md:inline-block text-primary">
             RCN Induction Programme
           </span>
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-8">
+        <nav className="hidden md:flex items-center space-x-6">
           {navLinks.map((link) => (
             <NavLink
               key={link.name}
@@ -43,7 +43,7 @@ const Navbar = () => {
               {link.name}
             </NavLink>
           ))}
-          <Button asChild className="ml-4 bg-primary hover:bg-primary/90">
+          <Button asChild className="ml-2 bg-primary hover:bg-primary/90">
             <Link to="/registration">
               Register
             </Link>
