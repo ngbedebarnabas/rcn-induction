@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { toast } from "@/components/ui/use-toast";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -137,6 +136,27 @@ const Registration = () => {
       />
       
       <div className="container mx-auto py-10 px-4">
+        <div className="prose prose-sm max-w-2xl mx-auto mb-8 text-gray-600">
+          <p>
+            You will be required to upload a separate typed document (using font type: Times New Roman; font size: 12; and 1.5 line spacing), hence you might want to type this before beginning the registration.
+          </p>
+          <ol className="list-decimal pl-6 space-y-2">
+            <li>Share your experience of conversion, baptism, and any subsequent significant spiritual experience.</li>
+            <li>Your personal pattern of devotional prayer and Bible study</li>
+            <li>Your family devotional pattern related to your wife and family</li>
+            <li>Relate your experience in determining "God's call" to the ministry.</li>
+            <li>What evidence have you seen of God's blessing on your ministry?</li>
+            <li>What is your concept of ministry?</li>
+            <li>What is your vision for future ministry?</li>
+            <li>How do you define success in ministry?</li>
+            <li>What particular strengths/weaknesses have you identified so far in your ministry?</li>
+            <li>Do you, as a general rule, find it easy to get along with other people?</li>
+            <li>How do you evaluate yourself in relationships with other people?</li>
+            <li>If this council should choose not to ordain you, how will that affect your ministry?</li>
+            <li>How does your spouse feel about you and the ministry?</li>
+          </ol>
+        </div>
+
         <p className="text-gray-600 mb-8 text-center max-w-2xl mx-auto">
           The RCN Induction Training Programme is a dedicated ministry designed to equip and empower ministers in Christian service. All fields marked with an asterisk (*) are required.
         </p>
