@@ -1,6 +1,12 @@
 import { useState } from "react";
 import { toast } from "@/components/ui/use-toast";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -19,9 +25,9 @@ import PageHeader from "@/components/PageHeader";
 const Registration = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [currentStep, setCurrentStep] = useState<1 | 2>(1);
-  const [spiritualHistory, setSpiritualHistory] = useState<Array<{id: number; text: string}>>([
-    { id: 1, text: "" }
-  ]);
+  const [spiritualHistory, setSpiritualHistory] = useState<
+    Array<{ id: number; text: string }>
+  >([{ id: 1, text: "" }]);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [passportImage, setPassportImage] = useState<File | null>(null);
   const [passportPreview, setPassportPreview] = useState<string | null>(null);
@@ -32,21 +38,23 @@ const Registration = () => {
   const addSpiritualHistory = () => {
     setSpiritualHistory([
       ...spiritualHistory,
-      { id: spiritualHistory.length + 1, text: "" }
+      { id: spiritualHistory.length + 1, text: "" },
     ]);
   };
 
   // Update a spiritual history entry
   const updateSpiritualHistory = (id: number, value: string) => {
-    setSpiritualHistory(spiritualHistory.map(item => 
-      item.id === id ? { ...item, text: value } : item
-    ));
+    setSpiritualHistory(
+      spiritualHistory.map((item) =>
+        item.id === id ? { ...item, text: value } : item
+      )
+    );
   };
 
   // Remove a spiritual history entry
   const removeSpiritualHistory = (id: number) => {
     if (spiritualHistory.length > 1) {
-      setSpiritualHistory(spiritualHistory.filter(item => item.id !== id));
+      setSpiritualHistory(spiritualHistory.filter((item) => item.id !== id));
     }
   };
 
@@ -62,7 +70,7 @@ const Registration = () => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
       setPassportImage(file);
-      
+
       // Create preview URL
       const reader = new FileReader();
       reader.onload = () => {
@@ -96,16 +104,19 @@ const Registration = () => {
     const completeFormData = {
       ...stepOneData,
       ...data,
-      spiritualHistory: spiritualHistory.map(item => item.text).filter(Boolean),
+      spiritualHistory: spiritualHistory
+        .map((item) => item.text)
+        .filter(Boolean),
       uploadedFile: selectedFile ? selectedFile.name : null,
       passport: passportImage ? passportImage.name : null,
     };
-    
+
     console.log("Complete form data:", completeFormData);
-    
+
     toast({
       title: "Registration submitted",
-      description: "You have successfully registered for the induction programme.",
+      description:
+        "You have successfully registered for the induction programme.",
     });
 
     setIsSubmitted(true);
@@ -130,35 +141,60 @@ const Registration = () => {
 
   return (
     <div>
-      <PageHeader 
+      <PageHeader
         title="Registration Form"
-        subtitle="Complete the form below to register for the RCN Induction Training Programme"
+        subtitle="Complete the form below to register for the RCN Ordination Induction Program."
       />
-      
+
       <div className="container mx-auto py-10 px-4">
         <div className="prose prose-sm max-w-2xl mx-auto mb-8 text-gray-600">
           <p>
-            You will be required to upload a separate typed document (using font type: Times New Roman; font size: 12; and 1.5 line spacing), hence you might want to type this before beginning the registration.
+            You will be required to upload a separate typed document (using font
+            type: Times New Roman; font size: 12; and 1.5 line spacing), hence
+            you might want to type this before beginning the registration.
           </p>
           <ol className="list-decimal pl-6 space-y-2">
-            <li>Share your experience of conversion, baptism, and any subsequent significant spiritual experience.</li>
+            <li>
+              Share your experience of conversion, baptism, and any subsequent
+              significant spiritual experience.
+            </li>
             <li>Your personal pattern of devotional prayer and Bible study</li>
-            <li>Your family devotional pattern related to your wife and family</li>
-            <li>Relate your experience in determining "God's call" to the ministry.</li>
-            <li>What evidence have you seen of God's blessing on your ministry?</li>
+            <li>
+              Your family devotional pattern related to your wife and family
+            </li>
+            <li>
+              Relate your experience in determining "God's call" to the
+              ministry.
+            </li>
+            <li>
+              What evidence have you seen of God's blessing on your ministry?
+            </li>
             <li>What is your concept of ministry?</li>
             <li>What is your vision for future ministry?</li>
             <li>How do you define success in ministry?</li>
-            <li>What particular strengths/weaknesses have you identified so far in your ministry?</li>
-            <li>Do you, as a general rule, find it easy to get along with other people?</li>
-            <li>How do you evaluate yourself in relationships with other people?</li>
-            <li>If this council should choose not to ordain you, how will that affect your ministry?</li>
+            <li>
+              What particular strengths/weaknesses have you identified so far in
+              your ministry?
+            </li>
+            <li>
+              Do you, as a general rule, find it easy to get along with other
+              people?
+            </li>
+            <li>
+              How do you evaluate yourself in relationships with other people?
+            </li>
+            <li>
+              If this council should choose not to ordain you, how will that
+              affect your ministry?
+            </li>
             <li>How does your spouse feel about you and the ministry?</li>
           </ol>
         </div>
 
         <p className="text-gray-600 mb-8 text-center max-w-2xl mx-auto">
-          The RCN Induction Training Programme is a dedicated ministry designed to equip and empower ministers in Christian service. All fields marked with an asterisk (*) are required.
+          The RCN Ordination Induction Program is a dedicated ministry designed
+          to equip and empower ministers in Christian service. All fields marked
+          with an asterisk (*) are required.
         </p>
 
         {isSubmitted ? (
@@ -171,19 +207,19 @@ const Registration = () => {
           <Card className="max-w-2xl mx-auto">
             <CardHeader>
               <CardTitle>
-                {currentStep === 1 
-                  ? "Step 1: Spiritual Information" 
+                {currentStep === 1
+                  ? "Step 1: Spiritual Information"
                   : "Step 2: MINISTERIAL CREDENTIAL APPLICATION (MCA) FORM"}
               </CardTitle>
               <CardDescription>
-                {currentStep === 1 
-                  ? "Please provide your spiritual background details." 
+                {currentStep === 1
+                  ? "Please provide your spiritual background details."
                   : "Please provide your ministerial credential application details."}
               </CardDescription>
             </CardHeader>
             <CardContent>
               {currentStep === 1 ? (
-                <RegistrationStepOne 
+                <RegistrationStepOne
                   onSubmit={onSubmitStepOne}
                   spiritualHistory={spiritualHistory}
                   addSpiritualHistory={addSpiritualHistory}
@@ -213,11 +249,17 @@ const Registration = () => {
           <DialogHeader>
             <DialogTitle>Complete Your Registration</DialogTitle>
             <DialogDescription>
-              Thank you for registering for the RCN Induction Training Programme. To complete your registration, please proceed to make a payment.
+              Thank you for registering for RCN Ordination Induction Program. To
+              complete your registration, please proceed to make a payment.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setShowPaymentModal(false)}>Later</Button>
+            <Button
+              variant="outline"
+              onClick={() => setShowPaymentModal(false)}
+            >
+              Later
+            </Button>
             <Button onClick={proceedToPayment}>Proceed to Payment</Button>
           </DialogFooter>
         </DialogContent>
