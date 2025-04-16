@@ -1,6 +1,5 @@
-
 import { Link } from 'react-router-dom';
-import { Facebook, Twitter, Instagram, Linkedin, Youtube } from 'lucide-react';
+import { Facebook, Twitter, Instagram } from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -13,30 +12,24 @@ const Footer = () => {
   ];
   
   const socialLinks = [
-    { name: 'Facebook', icon: <Facebook size={20} />, href: '#' },
-    { name: 'Twitter', icon: <Twitter size={20} />, href: '#' },
-    { name: 'Instagram', icon: <Instagram size={20} />, href: '#' },
-    { name: 'LinkedIn', icon: <Linkedin size={20} />, href: '#' },
-    { name: 'YouTube', icon: <Youtube size={20} />, href: '#' },
+    { name: 'Facebook', icon: <Facebook size={20} />, href: 'https://www.facebook.com/share/15K12cKXuD/?mibextid=wwXIfr' },
+    { name: 'Twitter', icon: <Twitter size={20} />, href: 'https://x.com/_rcnglobal' },
+    { name: 'Instagram', icon: <Instagram size={20} />, href: 'https://www.instagram.com/rcnglobal/' },
   ];
 
   return (
     <footer className="bg-slate-900 text-white pt-10 pb-6">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-          {/* Logo and Description */}
+          {/* Logo Section */}
           <div className="space-y-4 text-left">
-            <div className="flex items-center space-x-2">
+            <a href="https://rcnglobal.org" target="_blank" rel="noopener noreferrer">
               <img
-                src="/lovable-uploads/171174e4-3074-43b5-b5fb-de9c6583d867.png"
+                src="/lovable-uploads/eefc60a4-5789-4060-9bd7-014ba8dc40f2.png"
                 alt="RCN Logo"
-                className="h-10 w-auto"
+                className="h-16 w-auto"
               />
-              <span className="font-semibold text-lg">RCN Induction Programme</span>
-            </div>
-            <p className="text-gray-300 text-sm">
-              Providing comprehensive induction training for all new RCN members.
-            </p>
+            </a>
           </div>
           
           {/* Sitemap */}
@@ -64,6 +57,8 @@ const Footer = () => {
                 <a
                   key={link.name}
                   href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label={link.name}
                   className="text-gray-300 hover:text-white transition-colors"
                 >

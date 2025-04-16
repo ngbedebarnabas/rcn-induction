@@ -1,25 +1,17 @@
 
 import * as React from "react"
-
 import { cn } from "@/lib/utils"
 
 const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
   ({ className, type, ...props }, ref) => {
-    // Special handling for date inputs to show placeholder text
-    const inputProps = type === "date" ? {
-      onFocus: (e: React.FocusEvent<HTMLInputElement>) => {
-        e.currentTarget.type = "date";
-        props.onFocus?.(e);
-      },
-      onBlur: (e: React.FocusEvent<HTMLInputElement>) => {
-        if (!e.currentTarget.value) {
-          e.currentTarget.type = "text";
+    const isDateInput = type === "date";
+    const inputProps = isDateInput 
+      ? {
+          ...props,
+          type: "date",
+          placeholder: "dd/mm/yyyy",
         }
-        props.onBlur?.(e);
-      },
-      type: "text",
-      ...props
-    } : { type, ...props };
+      : { type, ...props };
 
     return (
       <input

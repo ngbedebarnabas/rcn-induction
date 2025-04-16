@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
@@ -70,19 +69,19 @@ const Index = () => {
 
   return (
     <div>
-      {/* Hero Section with Background Image - Now 60vh height and full width */}
+      {/* Hero Section with Background Image */}
       <section 
         className="relative bg-cover bg-center h-[60vh] flex items-center w-full" 
         style={{ 
           backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/lovable-uploads/58f1478c-d1dd-44f8-ba7c-7c2ac9498182.png')`,
           backgroundSize: 'cover',
-          backgroundPosition: '50% 50%', // Center the image more effectively
+          backgroundPosition: '50% 50%',
           backgroundRepeat: 'no-repeat'
         }}
       >
         <div className="container mx-auto px-4 text-center text-white">
           <h1 className="text-4xl md:text-5xl font-bold mb-6 text-white">
-            RCN Induction Training Programme
+            RCN Ordination Induction Program
           </h1>
           <p className="text-xl text-gray-200 max-w-3xl mx-auto mb-8">
             Empowering the next generation of Christian Leaders for Kingdom Service
@@ -102,14 +101,14 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Gallery Section - Now a 3x3 grid */}
+      {/* Gallery Section */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-4 text-gray-800">
-            Training Gallery
+            Gallery
           </h2>
           <p className="text-center mb-10 text-gray-600 max-w-2xl mx-auto">
-            Explore moments from our previous training sessions and community building activities.
+            Explore moments from our previous Ordination Services.
           </p>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">

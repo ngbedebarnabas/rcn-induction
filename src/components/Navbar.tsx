@@ -19,12 +19,12 @@ const Navbar = () => {
       <div className="container mx-auto px-4 py-2 flex items-center justify-between">
         <Link to="/" className="flex items-center space-x-2">
           <img 
-            src="/lovable-uploads/171174e4-3074-43b5-b5fb-de9c6583d867.png" 
+            src="/lovable-uploads/eefc60a4-5789-4060-9bd7-014ba8dc40f2.png" 
             alt="RCN Logo" 
             className="h-14 w-auto" 
           />
           <span className="font-semibold text-lg md:text-xl hidden md:inline-block text-primary">
-            RCN Induction Programme
+            RCN Ordination Induction Program
           </span>
         </Link>
 
