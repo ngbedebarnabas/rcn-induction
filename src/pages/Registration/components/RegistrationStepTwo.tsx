@@ -1,12 +1,12 @@
 
-import { z } from "zod";
+import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Button } from "@/components/ui/button";
+import { z } from "zod";
 import { Form } from "@/components/ui/form";
-import { Separator } from "@/components/ui/separator";
-import { ArrowLeft } from "lucide-react";
-import { StepTwoFormData } from "../types";
+import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
+
 import PersonalInfoSection from "./FormSections/PersonalInfoSection";
 import MaritalInfoSection from "./FormSections/MaritalInfoSection";
 import SpiritualInfoSection from "./FormSections/SpiritualInfoSection";
@@ -16,33 +16,46 @@ import EmploymentSection from "./FormSections/EmploymentSection";
 import ReferenceSection from "./FormSections/ReferenceSection";
 import FileUploadSection from "./FormSections/FileUploadSection";
 import StatementSection from "./FormSections/StatementSection";
+import { StepTwoFormData } from "../types";
 
-// Second step form schema (MCA form)
-const stepTwoSchema = z.object({
+// Define the form schema
+const formSchema = z.object({
   address: z.string().min(1, "Address is required"),
   phoneNumbers: z.string().min(1, "Phone number is required"),
-  email: z.string().email("Invalid email address"),
+  email: z.string().email("Invalid email address").min(1, "Email is required"),
   socialMedia: z.string().optional(),
-  recommendedBy: z.string().min(1, "This field is required"),
+  recommendedBy: z.string().min(1, "Recommender is required"),
   placeOfBirth: z.string().min(1, "Place of birth is required"),
-  isDivorced: z.string().min(1, "Please select an option"),
+  isDivorced: z.enum(["Yes", "No"], {
+    required_error: "Please select an option",
+  }),
   divorceCount: z.string().optional(),
   lastDivorceDate: z.string().optional(),
   childrenCount: z.string().min(1, "Number of children is required"),
-  spouseName: z.string().min(1, "Spouse's name is required"),
-  isSpouseBeliever: z.string().min(1, "Please select an option"),
+  spouseName: z.string().min(1, "Spouse name is required"),
+  isSpouseBeliever: z.enum(["Yes", "No"], {
+    required_error: "Please select an option",
+  }),
   spouseDateOfBirth: z.string().min(1, "Spouse's date of birth is required"),
   anniversaryDate: z.string().min(1, "Anniversary date is required"),
-  acceptedChristDate: z.string().min(1, "This date is required"),
-  waterBaptized: z.string().min(1, "Please select an option"),
-  prayInTongues: z.string().min(1, "Please select an option"),
-  believeInTongues: z.string().optional(),
-  desireTongues: z.string().optional(),
+  acceptedChristDate: z.string().min(1, "Date is required"),
+  waterBaptized: z.enum(["Yes", "No"], {
+    required_error: "Please select an option",
+  }),
+  prayInTongues: z.enum(["Yes", "No"], {
+    required_error: "Please select an option",
+  }),
+  believeInTongues: z.enum(["Yes", "No"], { required_error: "Please select an option" }).optional(),
+  desireTongues: z.enum(["Yes", "No"], { required_error: "Please select an option" }).optional(),
   spiritualGiftsManifest: z.string().min(1, "This field is required"),
-  formalChristianTraining: z.string().min(1, "Please select an option"),
+  formalChristianTraining: z.enum(["Yes", "No"], {
+    required_error: "Please select an option",
+  }),
   trainingInstitution: z.string().optional(),
   trainingDuration: z.string().optional(),
-  previouslyOrdained: z.string().min(1, "Please select an option"),
+  previouslyOrdained: z.enum(["Yes", "No"], {
+    required_error: "Please select an option",
+  }),
   ordinationType: z.string().optional(),
   ordinationDate: z.string().optional(),
   ordinationBy: z.string().optional(),
@@ -52,40 +65,45 @@ const stepTwoSchema = z.object({
   ministryDescription: z.string().min(1, "This field is required"),
   ministryDuration: z.string().min(1, "This field is required"),
   ministryIncome: z.string().min(1, "This field is required"),
-  otherEmployment: z.string().min(1, "Please select an option"),
+  otherEmployment: z.enum(["Yes", "No"], {
+    required_error: "Please select an option",
+  }),
   employmentDescription: z.string().optional(),
   employmentAddress: z.string().optional(),
   pastorName: z.string().min(1, "Pastor's name is required"),
-  pastorEmail: z.string().email("Invalid email address"),
+  pastorEmail: z.string().email("Invalid email").min(1, "Pastor's email is required"),
   pastorPhone: z.string().min(1, "Pastor's phone is required"),
   ministerName: z.string().min(1, "Minister's name is required"),
-  ministerEmail: z.string().email("Invalid email address"),
+  ministerEmail: z.string().email("Invalid email").min(1, "Minister's email is required"),
   ministerPhone: z.string().min(1, "Minister's phone is required"),
   elderName: z.string().min(1, "Elder's name is required"),
-  elderEmail: z.string().email("Invalid email address"),
+  elderEmail: z.string().email("Invalid email").min(1, "Elder's email is required"),
   elderPhone: z.string().min(1, "Elder's phone is required"),
-  acceptTerms: z.boolean().refine(val => val === true, {
-    message: "You must accept the Statement of Undertaking to proceed"
+  acceptTerms: z.literal(true, {
+    errorMap: () => ({ message: "You must accept the statement of undertaking" }),
   }),
 });
 
 interface RegistrationStepTwoProps {
   onSubmit: (data: StepTwoFormData) => void;
-  handleFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   selectedFile: File | null;
+  handleFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   removeFile: () => void;
   onBack: () => void;
+  isLoading?: boolean;
 }
 
-const RegistrationStepTwo = ({
+const RegistrationStepTwo: React.FC<RegistrationStepTwoProps> = ({
   onSubmit,
-  handleFileChange,
   selectedFile,
+  handleFileChange,
   removeFile,
-  onBack
-}: RegistrationStepTwoProps) => {
+  onBack,
+  isLoading = false,
+}) => {
+  // Initialize form
   const form = useForm<StepTwoFormData>({
-    resolver: zodResolver(stepTwoSchema),
+    resolver: zodResolver(formSchema),
     defaultValues: {
       address: "",
       phoneNumbers: "",
@@ -93,36 +111,25 @@ const RegistrationStepTwo = ({
       socialMedia: "",
       recommendedBy: "",
       placeOfBirth: "",
-      isDivorced: "",
-      divorceCount: "",
-      lastDivorceDate: "",
+      isDivorced: "No",
       childrenCount: "",
       spouseName: "",
-      isSpouseBeliever: "",
+      isSpouseBeliever: "Yes",
       spouseDateOfBirth: "",
       anniversaryDate: "",
       acceptedChristDate: "",
-      waterBaptized: "",
-      prayInTongues: "",
-      believeInTongues: "",
-      desireTongues: "",
+      waterBaptized: "Yes",
+      prayInTongues: "Yes",
       spiritualGiftsManifest: "",
-      formalChristianTraining: "",
-      trainingInstitution: "",
-      trainingDuration: "",
-      previouslyOrdained: "",
-      ordinationType: "",
-      ordinationDate: "",
-      ordinationBy: "",
+      formalChristianTraining: "No",
+      previouslyOrdained: "No",
       denominationalBackground: "",
       currentAffiliation: "",
       currentCapacity: "",
       ministryDescription: "",
       ministryDuration: "",
       ministryIncome: "",
-      otherEmployment: "",
-      employmentDescription: "",
-      employmentAddress: "",
+      otherEmployment: "No",
       pastorName: "",
       pastorEmail: "",
       pastorPhone: "",
@@ -136,59 +143,48 @@ const RegistrationStepTwo = ({
     },
   });
 
+  // Handle form submission
+  const handleSubmit = (data: StepTwoFormData) => {
+    onSubmit(data);
+  };
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        {/* Personal Information Section */}
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8">
         <PersonalInfoSection form={form} />
-        <Separator className="my-6" />
-        
-        {/* Marital Information Section */}
+        <hr />
         <MaritalInfoSection form={form} />
-        <Separator className="my-6" />
-        
-        {/* Spiritual Information Section */}
+        <hr />
         <SpiritualInfoSection form={form} />
-        <Separator className="my-6" />
-        
-        {/* Education & Training Section */}
+        <hr />
         <EducationSection form={form} />
-        <Separator className="my-6" />
-        
-        {/* Ministry Experience Section */}
+        <hr />
         <MinistrySection form={form} />
-        <Separator className="my-6" />
-        
-        {/* Employment Information Section */}
+        <hr />
         <EmploymentSection form={form} />
-        <Separator className="my-6" />
-        
-        {/* References Section */}
+        <hr />
         <ReferenceSection form={form} />
-        <Separator className="my-6" />
-        
-        {/* File Upload Section */}
-        <FileUploadSection 
-          selectedFile={selectedFile} 
+        <hr />
+        <FileUploadSection
+          selectedFile={selectedFile}
           handleFileChange={handleFileChange}
           removeFile={removeFile}
         />
-        <Separator className="my-6" />
-        
-        {/* Statement of Undertaking */}
+        <hr />
         <StatementSection form={form} />
-
-        <div className="flex gap-4">
-          <Button 
-            type="button" 
-            variant="outline" 
-            onClick={onBack}
-            className="flex-1"
-          >
-            <ArrowLeft className="mr-2 h-4 w-4" /> Previous
+        <div className="flex justify-between mt-8">
+          <Button type="button" variant="outline" onClick={onBack}>
+            Back
           </Button>
-          <Button type="submit" className="flex-1">
-            Submit Registration
+          <Button type="submit" disabled={isLoading}>
+            {isLoading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Submitting...
+              </>
+            ) : (
+              "Submit"
+            )}
           </Button>
         </div>
       </form>

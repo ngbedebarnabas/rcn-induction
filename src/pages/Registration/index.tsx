@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { toast } from "@/components/ui/use-toast";
 import {
@@ -21,9 +22,12 @@ import RegistrationStepTwo from "./components/RegistrationStepTwo";
 import SuccessMessage from "./components/SuccessMessage";
 import { StepOneFormData, StepTwoFormData } from "./types";
 import PageHeader from "@/components/PageHeader";
+import { v4 as uuidv4 } from 'uuid';
+import { supabase } from "@/integrations/supabase/client";
 
 const Registration = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [currentStep, setCurrentStep] = useState<1 | 2>(1);
   const [spiritualHistory, setSpiritualHistory] = useState<
     Array<{ id: number; text: string }>
@@ -91,6 +95,34 @@ const Registration = () => {
     setPassportPreview(null);
   };
 
+  // Upload file to Supabase storage
+  const uploadFile = async (file: File, bucket: string, folder: string) => {
+    try {
+      // Create a unique filename
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${folder}/${uuidv4()}.${fileExt}`;
+
+      // Upload the file
+      const { data, error } = await supabase.storage
+        .from(bucket)
+        .upload(fileName, file);
+
+      if (error) {
+        throw error;
+      }
+
+      // Get the public URL
+      const { data: urlData } = supabase.storage
+        .from(bucket)
+        .getPublicUrl(fileName);
+
+      return urlData.publicUrl;
+    } catch (error) {
+      console.error('Error uploading file:', error);
+      return null;
+    }
+  };
+
   // Handle form submission for step 1
   const onSubmitStepOne = (data: StepOneFormData) => {
     console.log(data);
@@ -99,29 +131,63 @@ const Registration = () => {
   };
 
   // Handle form submission for step 2
-  const onSubmitStepTwo = (data: StepTwoFormData) => {
-    // Combine both form data
-    const completeFormData = {
-      ...stepOneData,
-      ...data,
-      spiritualHistory: spiritualHistory
-        .map((item) => item.text)
-        .filter(Boolean),
-      uploadedFile: selectedFile ? selectedFile.name : null,
-      passport: passportImage ? passportImage.name : null,
-    };
+  const onSubmitStepTwo = async (data: StepTwoFormData) => {
+    setIsLoading(true);
+    
+    try {
+      // Upload passport and document if present
+      let passportUrl = null;
+      let documentUrl = null;
 
-    console.log("Complete form data:", completeFormData);
+      if (passportImage) {
+        passportUrl = await uploadFile(passportImage, 'registrations', 'passports');
+      }
 
-    toast({
-      title: "Registration submitted",
-      description:
-        "You have successfully registered for the induction programme.",
-    });
+      if (selectedFile) {
+        documentUrl = await uploadFile(selectedFile, 'registrations', 'documents');
+      }
 
-    setIsSubmitted(true);
-    // Show payment modal after successful registration
-    setShowPaymentModal(true);
+      // Combine both form data
+      const completeFormData = {
+        ...stepOneData,
+        ...data,
+        spiritual_history: spiritualHistory
+          .map((item) => item.text)
+          .filter(Boolean),
+        passport_url: passportUrl,
+        document_url: documentUrl
+      };
+
+      console.log("Complete form data:", completeFormData);
+
+      // Save to Supabase
+      const { error } = await supabase
+        .from('registrations')
+        .insert([completeFormData]);
+
+      if (error) {
+        throw error;
+      }
+
+      toast({
+        title: "Registration submitted",
+        description:
+          "You have successfully registered for the induction programme.",
+      });
+
+      setIsSubmitted(true);
+      // Show payment modal after successful registration
+      setShowPaymentModal(true);
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      toast({
+        title: "Registration failed",
+        description: "There was an error submitting your registration. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const resetForm = () => {
@@ -236,6 +302,7 @@ const Registration = () => {
                   selectedFile={selectedFile}
                   removeFile={removeFile}
                   onBack={() => setCurrentStep(1)}
+                  isLoading={isLoading}
                 />
               )}
             </CardContent>
