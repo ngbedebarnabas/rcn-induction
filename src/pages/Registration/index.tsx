@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { toast } from "@/hooks/use-toast";
 import {
@@ -98,6 +97,8 @@ const Registration = () => {
   // Upload file to Supabase storage
   const uploadFile = async (file: File, bucket: string, folder: string) => {
     try {
+      console.log(`Uploading file to ${bucket}/${folder}`);
+      
       // Create a unique filename
       const fileExt = file.name.split('.').pop();
       const fileName = `${folder}/${uuidv4()}.${fileExt}`;
@@ -108,14 +109,18 @@ const Registration = () => {
         .upload(fileName, file);
 
       if (error) {
+        console.error('Error uploading file:', error);
         throw error;
       }
+
+      console.log('File uploaded successfully:', data);
 
       // Get the public URL
       const { data: urlData } = supabase.storage
         .from(bucket)
         .getPublicUrl(fileName);
 
+      console.log('Public URL:', urlData.publicUrl);
       return urlData.publicUrl;
     } catch (error) {
       console.error('Error uploading file:', error);
@@ -125,7 +130,7 @@ const Registration = () => {
 
   // Handle form submission for step 1
   const onSubmitStepOne = (data: StepOneFormData) => {
-    console.log(data);
+    console.log("Step one data:", data);
     setStepOneData(data);
     setCurrentStep(2);
   };
@@ -133,31 +138,44 @@ const Registration = () => {
   // Handle form submission for step 2
   const onSubmitStepTwo = async (data: StepTwoFormData) => {
     setIsLoading(true);
+    console.log("Starting form submission process");
     
     try {
+      if (!stepOneData) {
+        throw new Error("Missing step one data");
+      }
+      
       // Upload passport and document if present
       let passportUrl = null;
       let documentUrl = null;
 
       if (passportImage) {
+        console.log("Uploading passport image");
         passportUrl = await uploadFile(passportImage, 'registrations', 'passports');
+        console.log("Passport URL:", passportUrl);
+      } else {
+        console.log("No passport image to upload");
       }
 
       if (selectedFile) {
+        console.log("Uploading document file");
         documentUrl = await uploadFile(selectedFile, 'registrations', 'documents');
+        console.log("Document URL:", documentUrl);
+      } else {
+        console.log("No document file to upload");
       }
 
       // Map form data to database column names
       const transformedData = {
         // Step one data
-        full_name: stepOneData?.fullName,
-        date_of_birth: stepOneData?.dateOfBirth,
-        date_of_new_birth: stepOneData?.dateOfNewBirth,
-        date_of_water_baptism: stepOneData?.dateOfWaterBaptism,
-        date_of_holy_ghost_baptism: stepOneData?.dateOfHolyGhostBaptism,
-        marital_status: stepOneData?.maritalStatus,
-        ministry_gift: stepOneData?.ministryGift,
-        spiritual_gifts: stepOneData?.spiritualGifts,
+        full_name: stepOneData.fullName,
+        date_of_birth: stepOneData.dateOfBirth,
+        date_of_new_birth: stepOneData.dateOfNewBirth,
+        date_of_water_baptism: stepOneData.dateOfWaterBaptism,
+        date_of_holy_ghost_baptism: stepOneData.dateOfHolyGhostBaptism,
+        marital_status: stepOneData.maritalStatus,
+        ministry_gift: stepOneData.ministryGift,
+        spiritual_gifts: stepOneData.spiritualGifts,
         spiritual_history: spiritualHistory
           .map((item) => item.text)
           .filter(Boolean),
@@ -209,20 +227,25 @@ const Registration = () => {
         elder_name: data.elderName,
         elder_email: data.elderEmail,
         elder_phone: data.elderPhone,
-        document_url: documentUrl
+        document_url: documentUrl,
+        payment_status: 'pending'
       };
 
       console.log("Complete form data:", transformedData);
 
       // Save to Supabase
-      const { error } = await supabase
+      const { data: insertedData, error } = await supabase
         .from('registrations')
-        .insert(transformedData);
+        .insert(transformedData)
+        .select();
 
       if (error) {
+        console.error('Error submitting to database:', error);
         throw error;
       }
 
+      console.log('Data inserted successfully:', insertedData);
+      
       toast({
         title: "Registration submitted",
         description:
@@ -231,12 +254,14 @@ const Registration = () => {
 
       setIsSubmitted(true);
       // Show payment modal after successful registration
-      setShowPaymentModal(true);
-    } catch (error) {
+      setTimeout(() => {
+        setShowPaymentModal(true);
+      }, 1500);
+    } catch (error: any) {
       console.error('Error submitting form:', error);
       toast({
         title: "Registration failed",
-        description: "There was an error submitting your registration. Please try again.",
+        description: `There was an error submitting your registration: ${error.message || 'Unknown error'}`,
         variant: "destructive"
       });
     } finally {

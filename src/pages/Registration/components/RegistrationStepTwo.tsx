@@ -145,6 +145,7 @@ const RegistrationStepTwo: React.FC<RegistrationStepTwoProps> = ({
 
   // Handle form submission
   const handleSubmit = (data: StepTwoFormData) => {
+    console.log("Form data submitted:", data);
     onSubmit(data);
   };
 
