@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { toast } from "@/components/ui/use-toast";
+import { toast } from "@/hooks/use-toast";
 import {
   Card,
   CardContent,
@@ -226,7 +226,7 @@ const Registration = () => {
       toast({
         title: "Registration submitted",
         description:
-          "You have successfully registered for the induction programme.",
+          "Thank you for registering for the RCN Induction Training Programme.",
       });
 
       setIsSubmitted(true);
