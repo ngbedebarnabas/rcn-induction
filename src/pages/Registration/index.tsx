@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { toast } from "@/hooks/use-toast";
 import {
@@ -99,6 +100,23 @@ const Registration = () => {
     try {
       console.log(`Uploading file to ${bucket}/${folder}`);
       
+      // Check if storage bucket exists, if not create it
+      const { data: buckets } = await supabase.storage.listBuckets();
+      const bucketExists = buckets?.some(b => b.name === bucket);
+      
+      if (!bucketExists) {
+        console.log(`Bucket ${bucket} doesn't exist, creating it...`);
+        const { error: bucketError } = await supabase.storage.createBucket(bucket, {
+          public: true
+        });
+        
+        if (bucketError) {
+          console.error('Error creating bucket:', bucketError);
+          throw bucketError;
+        }
+        console.log(`Bucket ${bucket} created successfully`);
+      }
+      
       // Create a unique filename
       const fileExt = file.name.split('.').pop();
       const fileName = `${folder}/${uuidv4()}.${fileExt}`;
@@ -106,7 +124,10 @@ const Registration = () => {
       // Upload the file
       const { data, error } = await supabase.storage
         .from(bucket)
-        .upload(fileName, file);
+        .upload(fileName, file, {
+          cacheControl: '3600',
+          upsert: false
+        });
 
       if (error) {
         console.error('Error uploading file:', error);
