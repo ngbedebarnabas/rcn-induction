@@ -147,23 +147,77 @@ const Registration = () => {
         documentUrl = await uploadFile(selectedFile, 'registrations', 'documents');
       }
 
-      // Combine both form data
-      const completeFormData = {
-        ...stepOneData,
-        ...data,
+      // Map form data to database column names
+      const transformedData = {
+        // Step one data
+        full_name: stepOneData?.fullName,
+        date_of_birth: stepOneData?.dateOfBirth,
+        date_of_new_birth: stepOneData?.dateOfNewBirth,
+        date_of_water_baptism: stepOneData?.dateOfWaterBaptism,
+        date_of_holy_ghost_baptism: stepOneData?.dateOfHolyGhostBaptism,
+        marital_status: stepOneData?.maritalStatus,
+        ministry_gift: stepOneData?.ministryGift,
+        spiritual_gifts: stepOneData?.spiritualGifts,
         spiritual_history: spiritualHistory
           .map((item) => item.text)
           .filter(Boolean),
         passport_url: passportUrl,
+        
+        // Step two data
+        address: data.address,
+        phone_numbers: data.phoneNumbers,
+        email: data.email,
+        social_media: data.socialMedia,
+        recommended_by: data.recommendedBy,
+        place_of_birth: data.placeOfBirth,
+        is_divorced: data.isDivorced,
+        divorce_count: data.divorceCount,
+        last_divorce_date: data.lastDivorceDate,
+        children_count: data.childrenCount,
+        spouse_name: data.spouseName,
+        is_spouse_believer: data.isSpouseBeliever,
+        spouse_date_of_birth: data.spouseDateOfBirth,
+        anniversary_date: data.anniversaryDate,
+        accepted_christ_date: data.acceptedChristDate,
+        water_baptized: data.waterBaptized,
+        pray_in_tongues: data.prayInTongues,
+        believe_in_tongues: data.believeInTongues,
+        desire_tongues: data.desireTongues,
+        spiritual_gifts_manifest: data.spiritualGiftsManifest,
+        formal_christian_training: data.formalChristianTraining,
+        training_institution: data.trainingInstitution,
+        training_duration: data.trainingDuration,
+        previously_ordained: data.previouslyOrdained,
+        ordination_type: data.ordinationType,
+        ordination_date: data.ordinationDate,
+        ordination_by: data.ordinationBy,
+        denominational_background: data.denominationalBackground,
+        current_affiliation: data.currentAffiliation,
+        current_capacity: data.currentCapacity,
+        ministry_description: data.ministryDescription,
+        ministry_duration: data.ministryDuration,
+        ministry_income: data.ministryIncome,
+        other_employment: data.otherEmployment,
+        employment_description: data.employmentDescription,
+        employment_address: data.employmentAddress,
+        pastor_name: data.pastorName,
+        pastor_email: data.pastorEmail,
+        pastor_phone: data.pastorPhone,
+        minister_name: data.ministerName,
+        minister_email: data.ministerEmail,
+        minister_phone: data.ministerPhone,
+        elder_name: data.elderName,
+        elder_email: data.elderEmail,
+        elder_phone: data.elderPhone,
         document_url: documentUrl
       };
 
-      console.log("Complete form data:", completeFormData);
+      console.log("Complete form data:", transformedData);
 
       // Save to Supabase
       const { error } = await supabase
         .from('registrations')
-        .insert([completeFormData]);
+        .insert(transformedData);
 
       if (error) {
         throw error;
