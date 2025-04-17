@@ -1,3 +1,4 @@
+
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -55,7 +56,7 @@ const MaritalInfoSection = ({ form }: MaritalInfoSectionProps) => {
         name="childrenCount"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Number of children *</FormLabel>
+            <FormLabel>Number of children</FormLabel>
             <FormControl>
               <Input placeholder="Enter number of children" {...field} />
             </FormControl>
@@ -90,7 +91,7 @@ const MaritalInfoSection = ({ form }: MaritalInfoSectionProps) => {
           name="spouseDateOfBirth"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Spouse's Date of Birth *</FormLabel>
+              <FormLabel>Spouse's Date of Birth</FormLabel>
               <FormControl>
                 <Input type="date" {...field} />
               </FormControl>
@@ -104,7 +105,7 @@ const MaritalInfoSection = ({ form }: MaritalInfoSectionProps) => {
           name="anniversaryDate"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Anniversary Date *</FormLabel>
+              <FormLabel>Anniversary Date</FormLabel>
               <FormControl>
                 <Input type="date" {...field} />
               </FormControl>

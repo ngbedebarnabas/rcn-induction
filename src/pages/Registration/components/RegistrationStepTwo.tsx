@@ -31,13 +31,13 @@ const formSchema = z.object({
   }),
   divorceCount: z.string().optional(),
   lastDivorceDate: z.string().optional(),
-  childrenCount: z.string().min(1, "Number of children is required"),
+  childrenCount: z.string().optional(), // Made optional
   spouseName: z.string().min(1, "Spouse name is required"),
   isSpouseBeliever: z.enum(["Yes", "No"], {
     required_error: "Please select an option",
   }),
-  spouseDateOfBirth: z.string().min(1, "Spouse's date of birth is required"),
-  anniversaryDate: z.string().min(1, "Anniversary date is required"),
+  spouseDateOfBirth: z.string().optional(), // Made optional
+  anniversaryDate: z.string().optional(), // Made optional
   acceptedChristDate: z.string().min(1, "Date is required"),
   waterBaptized: z.enum(["Yes", "No"], {
     required_error: "Please select an option",
@@ -45,8 +45,8 @@ const formSchema = z.object({
   prayInTongues: z.enum(["Yes", "No"], {
     required_error: "Please select an option",
   }),
-  believeInTongues: z.enum(["Yes", "No"], { required_error: "Please select an option" }).optional(),
-  desireTongues: z.enum(["Yes", "No"], { required_error: "Please select an option" }).optional(),
+  believeInTongues: z.enum(["Yes", "No"]).optional(), // Made optional
+  desireTongues: z.enum(["Yes", "No"]).optional(), // Made optional
   spiritualGiftsManifest: z.string().min(1, "This field is required"),
   formalChristianTraining: z.enum(["Yes", "No"], {
     required_error: "Please select an option",

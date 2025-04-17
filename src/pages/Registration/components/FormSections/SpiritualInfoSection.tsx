@@ -23,7 +23,7 @@ const SpiritualInfoSection = ({ form }: SpiritualInfoSectionProps) => {
           <FormItem>
             <FormLabel>When did you accept Christ? *</FormLabel>
             <FormControl>
-              <Input type="text" placeholder="Describe when you accepted Christ" {...field} />
+              <Input type="date" {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>
