@@ -11,7 +11,7 @@ interface YesNoOptionsProps {
   dependantField?: boolean;
 }
 
-const YesNoOptions = ({ name, form, isRequired = true, dependantField = false }: YesNoOptionsProps) => {
+export const YesNoOptions = ({ name, form, isRequired = true, dependantField = false }: YesNoOptionsProps) => {
   return (
     <div className="flex gap-6">
       <div className="flex items-center space-x-2">
@@ -37,5 +37,3 @@ const YesNoOptions = ({ name, form, isRequired = true, dependantField = false }:
     </div>
   );
 };
-
-export { YesNoOptions };
