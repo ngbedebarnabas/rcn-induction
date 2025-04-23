@@ -148,6 +148,14 @@ const Registration = () => {
     }
   };
 
+  // Clean date fields to prevent "invalid input syntax for type date" error
+  const cleanDateField = (dateValue: string | undefined | null) => {
+    if (!dateValue || dateValue.trim() === "") {
+      return null;
+    }
+    return dateValue;
+  };
+
   // Handle form submission for step 1
   const onSubmitStepOne = (data: StepOneFormData) => {
     console.log("Step one data:", data);
@@ -185,16 +193,11 @@ const Registration = () => {
         console.log("No document file to upload");
       }
 
-      // Clean date fields to prevent "invalid input syntax for type date" error
-      const cleanDateField = (dateValue: string | undefined | null) => {
-        return dateValue && dateValue.trim() !== "" ? dateValue : null;
-      };
-
       // Map form data to database column names
       const transformedData = {
         // Step one data
         full_name: stepOneData.fullName,
-        date_of_birth: stepOneData.dateOfBirth,
+        date_of_birth: cleanDateField(stepOneData.dateOfBirth),
         date_of_new_birth: cleanDateField(stepOneData.dateOfNewBirth),
         date_of_water_baptism: cleanDateField(stepOneData.dateOfWaterBaptism),
         date_of_holy_ghost_baptism: cleanDateField(stepOneData.dateOfHolyGhostBaptism),
