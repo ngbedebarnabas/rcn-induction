@@ -3,7 +3,7 @@ import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/comp
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { UseFormReturn } from "react-hook-form";
-import { StepTwoFormData } from "../../types";
+import { StepTwoFormData } from "../../../types";
 import { YesNoOptions } from "../YesNoOptions";
 
 interface SpiritualInfoSectionProps {
