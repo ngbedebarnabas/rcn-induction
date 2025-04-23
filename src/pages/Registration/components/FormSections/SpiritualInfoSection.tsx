@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { UseFormReturn } from "react-hook-form";
 import { StepTwoFormData } from "../../../types";
-import { YesNoOptions } from "../YesNoOptions";
+import { YesNoOptions } from "../../components/YesNoOptions";
 
 interface SpiritualInfoSectionProps {
   form: UseFormReturn<StepTwoFormData>;
