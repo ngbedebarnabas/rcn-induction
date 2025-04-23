@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { toast } from "@/hooks/use-toast";
 import {
@@ -186,14 +185,19 @@ const Registration = () => {
         console.log("No document file to upload");
       }
 
+      // Clean date fields to prevent "invalid input syntax for type date" error
+      const cleanDateField = (dateValue: string | undefined | null) => {
+        return dateValue && dateValue.trim() !== "" ? dateValue : null;
+      };
+
       // Map form data to database column names
       const transformedData = {
         // Step one data
         full_name: stepOneData.fullName,
         date_of_birth: stepOneData.dateOfBirth,
-        date_of_new_birth: stepOneData.dateOfNewBirth,
-        date_of_water_baptism: stepOneData.dateOfWaterBaptism,
-        date_of_holy_ghost_baptism: stepOneData.dateOfHolyGhostBaptism,
+        date_of_new_birth: cleanDateField(stepOneData.dateOfNewBirth),
+        date_of_water_baptism: cleanDateField(stepOneData.dateOfWaterBaptism),
+        date_of_holy_ghost_baptism: cleanDateField(stepOneData.dateOfHolyGhostBaptism),
         marital_status: stepOneData.maritalStatus,
         ministry_gift: stepOneData.ministryGift,
         spiritual_gifts: stepOneData.spiritualGifts,
@@ -211,13 +215,13 @@ const Registration = () => {
         place_of_birth: data.placeOfBirth,
         is_divorced: data.isDivorced,
         divorce_count: data.divorceCount,
-        last_divorce_date: data.lastDivorceDate,
+        last_divorce_date: cleanDateField(data.lastDivorceDate),
         children_count: data.childrenCount,
         spouse_name: data.spouseName,
         is_spouse_believer: data.isSpouseBeliever,
-        spouse_date_of_birth: data.spouseDateOfBirth,
-        anniversary_date: data.anniversaryDate,
-        accepted_christ_date: data.acceptedChristDate,
+        spouse_date_of_birth: cleanDateField(data.spouseDateOfBirth),
+        anniversary_date: cleanDateField(data.anniversaryDate),
+        accepted_christ_date: cleanDateField(data.acceptedChristDate),
         water_baptized: data.waterBaptized,
         pray_in_tongues: data.prayInTongues,
         believe_in_tongues: data.believeInTongues,
@@ -228,7 +232,7 @@ const Registration = () => {
         training_duration: data.trainingDuration,
         previously_ordained: data.previouslyOrdained,
         ordination_type: data.ordinationType,
-        ordination_date: data.ordinationDate,
+        ordination_date: cleanDateField(data.ordinationDate),
         ordination_by: data.ordinationBy,
         denominational_background: data.denominationalBackground,
         current_affiliation: data.currentAffiliation,

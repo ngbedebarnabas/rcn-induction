@@ -12,6 +12,8 @@ interface SpiritualInfoSectionProps {
 }
 
 const SpiritualInfoSection = ({ form }: SpiritualInfoSectionProps) => {
+  const watchPrayInTongues = form.watch("prayInTongues");
+  
   return (
     <div className="space-y-4">
       <h3 className="text-lg font-medium">Spiritual Information</h3>
@@ -42,17 +44,21 @@ const SpiritualInfoSection = ({ form }: SpiritualInfoSectionProps) => {
         <FormMessage>{form.formState.errors.prayInTongues?.message}</FormMessage>
       </div>
 
-      <div className="space-y-2">
-        <FormLabel htmlFor="believeInTongues">If No, do you believe in it?</FormLabel>
-        <YesNoOptions name="believeInTongues" form={form} isRequired={false} dependantField={true} />
-        <FormMessage>{form.formState.errors.believeInTongues?.message}</FormMessage>
-      </div>
+      {watchPrayInTongues === "No" && (
+        <>
+          <div className="space-y-2">
+            <FormLabel htmlFor="believeInTongues">If No, do you believe in it?</FormLabel>
+            <YesNoOptions name="believeInTongues" form={form} isRequired={false} dependantField={true} />
+            <FormMessage>{form.formState.errors.believeInTongues?.message}</FormMessage>
+          </div>
 
-      <div className="space-y-2">
-        <FormLabel htmlFor="desireTongues">If No - Do you desire it?</FormLabel>
-        <YesNoOptions name="desireTongues" form={form} isRequired={false} dependantField={true} />
-        <FormMessage>{form.formState.errors.desireTongues?.message}</FormMessage>
-      </div>
+          <div className="space-y-2">
+            <FormLabel htmlFor="desireTongues">If No - Do you desire it?</FormLabel>
+            <YesNoOptions name="desireTongues" form={form} isRequired={false} dependantField={true} />
+            <FormMessage>{form.formState.errors.desireTongues?.message}</FormMessage>
+          </div>
+        </>
+      )}
 
       <FormField
         control={form.control}

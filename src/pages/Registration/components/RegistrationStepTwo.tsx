@@ -18,7 +18,7 @@ import FileUploadSection from "./FormSections/FileUploadSection";
 import StatementSection from "./FormSections/StatementSection";
 import { StepTwoFormData } from "../types";
 
-// Define the form schema
+// Define the form schema with proper date handling
 const formSchema = z.object({
   address: z.string().min(1, "Address is required"),
   phoneNumbers: z.string().min(1, "Phone number is required"),
@@ -31,13 +31,13 @@ const formSchema = z.object({
   }),
   divorceCount: z.string().optional(),
   lastDivorceDate: z.string().optional(),
-  childrenCount: z.string().optional(), // Made optional
+  childrenCount: z.string().optional(),
   spouseName: z.string().min(1, "Spouse name is required"),
   isSpouseBeliever: z.enum(["Yes", "No"], {
     required_error: "Please select an option",
   }),
-  spouseDateOfBirth: z.string().optional(), // Made optional
-  anniversaryDate: z.string().optional(), // Made optional
+  spouseDateOfBirth: z.string().optional(),
+  anniversaryDate: z.string().optional(),
   acceptedChristDate: z.string().min(1, "Date is required"),
   waterBaptized: z.enum(["Yes", "No"], {
     required_error: "Please select an option",
@@ -45,8 +45,8 @@ const formSchema = z.object({
   prayInTongues: z.enum(["Yes", "No"], {
     required_error: "Please select an option",
   }),
-  believeInTongues: z.enum(["Yes", "No"]).optional(), // Made optional
-  desireTongues: z.enum(["Yes", "No"]).optional(), // Made optional
+  believeInTongues: z.enum(["Yes", "No"]).optional(),
+  desireTongues: z.enum(["Yes", "No"]).optional(),
   spiritualGiftsManifest: z.string().min(1, "This field is required"),
   formalChristianTraining: z.enum(["Yes", "No"], {
     required_error: "Please select an option",
@@ -145,8 +145,17 @@ const RegistrationStepTwo: React.FC<RegistrationStepTwoProps> = ({
 
   // Handle form submission
   const handleSubmit = (data: StepTwoFormData) => {
-    console.log("Form data submitted:", data);
-    onSubmit(data);
+    // Make sure empty date fields are handled properly
+    const formattedData = {
+      ...data,
+      spouseDateOfBirth: data.spouseDateOfBirth || null,
+      anniversaryDate: data.anniversaryDate || null,
+      lastDivorceDate: data.lastDivorceDate || null,
+      ordinationDate: data.ordinationDate || null,
+    };
+    
+    console.log("Form data submitted:", formattedData);
+    onSubmit(formattedData);
   };
 
   return (
