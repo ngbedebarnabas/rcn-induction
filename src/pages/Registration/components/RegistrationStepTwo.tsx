@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -18,12 +17,11 @@ import FileUploadSection from "./FormSections/FileUploadSection";
 import StatementSection from "./FormSections/StatementSection";
 import { StepTwoFormData } from "../types";
 
-// Define the form schema with proper date handling
+// Updated form schema with optional fields
 const formSchema = z.object({
   address: z.string().min(1, "Address is required"),
   phoneNumbers: z.string().min(1, "Phone number is required"),
   email: z.string().email("Invalid email address").min(1, "Email is required"),
-  socialMedia: z.string().optional(),
   recommendedBy: z.string().min(1, "Recommender is required"),
   placeOfBirth: z.string().min(1, "Place of birth is required"),
   isDivorced: z.enum(["Yes", "No"], {
@@ -32,10 +30,10 @@ const formSchema = z.object({
   divorceCount: z.string().optional(),
   lastDivorceDate: z.string().optional(),
   childrenCount: z.string().optional(),
-  spouseName: z.string().min(1, "Spouse name is required"),
+  spouseName: z.string().optional(), // Make spouse name optional
   isSpouseBeliever: z.enum(["Yes", "No"], {
     required_error: "Please select an option",
-  }),
+  }).optional(),
   spouseDateOfBirth: z.string().optional(),
   anniversaryDate: z.string().optional(),
   acceptedChristDate: z.string().min(1, "Date is required"),
@@ -45,12 +43,16 @@ const formSchema = z.object({
   prayInTongues: z.enum(["Yes", "No"], {
     required_error: "Please select an option",
   }),
+  
+  // Optional fields for tongue-related questions
   believeInTongues: z.enum(["Yes", "No"]).optional(),
   desireTongues: z.enum(["Yes", "No"]).optional(),
   spiritualGiftsManifest: z.string().min(1, "This field is required"),
   formalChristianTraining: z.enum(["Yes", "No"], {
     required_error: "Please select an option",
   }),
+  
+  // Optional fields for training and ordination
   trainingInstitution: z.string().optional(),
   trainingDuration: z.string().optional(),
   previouslyOrdained: z.enum(["Yes", "No"], {
@@ -68,6 +70,8 @@ const formSchema = z.object({
   otherEmployment: z.enum(["Yes", "No"], {
     required_error: "Please select an option",
   }),
+  
+  // Optional employment fields
   employmentDescription: z.string().optional(),
   employmentAddress: z.string().optional(),
   pastorName: z.string().min(1, "Pastor's name is required"),
@@ -82,6 +86,9 @@ const formSchema = z.object({
   acceptTerms: z.literal(true, {
     errorMap: () => ({ message: "You must accept the statement of undertaking" }),
   }),
+  
+  // Social media is now optional
+  socialMedia: z.string().optional(),
 });
 
 interface RegistrationStepTwoProps {
@@ -95,13 +102,13 @@ interface RegistrationStepTwoProps {
 
 const RegistrationStepTwo: React.FC<RegistrationStepTwoProps> = ({
   onSubmit,
-  selectedFile,
   handleFileChange,
+  selectedFile,
   removeFile,
   onBack,
   isLoading = false,
 }) => {
-  // Initialize form
+  // Initialize form with updated default values
   const form = useForm<StepTwoFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -113,7 +120,7 @@ const RegistrationStepTwo: React.FC<RegistrationStepTwoProps> = ({
       placeOfBirth: "",
       isDivorced: "No",
       childrenCount: "",
-      spouseName: "",
+      spouseName: "", // Empty string instead of required
       isSpouseBeliever: "Yes",
       spouseDateOfBirth: "",
       anniversaryDate: "",
@@ -140,6 +147,17 @@ const RegistrationStepTwo: React.FC<RegistrationStepTwoProps> = ({
       elderEmail: "",
       elderPhone: "",
       acceptTerms: false,
+      
+      // Optional fields now have empty defaults
+      trainingInstitution: "",
+      trainingDuration: "",
+      ordinationType: "",
+      ordinationDate: "",
+      ordinationBy: "",
+      employmentDescription: "",
+      employmentAddress: "",
+      believeInTongues: undefined,
+      desireTongues: undefined,
     },
   });
 

@@ -1,4 +1,3 @@
-
 export interface SpiritualHistoryItem {
   id: number;
   text: string;
@@ -25,11 +24,11 @@ export interface StepTwoFormData {
   isDivorced: string;
   divorceCount?: string;
   lastDivorceDate?: string;
-  childrenCount: string;
-  spouseName: string;
+  childrenCount?: string;
+  spouseName?: string;
   isSpouseBeliever: string;
-  spouseDateOfBirth: string;
-  anniversaryDate: string;
+  spouseDateOfBirth?: string;
+  anniversaryDate?: string;
   acceptedChristDate: string;
   waterBaptized: string;
   prayInTongues: string;

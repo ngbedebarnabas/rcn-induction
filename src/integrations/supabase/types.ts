@@ -13,9 +13,9 @@ export type Database = {
         Row: {
           accepted_christ_date: string
           address: string
-          anniversary_date: string
+          anniversary_date: string | null
           believe_in_tongues: string | null
-          children_count: string
+          children_count: string | null
           created_at: string | null
           current_affiliation: string
           current_capacity: string
@@ -65,7 +65,7 @@ export type Database = {
           spiritual_gifts: string | null
           spiritual_gifts_manifest: string
           spiritual_history: string[] | null
-          spouse_date_of_birth: string
+          spouse_date_of_birth: string | null
           spouse_name: string
           training_duration: string | null
           training_institution: string | null
@@ -75,9 +75,9 @@ export type Database = {
         Insert: {
           accepted_christ_date: string
           address: string
-          anniversary_date: string
+          anniversary_date?: string | null
           believe_in_tongues?: string | null
-          children_count: string
+          children_count?: string | null
           created_at?: string | null
           current_affiliation: string
           current_capacity: string
@@ -127,7 +127,7 @@ export type Database = {
           spiritual_gifts?: string | null
           spiritual_gifts_manifest: string
           spiritual_history?: string[] | null
-          spouse_date_of_birth: string
+          spouse_date_of_birth?: string | null
           spouse_name: string
           training_duration?: string | null
           training_institution?: string | null
@@ -137,9 +137,9 @@ export type Database = {
         Update: {
           accepted_christ_date?: string
           address?: string
-          anniversary_date?: string
+          anniversary_date?: string | null
           believe_in_tongues?: string | null
-          children_count?: string
+          children_count?: string | null
           created_at?: string | null
           current_affiliation?: string
           current_capacity?: string
@@ -189,7 +189,7 @@ export type Database = {
           spiritual_gifts?: string | null
           spiritual_gifts_manifest?: string
           spiritual_history?: string[] | null
-          spouse_date_of_birth?: string
+          spouse_date_of_birth?: string | null
           spouse_name?: string
           training_duration?: string | null
           training_institution?: string | null
