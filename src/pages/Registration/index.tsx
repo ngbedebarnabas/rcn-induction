@@ -21,7 +21,7 @@ import RegistrationStepTwo from "./components/RegistrationStepTwo";
 import SuccessMessage from "./components/SuccessMessage";
 import { StepOneFormData, StepTwoFormData } from "./types";
 import PageHeader from "@/components/PageHeader";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 import { supabase } from "@/integrations/supabase/client";
 
 const Registration = () => {
@@ -98,52 +98,55 @@ const Registration = () => {
   const uploadFile = async (file: File, bucket: string, folder: string) => {
     try {
       console.log(`Uploading file to ${bucket}/${folder}`);
-      
+
       // Check if storage bucket exists, if not create it
       const { data: buckets } = await supabase.storage.listBuckets();
-      const bucketExists = buckets?.some(b => b.name === bucket);
-      
+      const bucketExists = buckets?.some((b) => b.name === bucket);
+
       if (!bucketExists) {
         console.log(`Bucket ${bucket} doesn't exist, creating it...`);
-        const { error: bucketError } = await supabase.storage.createBucket(bucket, {
-          public: true
-        });
-        
+        const { error: bucketError } = await supabase.storage.createBucket(
+          bucket,
+          {
+            public: true,
+          }
+        );
+
         if (bucketError) {
-          console.error('Error creating bucket:', bucketError);
+          console.error("Error creating bucket:", bucketError);
           throw bucketError;
         }
         console.log(`Bucket ${bucket} created successfully`);
       }
-      
+
       // Create a unique filename
-      const fileExt = file.name.split('.').pop();
+      const fileExt = file.name.split(".").pop();
       const fileName = `${folder}/${uuidv4()}.${fileExt}`;
 
       // Upload the file
       const { data, error } = await supabase.storage
         .from(bucket)
         .upload(fileName, file, {
-          cacheControl: '3600',
-          upsert: false
+          cacheControl: "3600",
+          upsert: false,
         });
 
       if (error) {
-        console.error('Error uploading file:', error);
+        console.error("Error uploading file:", error);
         throw error;
       }
 
-      console.log('File uploaded successfully:', data);
+      console.log("File uploaded successfully:", data);
 
       // Get the public URL
       const { data: urlData } = supabase.storage
         .from(bucket)
         .getPublicUrl(fileName);
 
-      console.log('Public URL:', urlData.publicUrl);
+      console.log("Public URL:", urlData.publicUrl);
       return urlData.publicUrl;
     } catch (error) {
-      console.error('Error uploading file:', error);
+      console.error("Error uploading file:", error);
       return null;
     }
   };
@@ -167,19 +170,23 @@ const Registration = () => {
   const onSubmitStepTwo = async (data: StepTwoFormData) => {
     setIsLoading(true);
     console.log("Starting form submission process");
-    
+
     try {
       if (!stepOneData) {
         throw new Error("Missing step one data");
       }
-      
+
       // Upload passport and document if present
       let passportUrl = null;
       let documentUrl = null;
 
       if (passportImage) {
         console.log("Uploading passport image");
-        passportUrl = await uploadFile(passportImage, 'registrations', 'passports');
+        passportUrl = await uploadFile(
+          passportImage,
+          "registrations",
+          "passports"
+        );
         console.log("Passport URL:", passportUrl);
       } else {
         console.log("No passport image to upload");
@@ -187,7 +194,11 @@ const Registration = () => {
 
       if (selectedFile) {
         console.log("Uploading document file");
-        documentUrl = await uploadFile(selectedFile, 'registrations', 'documents');
+        documentUrl = await uploadFile(
+          selectedFile,
+          "registrations",
+          "documents"
+        );
         console.log("Document URL:", documentUrl);
       } else {
         console.log("No document file to upload");
@@ -200,7 +211,9 @@ const Registration = () => {
         date_of_birth: cleanDateField(stepOneData.dateOfBirth),
         date_of_new_birth: cleanDateField(stepOneData.dateOfNewBirth),
         date_of_water_baptism: cleanDateField(stepOneData.dateOfWaterBaptism),
-        date_of_holy_ghost_baptism: cleanDateField(stepOneData.dateOfHolyGhostBaptism),
+        date_of_holy_ghost_baptism: cleanDateField(
+          stepOneData.dateOfHolyGhostBaptism
+        ),
         marital_status: stepOneData.maritalStatus,
         ministry_gift: stepOneData.ministryGift,
         spiritual_gifts: stepOneData.spiritualGifts,
@@ -208,7 +221,7 @@ const Registration = () => {
           .map((item) => item.text)
           .filter(Boolean),
         passport_url: passportUrl,
-        
+
         // Step two data
         address: data.address,
         phone_numbers: data.phoneNumbers,
@@ -256,24 +269,24 @@ const Registration = () => {
         elder_email: data.elderEmail,
         elder_phone: data.elderPhone,
         document_url: documentUrl,
-        payment_status: 'pending'
+        payment_status: "pending",
       };
 
       console.log("Complete form data:", transformedData);
 
       // Save to Supabase
       const { data: insertedData, error } = await supabase
-        .from('registrations')
+        .from("registrations")
         .insert(transformedData)
         .select();
 
       if (error) {
-        console.error('Error submitting to database:', error);
+        console.error("Error submitting to database:", error);
         throw error;
       }
 
-      console.log('Data inserted successfully:', insertedData);
-      
+      console.log("Data inserted successfully:", insertedData);
+
       toast({
         title: "Registration submitted",
         description:
@@ -286,11 +299,13 @@ const Registration = () => {
         setShowPaymentModal(true);
       }, 1500);
     } catch (error: any) {
-      console.error('Error submitting form:', error);
+      console.error("Error submitting form:", error);
       toast({
         title: "Registration failed",
-        description: `There was an error submitting your registration: ${error.message || 'Unknown error'}`,
-        variant: "destructive"
+        description: `There was an error submitting your registration: ${
+          error.message || "Unknown error"
+        }`,
+        variant: "destructive",
       });
     } finally {
       setIsLoading(false);
@@ -322,52 +337,14 @@ const Registration = () => {
       <div className="container mx-auto py-10 px-4">
         <div className="prose prose-sm max-w-2xl mx-auto mb-8 text-gray-600">
           <p>
-            You will be required to upload a separate typed document (using font
-            type: Times New Roman; font size: 12; and 1.5 line spacing), hence
-            you might want to type this before beginning the registration.
+            The RCN Ordination Induction Program is a dedicated ministry
+            training designed to further equip and empower the Ordination
+            candidates as they prepare for the Ordination Service.
           </p>
-          <ol className="list-decimal pl-6 space-y-2">
-            <li>
-              Share your experience of conversion, baptism, and any subsequent
-              significant spiritual experience.
-            </li>
-            <li>Your personal pattern of devotional prayer and Bible study</li>
-            <li>
-              Your family devotional pattern related to your wife and family
-            </li>
-            <li>
-              Relate your experience in determining "God's call" to the
-              ministry.
-            </li>
-            <li>
-              What evidence have you seen of God's blessing on your ministry?
-            </li>
-            <li>What is your concept of ministry?</li>
-            <li>What is your vision for future ministry?</li>
-            <li>How do you define success in ministry?</li>
-            <li>
-              What particular strengths/weaknesses have you identified so far in
-              your ministry?
-            </li>
-            <li>
-              Do you, as a general rule, find it easy to get along with other
-              people?
-            </li>
-            <li>
-              How do you evaluate yourself in relationships with other people?
-            </li>
-            <li>
-              If this council should choose not to ordain you, how will that
-              affect your ministry?
-            </li>
-            <li>How does your spouse feel about you and the ministry?</li>
-          </ol>
         </div>
 
         <p className="text-gray-600 mb-8 text-center max-w-2xl mx-auto">
-          The RCN Ordination Induction Program is a dedicated ministry designed
-          to equip and empower ministers in Christian service. All fields marked
-          with an asterisk (*) are required.
+          All fields marked with an asterisk (*) are required.
         </p>
 
         {isSubmitted ? (
