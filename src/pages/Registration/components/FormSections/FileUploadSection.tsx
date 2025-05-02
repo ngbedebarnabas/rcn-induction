@@ -1,8 +1,12 @@
 
+// This component is now unused as file upload has been removed
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { FileUp, Trash2 } from "lucide-react";
+
+// This component is deprecated and no longer used in the application
+// It is kept for reference only and should be removed in future cleanup
 
 interface FileUploadSectionProps {
   selectedFile: File | null;

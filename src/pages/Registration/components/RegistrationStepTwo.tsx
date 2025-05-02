@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -13,8 +14,6 @@ import EducationSection from "./FormSections/EducationSection";
 import MinistrySection from "./FormSections/MinistrySection";
 import EmploymentSection from "./FormSections/EmploymentSection";
 import ReferenceSection from "./FormSections/ReferenceSection";
-import FileUploadSection from "./FormSections/FileUploadSection";
-import StatementSection from "./FormSections/StatementSection";
 import { StepTwoFormData } from "../types";
 
 // Updated form schema with optional fields
@@ -83,9 +82,6 @@ const formSchema = z.object({
   elderName: z.string().min(1, "Elder's name is required"),
   elderEmail: z.string().email("Invalid email").min(1, "Elder's email is required"),
   elderPhone: z.string().min(1, "Elder's phone is required"),
-  acceptTerms: z.literal(true, {
-    errorMap: () => ({ message: "You must accept the statement of undertaking" }),
-  }),
   
   // Social media is now optional
   socialMedia: z.string().optional(),
@@ -93,18 +89,12 @@ const formSchema = z.object({
 
 interface RegistrationStepTwoProps {
   onSubmit: (data: StepTwoFormData) => void;
-  selectedFile: File | null;
-  handleFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  removeFile: () => void;
   onBack: () => void;
   isLoading?: boolean;
 }
 
 const RegistrationStepTwo: React.FC<RegistrationStepTwoProps> = ({
   onSubmit,
-  handleFileChange,
-  selectedFile,
-  removeFile,
   onBack,
   isLoading = false,
 }) => {
@@ -146,7 +136,6 @@ const RegistrationStepTwo: React.FC<RegistrationStepTwoProps> = ({
       elderName: "",
       elderEmail: "",
       elderPhone: "",
-      acceptTerms: false,
       
       // Optional fields now have empty defaults
       trainingInstitution: "",
@@ -163,17 +152,8 @@ const RegistrationStepTwo: React.FC<RegistrationStepTwoProps> = ({
 
   // Handle form submission
   const handleSubmit = (data: StepTwoFormData) => {
-    // Make sure empty date fields are handled properly
-    const formattedData = {
-      ...data,
-      spouseDateOfBirth: data.spouseDateOfBirth || null,
-      anniversaryDate: data.anniversaryDate || null,
-      lastDivorceDate: data.lastDivorceDate || null,
-      ordinationDate: data.ordinationDate || null,
-    };
-    
-    console.log("Form data submitted:", formattedData);
-    onSubmit(formattedData);
+    console.log("Form data submitted:", data);
+    onSubmit(data);
   };
 
   return (
@@ -192,14 +172,6 @@ const RegistrationStepTwo: React.FC<RegistrationStepTwoProps> = ({
         <EmploymentSection form={form} />
         <hr />
         <ReferenceSection form={form} />
-        <hr />
-        <FileUploadSection
-          selectedFile={selectedFile}
-          handleFileChange={handleFileChange}
-          removeFile={removeFile}
-        />
-        <hr />
-        <StatementSection form={form} />
         <div className="flex justify-between mt-8">
           <Button type="button" variant="outline" onClick={onBack}>
             Back
@@ -211,7 +183,7 @@ const RegistrationStepTwo: React.FC<RegistrationStepTwoProps> = ({
                 Submitting...
               </>
             ) : (
-              "Submit"
+              "Next"
             )}
           </Button>
         </div>

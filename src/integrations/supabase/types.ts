@@ -16,6 +16,7 @@ export type Database = {
           anniversary_date: string | null
           believe_in_tongues: string | null
           children_count: string | null
+          conversion_experience: string | null
           created_at: string | null
           current_affiliation: string
           current_capacity: string
@@ -25,16 +26,19 @@ export type Database = {
           date_of_water_baptism: string | null
           denominational_background: string
           desire_tongues: string | null
+          devotional_pattern: string | null
           divorce_count: string | null
-          document_url: string | null
           elder_email: string
           elder_name: string
           elder_phone: string
           email: string
           employment_address: string | null
           employment_description: string | null
+          family_devotional: string | null
           formal_christian_training: string
           full_name: string
+          future_vision: string | null
+          gods_call_experience: string | null
           id: string
           is_divorced: string
           is_spouse_believer: string
@@ -43,10 +47,15 @@ export type Database = {
           minister_email: string
           minister_name: string
           minister_phone: string
+          ministry_concept: string | null
           ministry_description: string
           ministry_duration: string
           ministry_gift: string | null
           ministry_income: string
+          ministry_strengths: string | null
+          ministry_success_definition: string | null
+          ministry_weaknesses: string | null
+          non_ordination_effect: string | null
           ordination_by: string | null
           ordination_date: string | null
           ordination_type: string | null
@@ -61,11 +70,13 @@ export type Database = {
           pray_in_tongues: string
           previously_ordained: string
           recommended_by: string
+          relationship_evaluation: string | null
           social_media: string | null
           spiritual_gifts: string | null
           spiritual_gifts_manifest: string
           spiritual_history: string[] | null
           spouse_date_of_birth: string | null
+          spouse_ministry_feelings: string | null
           spouse_name: string
           training_duration: string | null
           training_institution: string | null
@@ -78,6 +89,7 @@ export type Database = {
           anniversary_date?: string | null
           believe_in_tongues?: string | null
           children_count?: string | null
+          conversion_experience?: string | null
           created_at?: string | null
           current_affiliation: string
           current_capacity: string
@@ -87,16 +99,19 @@ export type Database = {
           date_of_water_baptism?: string | null
           denominational_background: string
           desire_tongues?: string | null
+          devotional_pattern?: string | null
           divorce_count?: string | null
-          document_url?: string | null
           elder_email: string
           elder_name: string
           elder_phone: string
           email: string
           employment_address?: string | null
           employment_description?: string | null
+          family_devotional?: string | null
           formal_christian_training: string
           full_name: string
+          future_vision?: string | null
+          gods_call_experience?: string | null
           id?: string
           is_divorced: string
           is_spouse_believer: string
@@ -105,10 +120,15 @@ export type Database = {
           minister_email: string
           minister_name: string
           minister_phone: string
+          ministry_concept?: string | null
           ministry_description: string
           ministry_duration: string
           ministry_gift?: string | null
           ministry_income: string
+          ministry_strengths?: string | null
+          ministry_success_definition?: string | null
+          ministry_weaknesses?: string | null
+          non_ordination_effect?: string | null
           ordination_by?: string | null
           ordination_date?: string | null
           ordination_type?: string | null
@@ -123,11 +143,13 @@ export type Database = {
           pray_in_tongues: string
           previously_ordained: string
           recommended_by: string
+          relationship_evaluation?: string | null
           social_media?: string | null
           spiritual_gifts?: string | null
           spiritual_gifts_manifest: string
           spiritual_history?: string[] | null
           spouse_date_of_birth?: string | null
+          spouse_ministry_feelings?: string | null
           spouse_name: string
           training_duration?: string | null
           training_institution?: string | null
@@ -140,6 +162,7 @@ export type Database = {
           anniversary_date?: string | null
           believe_in_tongues?: string | null
           children_count?: string | null
+          conversion_experience?: string | null
           created_at?: string | null
           current_affiliation?: string
           current_capacity?: string
@@ -149,16 +172,19 @@ export type Database = {
           date_of_water_baptism?: string | null
           denominational_background?: string
           desire_tongues?: string | null
+          devotional_pattern?: string | null
           divorce_count?: string | null
-          document_url?: string | null
           elder_email?: string
           elder_name?: string
           elder_phone?: string
           email?: string
           employment_address?: string | null
           employment_description?: string | null
+          family_devotional?: string | null
           formal_christian_training?: string
           full_name?: string
+          future_vision?: string | null
+          gods_call_experience?: string | null
           id?: string
           is_divorced?: string
           is_spouse_believer?: string
@@ -167,10 +193,15 @@ export type Database = {
           minister_email?: string
           minister_name?: string
           minister_phone?: string
+          ministry_concept?: string | null
           ministry_description?: string
           ministry_duration?: string
           ministry_gift?: string | null
           ministry_income?: string
+          ministry_strengths?: string | null
+          ministry_success_definition?: string | null
+          ministry_weaknesses?: string | null
+          non_ordination_effect?: string | null
           ordination_by?: string | null
           ordination_date?: string | null
           ordination_type?: string | null
@@ -185,11 +216,13 @@ export type Database = {
           pray_in_tongues?: string
           previously_ordained?: string
           recommended_by?: string
+          relationship_evaluation?: string | null
           social_media?: string | null
           spiritual_gifts?: string | null
           spiritual_gifts_manifest?: string
           spiritual_history?: string[] | null
           spouse_date_of_birth?: string | null
+          spouse_ministry_feelings?: string | null
           spouse_name?: string
           training_duration?: string | null
           training_institution?: string | null

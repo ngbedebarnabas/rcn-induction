@@ -1,3 +1,4 @@
+
 export interface SpiritualHistoryItem {
   id: number;
   text: string;
@@ -60,5 +61,20 @@ export interface StepTwoFormData {
   elderName: string;
   elderEmail: string;
   elderPhone: string;
+}
+
+export interface StepThreeFormData {
+  conversionExperience: string;
+  devotionalPattern: string;
+  familyDevotional: string;
+  godsCallExperience: string;
+  ministryConcept: string;
+  futureVision: string;
+  ministrySuccessDefinition: string;
+  ministryStrengths: string;
+  ministryWeaknesses: string;
+  relationshipEvaluation: string;
+  nonOrdinationEffect: string;
+  spouseMinistryFeelings: string;
   acceptTerms: boolean;
 }

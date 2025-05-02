@@ -2,10 +2,10 @@
 import { FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from "@/components/ui/form";
 import { Checkbox } from "@/components/ui/checkbox";
 import { UseFormReturn } from "react-hook-form";
-import { StepTwoFormData } from "../../types";
+import { StepThreeFormData } from "../../types";
 
 interface StatementSectionProps {
-  form: UseFormReturn<StepTwoFormData>;
+  form: UseFormReturn<StepThreeFormData>;
 }
 
 const StatementSection = ({ form }: StatementSectionProps) => {

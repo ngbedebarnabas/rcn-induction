@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { toast } from "@/hooks/use-toast";
 import {
@@ -18,8 +19,9 @@ import {
 } from "@/components/ui/dialog";
 import RegistrationStepOne from "./components/RegistrationStepOne";
 import RegistrationStepTwo from "./components/RegistrationStepTwo";
+import RegistrationStepThree from "./components/RegistrationStepThree";
 import SuccessMessage from "./components/SuccessMessage";
-import { StepOneFormData, StepTwoFormData } from "./types";
+import { StepOneFormData, StepTwoFormData, StepThreeFormData } from "./types";
 import PageHeader from "@/components/PageHeader";
 import { v4 as uuidv4 } from "uuid";
 import { supabase } from "@/integrations/supabase/client";
@@ -27,14 +29,14 @@ import { supabase } from "@/integrations/supabase/client";
 const Registration = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [currentStep, setCurrentStep] = useState<1 | 2>(1);
+  const [currentStep, setCurrentStep] = useState<1 | 2 | 3>(1);
   const [spiritualHistory, setSpiritualHistory] = useState<
     Array<{ id: number; text: string }>
   >([{ id: 1, text: "" }]);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [passportImage, setPassportImage] = useState<File | null>(null);
   const [passportPreview, setPassportPreview] = useState<string | null>(null);
   const [stepOneData, setStepOneData] = useState<StepOneFormData | null>(null);
+  const [stepTwoData, setStepTwoData] = useState<StepTwoFormData | null>(null);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
 
   // Add another spiritual history entry
@@ -61,13 +63,6 @@ const Registration = () => {
     }
   };
 
-  // Handle file upload
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files[0]) {
-      setSelectedFile(event.target.files[0]);
-    }
-  };
-
   // Handle passport image upload
   const handlePassportChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -81,11 +76,6 @@ const Registration = () => {
       };
       reader.readAsDataURL(file);
     }
-  };
-
-  // Remove selected file
-  const removeFile = () => {
-    setSelectedFile(null);
   };
 
   // Remove passport image
@@ -167,19 +157,24 @@ const Registration = () => {
   };
 
   // Handle form submission for step 2
-  const onSubmitStepTwo = async (data: StepTwoFormData) => {
+  const onSubmitStepTwo = (data: StepTwoFormData) => {
+    console.log("Step two data:", data);
+    setStepTwoData(data);
+    setCurrentStep(3);
+  };
+
+  // Handle form submission for step 3
+  const onSubmitStepThree = async (data: StepThreeFormData) => {
     setIsLoading(true);
     console.log("Starting form submission process");
 
     try {
-      if (!stepOneData) {
-        throw new Error("Missing step one data");
+      if (!stepOneData || !stepTwoData) {
+        throw new Error("Missing previous step data");
       }
 
-      // Upload passport and document if present
+      // Upload passport if present
       let passportUrl = null;
-      let documentUrl = null;
-
       if (passportImage) {
         console.log("Uploading passport image");
         passportUrl = await uploadFile(
@@ -190,18 +185,6 @@ const Registration = () => {
         console.log("Passport URL:", passportUrl);
       } else {
         console.log("No passport image to upload");
-      }
-
-      if (selectedFile) {
-        console.log("Uploading document file");
-        documentUrl = await uploadFile(
-          selectedFile,
-          "registrations",
-          "documents"
-        );
-        console.log("Document URL:", documentUrl);
-      } else {
-        console.log("No document file to upload");
       }
 
       // Map form data to database column names
@@ -223,52 +206,66 @@ const Registration = () => {
         passport_url: passportUrl,
 
         // Step two data
-        address: data.address,
-        phone_numbers: data.phoneNumbers,
-        email: data.email,
-        social_media: data.socialMedia,
-        recommended_by: data.recommendedBy,
-        place_of_birth: data.placeOfBirth,
-        is_divorced: data.isDivorced,
-        divorce_count: data.divorceCount,
-        last_divorce_date: cleanDateField(data.lastDivorceDate),
-        children_count: data.childrenCount,
-        spouse_name: data.spouseName,
-        is_spouse_believer: data.isSpouseBeliever,
-        spouse_date_of_birth: cleanDateField(data.spouseDateOfBirth),
-        anniversary_date: cleanDateField(data.anniversaryDate),
-        accepted_christ_date: cleanDateField(data.acceptedChristDate),
-        water_baptized: data.waterBaptized,
-        pray_in_tongues: data.prayInTongues,
-        believe_in_tongues: data.believeInTongues,
-        desire_tongues: data.desireTongues,
-        spiritual_gifts_manifest: data.spiritualGiftsManifest,
-        formal_christian_training: data.formalChristianTraining,
-        training_institution: data.trainingInstitution,
-        training_duration: data.trainingDuration,
-        previously_ordained: data.previouslyOrdained,
-        ordination_type: data.ordinationType,
-        ordination_date: cleanDateField(data.ordinationDate),
-        ordination_by: data.ordinationBy,
-        denominational_background: data.denominationalBackground,
-        current_affiliation: data.currentAffiliation,
-        current_capacity: data.currentCapacity,
-        ministry_description: data.ministryDescription,
-        ministry_duration: data.ministryDuration,
-        ministry_income: data.ministryIncome,
-        other_employment: data.otherEmployment,
-        employment_description: data.employmentDescription,
-        employment_address: data.employmentAddress,
-        pastor_name: data.pastorName,
-        pastor_email: data.pastorEmail,
-        pastor_phone: data.pastorPhone,
-        minister_name: data.ministerName,
-        minister_email: data.ministerEmail,
-        minister_phone: data.ministerPhone,
-        elder_name: data.elderName,
-        elder_email: data.elderEmail,
-        elder_phone: data.elderPhone,
-        document_url: documentUrl,
+        address: stepTwoData.address,
+        phone_numbers: stepTwoData.phoneNumbers,
+        email: stepTwoData.email,
+        social_media: stepTwoData.socialMedia,
+        recommended_by: stepTwoData.recommendedBy,
+        place_of_birth: stepTwoData.placeOfBirth,
+        is_divorced: stepTwoData.isDivorced,
+        divorce_count: stepTwoData.divorceCount,
+        last_divorce_date: cleanDateField(stepTwoData.lastDivorceDate),
+        children_count: stepTwoData.childrenCount,
+        spouse_name: stepTwoData.spouseName,
+        is_spouse_believer: stepTwoData.isSpouseBeliever,
+        spouse_date_of_birth: cleanDateField(stepTwoData.spouseDateOfBirth),
+        anniversary_date: cleanDateField(stepTwoData.anniversaryDate),
+        accepted_christ_date: cleanDateField(stepTwoData.acceptedChristDate),
+        water_baptized: stepTwoData.waterBaptized,
+        pray_in_tongues: stepTwoData.prayInTongues,
+        believe_in_tongues: stepTwoData.believeInTongues,
+        desire_tongues: stepTwoData.desireTongues,
+        spiritual_gifts_manifest: stepTwoData.spiritualGiftsManifest,
+        formal_christian_training: stepTwoData.formalChristianTraining,
+        training_institution: stepTwoData.trainingInstitution,
+        training_duration: stepTwoData.trainingDuration,
+        previously_ordained: stepTwoData.previouslyOrdained,
+        ordination_type: stepTwoData.ordinationType,
+        ordination_date: cleanDateField(stepTwoData.ordinationDate),
+        ordination_by: stepTwoData.ordinationBy,
+        denominational_background: stepTwoData.denominationalBackground,
+        current_affiliation: stepTwoData.currentAffiliation,
+        current_capacity: stepTwoData.currentCapacity,
+        ministry_description: stepTwoData.ministryDescription,
+        ministry_duration: stepTwoData.ministryDuration,
+        ministry_income: stepTwoData.ministryIncome,
+        other_employment: stepTwoData.otherEmployment,
+        employment_description: stepTwoData.employmentDescription,
+        employment_address: stepTwoData.employmentAddress,
+        pastor_name: stepTwoData.pastorName,
+        pastor_email: stepTwoData.pastorEmail,
+        pastor_phone: stepTwoData.pastorPhone,
+        minister_name: stepTwoData.ministerName,
+        minister_email: stepTwoData.ministerEmail,
+        minister_phone: stepTwoData.ministerPhone,
+        elder_name: stepTwoData.elderName,
+        elder_email: stepTwoData.elderEmail,
+        elder_phone: stepTwoData.elderPhone,
+        
+        // Step three data
+        conversion_experience: data.conversionExperience,
+        devotional_pattern: data.devotionalPattern,
+        family_devotional: data.familyDevotional,
+        gods_call_experience: data.godsCallExperience,
+        ministry_concept: data.ministryConcept,
+        future_vision: data.futureVision,
+        ministry_success_definition: data.ministrySuccessDefinition,
+        ministry_strengths: data.ministryStrengths,
+        ministry_weaknesses: data.ministryWeaknesses,
+        relationship_evaluation: data.relationshipEvaluation,
+        non_ordination_effect: data.nonOrdinationEffect,
+        spouse_ministry_feelings: data.spouseMinistryFeelings,
+        
         payment_status: "pending",
       };
 
@@ -316,8 +313,8 @@ const Registration = () => {
     setIsSubmitted(false);
     setCurrentStep(1);
     setStepOneData(null);
+    setStepTwoData(null);
     setSpiritualHistory([{ id: 1, text: "" }]);
-    setSelectedFile(null);
     setPassportImage(null);
     setPassportPreview(null);
     setShowPaymentModal(false);
@@ -359,12 +356,16 @@ const Registration = () => {
               <CardTitle>
                 {currentStep === 1
                   ? "Step 1: Spiritual Information"
-                  : "Step 2: MINISTERIAL CREDENTIAL APPLICATION (MCA) FORM"}
+                  : currentStep === 2
+                  ? "Step 2: Ministerial Credential Application"
+                  : "Step 3: Ministry Reflection Questions"}
               </CardTitle>
               <CardDescription>
                 {currentStep === 1
                   ? "Please provide your spiritual background details."
-                  : "Please provide your ministerial credential application details."}
+                  : currentStep === 2
+                  ? "Please provide your ministerial credential application details."
+                  : "Please provide detailed responses to the ministry questions."}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -379,13 +380,16 @@ const Registration = () => {
                   handlePassportChange={handlePassportChange}
                   removePassport={removePassport}
                 />
-              ) : (
+              ) : currentStep === 2 ? (
                 <RegistrationStepTwo
                   onSubmit={onSubmitStepTwo}
-                  handleFileChange={handleFileChange}
-                  selectedFile={selectedFile}
-                  removeFile={removeFile}
                   onBack={() => setCurrentStep(1)}
+                  isLoading={isLoading}
+                />
+              ) : (
+                <RegistrationStepThree
+                  onSubmit={onSubmitStepThree}
+                  onBack={() => setCurrentStep(2)}
                   isLoading={isLoading}
                 />
               )}
