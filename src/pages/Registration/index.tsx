@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { toast } from "@/hooks/use-toast";
 import {
@@ -85,29 +84,9 @@ const Registration = () => {
   };
 
   // Upload file to Supabase storage
-  const uploadFile = async (file: File, bucket: string, folder: string) => {
+  const uploadFile = async (file: File, folder: string) => {
     try {
-      console.log(`Uploading file to ${bucket}/${folder}`);
-
-      // Check if storage bucket exists, if not create it
-      const { data: buckets } = await supabase.storage.listBuckets();
-      const bucketExists = buckets?.some((b) => b.name === bucket);
-
-      if (!bucketExists) {
-        console.log(`Bucket ${bucket} doesn't exist, creating it...`);
-        const { error: bucketError } = await supabase.storage.createBucket(
-          bucket,
-          {
-            public: true,
-          }
-        );
-
-        if (bucketError) {
-          console.error("Error creating bucket:", bucketError);
-          throw bucketError;
-        }
-        console.log(`Bucket ${bucket} created successfully`);
-      }
+      console.log(`Uploading file to registrations/${folder}`);
 
       // Create a unique filename
       const fileExt = file.name.split(".").pop();
@@ -115,7 +94,7 @@ const Registration = () => {
 
       // Upload the file
       const { data, error } = await supabase.storage
-        .from(bucket)
+        .from("registrations")
         .upload(fileName, file, {
           cacheControl: "3600",
           upsert: false,
@@ -130,7 +109,7 @@ const Registration = () => {
 
       // Get the public URL
       const { data: urlData } = supabase.storage
-        .from(bucket)
+        .from("registrations")
         .getPublicUrl(fileName);
 
       console.log("Public URL:", urlData.publicUrl);
@@ -177,12 +156,12 @@ const Registration = () => {
       let passportUrl = null;
       if (passportImage) {
         console.log("Uploading passport image");
-        passportUrl = await uploadFile(
-          passportImage,
-          "registrations",
-          "passports"
-        );
+        passportUrl = await uploadFile(passportImage, "passports");
         console.log("Passport URL:", passportUrl);
+        
+        if (!passportUrl) {
+          throw new Error("Failed to upload passport image");
+        }
       } else {
         console.log("No passport image to upload");
       }
