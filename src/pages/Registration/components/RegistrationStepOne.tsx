@@ -8,6 +8,8 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Textarea } from "@/components/ui/textarea";
 import { ArrowRight, User, Trash2 } from "lucide-react";
 import { SpiritualHistoryItem, StepOneFormData } from "../types";
+import { useState } from "react";
+import { toast } from "@/hooks/use-toast";
 
 // First step form schema
 const stepOneSchema = z.object({
@@ -42,6 +44,8 @@ const RegistrationStepOne = ({
   handlePassportChange,
   removePassport
 }: RegistrationStepOneProps) => {
+  const [isUploading, setIsUploading] = useState(false);
+  
   const form = useForm<z.infer<typeof stepOneSchema>>({
     resolver: zodResolver(stepOneSchema),
     defaultValues: {
@@ -55,10 +59,59 @@ const RegistrationStepOne = ({
       spiritualGifts: "",
     },
   });
+  
+  // Enhanced file validation and handling
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      setIsUploading(true);
+      const file = event.target.files[0];
+      
+      // Validate file type
+      const validTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+      if (!validTypes.includes(file.type)) {
+        toast({
+          title: "Invalid file type",
+          description: "Please upload only JPEG or PNG images",
+          variant: "destructive",
+        });
+        setIsUploading(false);
+        return;
+      }
+      
+      // Validate file size (5MB max)
+      if (file.size > 5 * 1024 * 1024) {
+        toast({
+          title: "File too large",
+          description: "Please upload an image smaller than 5MB",
+          variant: "destructive",
+        });
+        setIsUploading(false);
+        return;
+      }
+      
+      // Process valid file
+      handlePassportChange(event);
+      setIsUploading(false);
+    }
+  };
+  
+  const handleFormSubmit = (data: z.infer<typeof stepOneSchema>) => {
+    // Check if passport is required and not uploaded
+    if (!passportPreview) {
+      toast({
+        title: "Passport photo required",
+        description: "Please upload a passport photograph to continue",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    onSubmit(data);
+  };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={form.handleSubmit(handleFormSubmit)} className="space-y-6">
         <FormField
           control={form.control}
           name="fullName"
@@ -232,11 +285,11 @@ const RegistrationStepOne = ({
           </Button>
         </div>
 
-        {/* Passport Photo Upload */}
+        {/* Passport Photo Upload - Updated with better validation and feedback */}
         <div className="space-y-4 text-left">
           <FormLabel htmlFor="passport-upload">Passport Photograph *</FormLabel>
           <FormDescription>
-            Please upload a clear passport photograph with a plain background (JPEG or PNG format).
+            Please upload a clear passport photograph with a plain background (JPEG or PNG format, max 5MB).
           </FormDescription>
 
           {!passportPreview ? (
@@ -245,13 +298,14 @@ const RegistrationStepOne = ({
                 <User className="h-12 w-12 text-gray-400" />
                 <div className="text-center">
                   <label htmlFor="passport-upload" className="cursor-pointer text-primary hover:underline">
-                    <span>Click to upload passport</span>
+                    <span>{isUploading ? "Uploading..." : "Click to upload passport"}</span>
                     <Input 
                       id="passport-upload" 
                       type="file" 
                       className="sr-only" 
-                      accept="image/*"
-                      onChange={handlePassportChange}
+                      accept="image/jpeg,image/png"
+                      onChange={handleFileChange}
+                      disabled={isUploading}
                     />
                   </label>
                   <p className="text-xs text-gray-500 mt-1">PNG, JPG up to 5MB</p>
@@ -271,6 +325,7 @@ const RegistrationStepOne = ({
                 size="icon"
                 onClick={removePassport}
                 className="absolute -top-2 -right-2 h-6 w-6 rounded-full"
+                disabled={isUploading}
               >
                 <Trash2 className="h-4 w-4" />
               </Button>
@@ -278,8 +333,12 @@ const RegistrationStepOne = ({
           )}
         </div>
 
-        <Button type="submit" className="w-full">
-          Next Step <ArrowRight className="ml-2 h-4 w-4" />
+        <Button type="submit" className="w-full" disabled={isUploading}>
+          {isUploading ? "Uploading..." : (
+            <>
+              Next Step <ArrowRight className="ml-2 h-4 w-4" />
+            </>
+          )}
         </Button>
       </form>
     </Form>

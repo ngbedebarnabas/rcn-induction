@@ -83,7 +83,7 @@ const Registration = () => {
     setPassportPreview(null);
   };
 
-  // Upload file to Supabase storage
+  // Upload file to Supabase storage - updated function with better error handling
   const uploadFile = async (file: File, folder: string) => {
     try {
       console.log(`Uploading file to registrations/${folder}`);
@@ -91,13 +91,20 @@ const Registration = () => {
       // Create a unique filename
       const fileExt = file.name.split(".").pop();
       const fileName = `${folder}/${uuidv4()}.${fileExt}`;
+      
+      console.log(`Generated filename: ${fileName}`);
 
-      // Upload the file
+      // Check file size (limit to 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        throw new Error("File size exceeds 5MB limit");
+      }
+
+      // Upload the file with better error handling
       const { data, error } = await supabase.storage
         .from("registrations")
         .upload(fileName, file, {
           cacheControl: "3600",
-          upsert: false,
+          upsert: true, // Changed to true to allow overwriting
         });
 
       if (error) {
@@ -112,10 +119,19 @@ const Registration = () => {
         .from("registrations")
         .getPublicUrl(fileName);
 
+      if (!urlData || !urlData.publicUrl) {
+        throw new Error("Failed to get public URL for uploaded file");
+      }
+
       console.log("Public URL:", urlData.publicUrl);
       return urlData.publicUrl;
     } catch (error) {
-      console.error("Error uploading file:", error);
+      console.error("Error in uploadFile function:", error);
+      toast({
+        title: "Upload failed",
+        description: error instanceof Error ? error.message : "Unknown error during file upload",
+        variant: "destructive",
+      });
       return null;
     }
   };
