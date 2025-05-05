@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { toast } from "@/hooks/use-toast";
 import {
@@ -83,7 +84,7 @@ const Registration = () => {
     setPassportPreview(null);
   };
 
-  // Upload file to Supabase storage - updated function with better error handling
+  // Upload file to Supabase storage - improved function with better error handling
   const uploadFile = async (file: File, folder: string) => {
     try {
       console.log(`Uploading file to registrations/${folder}`);
@@ -99,17 +100,21 @@ const Registration = () => {
         throw new Error("File size exceeds 5MB limit");
       }
 
-      // Upload the file with better error handling
+      // Upload the file with robust error handling
       const { data, error } = await supabase.storage
         .from("registrations")
         .upload(fileName, file, {
           cacheControl: "3600",
-          upsert: true, // Changed to true to allow overwriting
+          upsert: true,
         });
 
       if (error) {
-        console.error("Error uploading file:", error);
-        throw error;
+        console.error("Supabase storage upload error:", error);
+        throw new Error(`Upload failed: ${error.message}`);
+      }
+
+      if (!data) {
+        throw new Error("No data returned from upload");
       }
 
       console.log("File uploaded successfully:", data);
@@ -127,12 +132,13 @@ const Registration = () => {
       return urlData.publicUrl;
     } catch (error) {
       console.error("Error in uploadFile function:", error);
+      const errorMessage = error instanceof Error ? error.message : "Unknown error during file upload";
       toast({
         title: "Upload failed",
-        description: error instanceof Error ? error.message : "Unknown error during file upload",
+        description: errorMessage,
         variant: "destructive",
       });
-      return null;
+      throw new Error(errorMessage); // Re-throw to be caught in the submission process
     }
   };
 
@@ -168,9 +174,14 @@ const Registration = () => {
         throw new Error("Missing previous step data");
       }
 
+      // Validate passport image requirement
+      if (!passportImage) {
+        throw new Error("Passport image is required");
+      }
+
       // Upload passport if present
       let passportUrl = null;
-      if (passportImage) {
+      try {
         console.log("Uploading passport image");
         passportUrl = await uploadFile(passportImage, "passports");
         console.log("Passport URL:", passportUrl);
@@ -178,8 +189,9 @@ const Registration = () => {
         if (!passportUrl) {
           throw new Error("Failed to upload passport image");
         }
-      } else {
-        console.log("No passport image to upload");
+      } catch (uploadError) {
+        console.error("Passport upload error:", uploadError);
+        throw new Error("Failed to upload passport image");
       }
 
       // Map form data to database column names

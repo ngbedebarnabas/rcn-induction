@@ -1,3 +1,4 @@
+
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -95,7 +96,7 @@ const RegistrationStepOne = ({
     }
   };
   
-  const handleFormSubmit = (data: z.infer<typeof stepOneSchema>) => {
+  const handleFormSubmit = (formData: z.infer<typeof stepOneSchema>) => {
     // Check if passport is required and not uploaded
     if (!passportPreview) {
       toast({
@@ -105,6 +106,18 @@ const RegistrationStepOne = ({
       });
       return;
     }
+    
+    // Cast the form data to StepOneFormData to ensure all required fields are present
+    const data: StepOneFormData = {
+      fullName: formData.fullName,
+      dateOfBirth: formData.dateOfBirth,
+      dateOfNewBirth: formData.dateOfNewBirth,
+      dateOfWaterBaptism: formData.dateOfWaterBaptism,
+      dateOfHolyGhostBaptism: formData.dateOfHolyGhostBaptism,
+      maritalStatus: formData.maritalStatus,
+      ministryGift: formData.ministryGift,
+      spiritualGifts: formData.spiritualGifts,
+    };
     
     onSubmit(data);
   };
