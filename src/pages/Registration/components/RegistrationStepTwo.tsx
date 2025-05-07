@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -23,16 +22,12 @@ const formSchema = z.object({
   email: z.string().email("Invalid email address").min(1, "Email is required"),
   recommendedBy: z.string().min(1, "Recommender is required"),
   placeOfBirth: z.string().min(1, "Place of birth is required"),
-  isDivorced: z.enum(["Yes", "No"], {
-    required_error: "Please select an option",
-  }),
+  isDivorced: z.enum(["Yes", "No"]).optional(),
   divorceCount: z.string().optional(),
   lastDivorceDate: z.string().optional(),
   childrenCount: z.string().optional(),
-  spouseName: z.string().optional(), // Make spouse name optional
-  isSpouseBeliever: z.enum(["Yes", "No"], {
-    required_error: "Please select an option",
-  }).optional(),
+  spouseName: z.string().optional(),
+  isSpouseBeliever: z.enum(["Yes", "No"]).optional(),
   spouseDateOfBirth: z.string().optional(),
   anniversaryDate: z.string().optional(),
   acceptedChristDate: z.string().min(1, "Date is required"),
@@ -108,10 +103,10 @@ const RegistrationStepTwo: React.FC<RegistrationStepTwoProps> = ({
       socialMedia: "",
       recommendedBy: "",
       placeOfBirth: "",
-      isDivorced: "No",
+      isDivorced: undefined, // Changed from "No" to undefined to make it truly optional
       childrenCount: "",
-      spouseName: "", // Empty string instead of required
-      isSpouseBeliever: "Yes",
+      spouseName: "", 
+      isSpouseBeliever: undefined, // Changed from "Yes" to undefined to make it truly optional
       spouseDateOfBirth: "",
       anniversaryDate: "",
       acceptedChristDate: "",

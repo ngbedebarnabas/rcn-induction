@@ -1,7 +1,6 @@
 
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { UseFormReturn } from "react-hook-form";
 import { StepTwoFormData } from "../../types";
 import { YesNoOptions } from "../YesNoOptions";
@@ -16,8 +15,8 @@ const MaritalInfoSection = ({ form }: MaritalInfoSectionProps) => {
       <h3 className="text-lg font-medium">Marital Information</h3>
       
       <div className="space-y-2">
-        <FormLabel htmlFor="isDivorced">Have you been divorced? *</FormLabel>
-        <YesNoOptions name="isDivorced" form={form} />
+        <FormLabel htmlFor="isDivorced">Have you been divorced?</FormLabel>
+        <YesNoOptions name="isDivorced" form={form} isRequired={false} />
         <FormMessage>{form.formState.errors.isDivorced?.message}</FormMessage>
       </div>
 
@@ -70,7 +69,7 @@ const MaritalInfoSection = ({ form }: MaritalInfoSectionProps) => {
         name="spouseName"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Name of Spouse *</FormLabel>
+            <FormLabel>Name of Spouse</FormLabel>
             <FormControl>
               <Input placeholder="Enter spouse's name" {...field} />
             </FormControl>
@@ -80,8 +79,8 @@ const MaritalInfoSection = ({ form }: MaritalInfoSectionProps) => {
       />
 
       <div className="space-y-2">
-        <FormLabel htmlFor="isSpouseBeliever">Is spouse a believer? *</FormLabel>
-        <YesNoOptions name="isSpouseBeliever" form={form} />
+        <FormLabel htmlFor="isSpouseBeliever">Is spouse a believer?</FormLabel>
+        <YesNoOptions name="isSpouseBeliever" form={form} isRequired={false} />
         <FormMessage>{form.formState.errors.isSpouseBeliever?.message}</FormMessage>
       </div>
 
