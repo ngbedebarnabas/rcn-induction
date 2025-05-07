@@ -80,7 +80,7 @@ const MaritalInfoSection = ({ form }: MaritalInfoSectionProps) => {
 
       <div className="space-y-2">
         <FormLabel htmlFor="isSpouseBeliever">Is spouse a believer?</FormLabel>
-        <YesNoOptions name="isSpouseBeliever" form={form} isRequired={false} />
+        <YesNoOptions name="isSpouseBeliever" form={form} isRequired={false} showNotMarriedOption={true} />
         <FormMessage>{form.formState.errors.isSpouseBeliever?.message}</FormMessage>
       </div>
 

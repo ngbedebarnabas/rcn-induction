@@ -22,12 +22,12 @@ export interface StepTwoFormData {
   socialMedia?: string;
   recommendedBy: string;
   placeOfBirth: string;
-  isDivorced: string;
+  isDivorced?: string;
   divorceCount?: string;
   lastDivorceDate?: string;
   childrenCount?: string;
   spouseName?: string;
-  isSpouseBeliever: string;
+  isSpouseBeliever?: "Yes" | "No" | "Not Married";
   spouseDateOfBirth?: string;
   anniversaryDate?: string;
   acceptedChristDate: string;

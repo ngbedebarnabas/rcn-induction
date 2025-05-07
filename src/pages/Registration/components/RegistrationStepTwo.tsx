@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -27,7 +28,7 @@ const formSchema = z.object({
   lastDivorceDate: z.string().optional(),
   childrenCount: z.string().optional(),
   spouseName: z.string().optional(),
-  isSpouseBeliever: z.enum(["Yes", "No"]).optional(),
+  isSpouseBeliever: z.enum(["Yes", "No", "Not Married"]).optional(),
   spouseDateOfBirth: z.string().optional(),
   anniversaryDate: z.string().optional(),
   acceptedChristDate: z.string().min(1, "Date is required"),
