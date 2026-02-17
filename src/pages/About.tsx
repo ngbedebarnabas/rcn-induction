@@ -1,38 +1,35 @@
 import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 import PageHeader from "@/components/PageHeader";
-import { GraduationCap, Book, Award, Zap, Users } from "lucide-react";
+import { GraduationCap, Book, Award, Zap, Users, ArrowRight } from "lucide-react";
 
 const About = () => {
   const benefits = [
     {
-      icon: <GraduationCap className="h-10 w-10 text-primary" />,
+      icon: <GraduationCap className="h-6 w-6" />,
       title: "Intensive Ministerial Trainings",
-      description:
-        "Comprehensive training sessions led by experienced ministers to develop your spiritual leadership skills.",
+      description: "Comprehensive training sessions led by experienced ministers to develop your spiritual leadership skills.",
     },
     {
-      icon: <Book className="h-10 w-10 text-primary" />,
+      icon: <Book className="h-6 w-6" />,
       title: "Access to Training Resources",
-      description:
-        "Extensive library of books, videos, and study materials to support your spiritual growth journey.",
+      description: "Extensive library of books, videos, and study materials to support your spiritual growth journey.",
     },
     {
-      icon: <Award className="h-10 w-10 text-primary" />,
+      icon: <Award className="h-6 w-6" />,
       title: "Certificate of Ordination",
-      description:
-        "Official recognition of your ministerial qualifications upon successful completion of the programme.",
+      description: "Official recognition of your ministerial qualifications upon successful completion of the programme.",
     },
     {
-      icon: <Zap className="h-10 w-10 text-primary" />,
+      icon: <Zap className="h-6 w-6" />,
       title: "Impartations",
-      description:
-        "Spiritual impartation sessions to activate and strengthen your ministerial gifts and calling.",
+      description: "Spiritual impartation sessions to activate and strengthen your ministerial gifts and calling.",
     },
     {
-      icon: <Users className="h-10 w-10 text-primary" />,
+      icon: <Users className="h-6 w-6" />,
       title: "Access and Networking",
-      description:
-        "Connect with a global network of ministers for collaboration, mentorship, and fellowship.",
+      description: "Connect with a global network of ministers for collaboration, mentorship, and fellowship.",
     },
   ];
 
@@ -43,41 +40,46 @@ const About = () => {
         subtitle="Empowering ministers for Kingdom service"
       />
 
-      <div className="container mx-auto py-10 px-4">
+      <div className="container mx-auto py-14 px-4">
         <div className="max-w-3xl mx-auto">
-          <div className="mb-10 bg-slate-50 p-6 rounded-lg">
-            <p className="text-lg leading-relaxed text-left">
-              The RCN Ordination Induction Program is a dedicated ministry
-              designed to equip and empower ministers in Christian service. Our
-              programme offers comprehensive training, rooted in biblical truth,
-              to prepare you for impactful leadership and faithful stewardship.
-              Through practical teaching, mentorship, and spiritual formation,
-              we aim to support your calling, fostering growth in faith, wisdom,
-              and ministry skills. Join us as we journey together to advance
-              God's Kingdom with passion and purpose.
-            </p>
-          </div>
+          <Card className="border-0 shadow-md mb-12 overflow-hidden">
+            <CardContent className="p-8">
+              <p className="text-lg leading-relaxed text-muted-foreground">
+                The RCN Ordination Induction Program is a dedicated ministry
+                designed to equip and empower ministers in Christian service. Our
+                programme offers comprehensive training, rooted in biblical truth,
+                to prepare you for impactful leadership and faithful stewardship.
+                Through practical teaching, mentorship, and spiritual formation,
+                we aim to support your calling, fostering growth in faith, wisdom,
+                and ministry skills. Join us as we journey together to advance
+                God's Kingdom with passion and purpose.
+              </p>
+            </CardContent>
+          </Card>
 
           {/* Benefits Section */}
-          <section className="py-8">
-            <h2 className="text-2xl font-semibold mb-8 text-left">
-              What You Will Benefit
+          <section className="mb-14">
+            <p className="text-sm font-semibold text-accent uppercase tracking-wider mb-2">Benefits</p>
+            <h2 className="text-2xl font-bold mb-8 text-foreground tracking-tight">
+              What You Will Gain
             </h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               {benefits.map((benefit, index) => (
                 <Card
                   key={index}
-                  className="border-none shadow-lg hover:shadow-xl transition-shadow"
+                  className="border-0 shadow-md hover:shadow-lg transition-shadow group"
                 >
-                  <CardContent className="pt-6">
+                  <CardContent className="p-5">
                     <div className="flex items-start gap-4">
-                      <div className="shrink-0 mt-1">{benefit.icon}</div>
-                      <div className="text-left">
-                        <h3 className="text-lg font-semibold mb-2">
+                      <div className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                        {benefit.icon}
+                      </div>
+                      <div>
+                        <h3 className="font-semibold mb-1 text-foreground">
                           {benefit.title}
                         </h3>
-                        <p className="text-gray-600">{benefit.description}</p>
+                        <p className="text-sm text-muted-foreground leading-relaxed">{benefit.description}</p>
                       </div>
                     </div>
                   </CardContent>
@@ -86,21 +88,22 @@ const About = () => {
             </div>
           </section>
 
-          <div className="text-center mt-10">
-            <h2 className="text-2xl font-semibold mb-4">Ready to Join?</h2>
-            <p className="text-gray-700 mb-6">
-              If you're interested in participating in our comprehensive
-              induction programme, we encourage you to register today.
-            </p>
-            <div className="flex justify-center">
-              <a
-                href="/registration"
-                className="bg-primary text-white px-6 py-3 rounded-md hover:bg-primary/90 transition-colors"
-              >
-                Register for the Programme
-              </a>
-            </div>
-          </div>
+          <Card className="border-0 shadow-md text-center overflow-hidden" style={{
+            background: `linear-gradient(135deg, hsl(220 60% 22%), hsl(220 60% 30%))`,
+          }}>
+            <CardContent className="p-10">
+              <h2 className="text-2xl font-bold mb-3 text-white tracking-tight">Ready to Join?</h2>
+              <p className="text-white/70 mb-6 max-w-md mx-auto">
+                If you're interested in participating in our comprehensive
+                induction programme, we encourage you to register today.
+              </p>
+              <Button asChild variant="outline" className="bg-white text-primary hover:bg-white/90 rounded-xl px-6 font-semibold">
+                <Link to="/registration">
+                  Register for the Programme <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>

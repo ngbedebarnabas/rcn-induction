@@ -14,33 +14,35 @@ const Navbar = () => {
   ];
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b shadow-sm">
-      <div className="container mx-auto px-4 py-2 flex items-center justify-between">
+    <header className="sticky top-0 z-50 bg-card/80 backdrop-blur-lg border-b border-border/50">
+      <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         <Link to="/" className="flex items-center space-x-2">
           <img
             src="/lovable-uploads/eefc60a4-5789-4060-9bd7-014ba8dc40f2.png"
             alt="RCN Logo"
-            className="h-14 w-auto"
+            className="h-12 w-auto"
           />
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-6">
+        <nav className="hidden md:flex items-center gap-1">
           {navLinks.map((link) => (
             <NavLink
               key={link.name}
               to={link.path}
               className={({ isActive }) =>
-                `transition-colors hover:text-primary ${
-                  isActive ? "text-primary font-medium" : "text-gray-600"
+                `px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                  isActive
+                    ? "bg-primary/10 text-primary"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted"
                 }`
               }
             >
               {link.name}
             </NavLink>
           ))}
-          <Button asChild className="ml-2 bg-primary hover:bg-primary/90">
-            <Link to="/registration">Register</Link>
+          <Button asChild size="sm" className="ml-3 rounded-lg shadow-sm">
+            <Link to="/registration">Register Now</Link>
           </Button>
         </nav>
 
@@ -48,25 +50,27 @@ const Navbar = () => {
         <Button
           variant="ghost"
           size="icon"
-          className="md:hidden h-12 w-12" // Increased size by 50%
+          className="md:hidden h-10 w-10 rounded-lg"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           aria-label="Toggle menu"
         >
-          {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
         </Button>
       </div>
 
       {/* Mobile Navigation Menu */}
       {isMenuOpen && (
-        <div className="md:hidden border-t bg-white">
-          <nav className="flex flex-col">
+        <div className="md:hidden border-t border-border/50 bg-card/95 backdrop-blur-lg">
+          <nav className="flex flex-col p-2">
             {navLinks.map((link) => (
               <NavLink
                 key={link.name}
                 to={link.path}
                 className={({ isActive }) =>
-                  `px-4 py-3 transition-colors hover:bg-slate-100 ${
-                    isActive ? "text-primary font-medium" : "text-gray-600"
+                  `px-4 py-3 rounded-lg text-sm font-medium transition-all ${
+                    isActive
+                      ? "bg-primary/10 text-primary"
+                      : "text-muted-foreground hover:text-foreground hover:bg-muted"
                   }`
                 }
                 onClick={() => setIsMenuOpen(false)}
@@ -74,10 +78,10 @@ const Navbar = () => {
                 {link.name}
               </NavLink>
             ))}
-            <div className="p-4">
-              <Button asChild className="w-full bg-primary hover:bg-primary/90">
+            <div className="p-2 pt-1">
+              <Button asChild className="w-full rounded-lg">
                 <Link to="/registration" onClick={() => setIsMenuOpen(false)}>
-                  Register
+                  Register Now
                 </Link>
               </Button>
             </div>
