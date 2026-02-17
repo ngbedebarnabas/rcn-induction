@@ -338,27 +338,27 @@ const Registration = () => {
         subtitle="Complete the form below to register for the RCN Ordination Induction Program."
       />
 
-      <div className="container mx-auto py-10 px-4">
-        <div className="prose prose-sm max-w-2xl mx-auto mb-8 text-gray-600">
-          <p>
+      <div className="container mx-auto py-14 px-4">
+        <div className="max-w-2xl mx-auto mb-8">
+          <p className="text-muted-foreground leading-relaxed">
             The RCN Ordination Induction Program is a dedicated ministry
             training designed to further equip and empower the Ordination
             candidates as they prepare for the Ordination Service.
           </p>
         </div>
 
-        <p className="text-gray-600 mb-8 text-center max-w-2xl mx-auto">
+        <p className="text-muted-foreground mb-8 text-center text-sm max-w-2xl mx-auto">
           All fields marked with an asterisk (*) are required.
         </p>
 
         {isSubmitted ? (
-          <Card className="max-w-2xl mx-auto">
+          <Card className="max-w-2xl mx-auto border-0 shadow-md">
             <CardContent className="pt-6">
               <SuccessMessage onRegisterAnother={resetForm} />
             </CardContent>
           </Card>
         ) : (
-          <Card className="max-w-2xl mx-auto">
+          <Card className="max-w-2xl mx-auto border-0 shadow-md">
             <CardHeader>
               <CardTitle>
                 {currentStep === 1
