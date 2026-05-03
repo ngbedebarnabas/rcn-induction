@@ -5,24 +5,19 @@ export interface SpiritualHistoryItem {
 }
 
 export interface StepOneFormData {
+  // Personal Bio-Data
   fullName: string;
-  dateOfBirth: string;
-  dateOfNewBirth: string;
-  dateOfWaterBaptism: string;
-  dateOfHolyGhostBaptism: string;
-  maritalStatus: string;
-  ministryGift: string;
-  spiritualGifts: string;
-}
-
-export interface StepTwoFormData {
   address: string;
-  phoneNumbers: string;
   email: string;
-  socialMedia?: string;
+  phoneNumbers: string;
+  socialMediaHandles: string[];
   recommendedBy: string;
   placeOfBirth: string;
-  isDivorced?: string;
+  dateOfBirth: string;
+  maritalStatus: string;
+
+  // Optional marital information
+  isDivorced?: "Yes" | "No";
   divorceCount?: string;
   lastDivorceDate?: string;
   childrenCount?: string;
@@ -30,12 +25,25 @@ export interface StepTwoFormData {
   isSpouseBeliever?: "Yes" | "No" | "Not Married";
   spouseDateOfBirth?: string;
   anniversaryDate?: string;
+}
+
+export interface StepTwoFormData {
+  // Spiritual background (moved from old step 1)
+  dateOfNewBirth: string;
+  dateOfWaterBaptism: string;
+  dateOfHolyGhostBaptism: string;
+  ministryGift: string;
+  spiritualGifts: string;
+
+  // Spiritual information
   acceptedChristDate: string;
   waterBaptized: string;
   prayInTongues: string;
   believeInTongues?: string;
   desireTongues?: string;
   spiritualGiftsManifest: string;
+
+  // Education / training
   formalChristianTraining: string;
   trainingInstitution?: string;
   trainingDuration?: string;
@@ -43,15 +51,21 @@ export interface StepTwoFormData {
   ordinationType?: string;
   ordinationDate?: string;
   ordinationBy?: string;
+
+  // Ministry
   denominationalBackground: string;
   currentAffiliation: string;
   currentCapacity: string;
   ministryDescription: string;
   ministryDuration: string;
   ministryIncome: string;
+
+  // Employment
   otherEmployment: string;
   employmentDescription?: string;
   employmentAddress?: string;
+
+  // References
   pastorName: string;
   pastorEmail: string;
   pastorPhone: string;
