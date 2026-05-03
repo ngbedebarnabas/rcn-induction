@@ -196,37 +196,35 @@ const Registration = () => {
 
       // Map form data to database column names
       const transformedData = {
-        // Step one data
+        // Step one data – Personal Bio-Data
         full_name: stepOneData.fullName,
+        address: stepOneData.address,
+        email: stepOneData.email,
+        phone_numbers: stepOneData.phoneNumbers,
+        social_media: (stepOneData.socialMediaHandles ?? []).join(", "),
+        recommended_by: stepOneData.recommendedBy,
+        place_of_birth: stepOneData.placeOfBirth,
         date_of_birth: cleanDateField(stepOneData.dateOfBirth),
-        date_of_new_birth: cleanDateField(stepOneData.dateOfNewBirth),
-        date_of_water_baptism: cleanDateField(stepOneData.dateOfWaterBaptism),
-        date_of_holy_ghost_baptism: cleanDateField(
-          stepOneData.dateOfHolyGhostBaptism
-        ),
         marital_status: stepOneData.maritalStatus,
-        ministry_gift: stepOneData.ministryGift,
-        spiritual_gifts: stepOneData.spiritualGifts,
+        is_divorced: stepOneData.isDivorced ?? "No",
+        divorce_count: stepOneData.divorceCount,
+        last_divorce_date: cleanDateField(stepOneData.lastDivorceDate),
+        children_count: stepOneData.childrenCount,
+        spouse_name: stepOneData.spouseName ?? "",
+        is_spouse_believer: stepOneData.isSpouseBeliever ?? "Not Married",
+        spouse_date_of_birth: cleanDateField(stepOneData.spouseDateOfBirth),
+        anniversary_date: cleanDateField(stepOneData.anniversaryDate),
+        passport_url: passportUrl,
+
+        // Step two data – Spiritual / Ministry
+        date_of_new_birth: cleanDateField(stepTwoData.dateOfNewBirth),
+        date_of_water_baptism: cleanDateField(stepTwoData.dateOfWaterBaptism),
+        date_of_holy_ghost_baptism: cleanDateField(stepTwoData.dateOfHolyGhostBaptism),
+        ministry_gift: stepTwoData.ministryGift,
+        spiritual_gifts: stepTwoData.spiritualGifts,
         spiritual_history: spiritualHistory
           .map((item) => item.text)
           .filter(Boolean),
-        passport_url: passportUrl,
-
-        // Step two data
-        address: stepTwoData.address,
-        phone_numbers: stepTwoData.phoneNumbers,
-        email: stepTwoData.email,
-        social_media: stepTwoData.socialMedia,
-        recommended_by: stepTwoData.recommendedBy,
-        place_of_birth: stepTwoData.placeOfBirth,
-        is_divorced: stepTwoData.isDivorced,
-        divorce_count: stepTwoData.divorceCount,
-        last_divorce_date: cleanDateField(stepTwoData.lastDivorceDate),
-        children_count: stepTwoData.childrenCount,
-        spouse_name: stepTwoData.spouseName,
-        is_spouse_believer: stepTwoData.isSpouseBeliever,
-        spouse_date_of_birth: cleanDateField(stepTwoData.spouseDateOfBirth),
-        anniversary_date: cleanDateField(stepTwoData.anniversaryDate),
         accepted_christ_date: cleanDateField(stepTwoData.acceptedChristDate),
         water_baptized: stepTwoData.waterBaptized,
         pray_in_tongues: stepTwoData.prayInTongues,
@@ -391,16 +389,16 @@ const Registration = () => {
             <CardHeader>
               <CardTitle>
                 {currentStep === 1
-                  ? "Step 1: Spiritual Information"
+                  ? "Step 1: Personal Bio-Data"
                   : currentStep === 2
-                  ? "Step 2: Ministerial Credential Application"
+                  ? "Step 2: Spiritual & Ministerial Information"
                   : "Step 3: Ministry Reflection Questions"}
               </CardTitle>
               <CardDescription>
                 {currentStep === 1
-                  ? "Please provide your spiritual background details."
+                  ? "Please provide your personal details."
                   : currentStep === 2
-                  ? "Please provide your ministerial credential application details."
+                  ? "Please provide your spiritual background and ministerial credential details."
                   : "Please provide detailed responses to the ministry questions."}
               </CardDescription>
             </CardHeader>
@@ -408,19 +406,21 @@ const Registration = () => {
               {currentStep === 1 ? (
                 <RegistrationStepOne
                   onSubmit={onSubmitStepOne}
-                  spiritualHistory={spiritualHistory}
-                  addSpiritualHistory={addSpiritualHistory}
-                  updateSpiritualHistory={updateSpiritualHistory}
-                  removeSpiritualHistory={removeSpiritualHistory}
                   passportPreview={passportPreview}
                   handlePassportChange={handlePassportChange}
                   removePassport={removePassport}
+                  initialValues={stepOneData}
                 />
               ) : currentStep === 2 ? (
                 <RegistrationStepTwo
                   onSubmit={onSubmitStepTwo}
                   onBack={() => setCurrentStep(1)}
                   isLoading={isLoading}
+                  spiritualHistory={spiritualHistory}
+                  addSpiritualHistory={addSpiritualHistory}
+                  updateSpiritualHistory={updateSpiritualHistory}
+                  removeSpiritualHistory={removeSpiritualHistory}
+                  initialValues={stepTwoData}
                 />
               ) : (
                 <RegistrationStepThree
