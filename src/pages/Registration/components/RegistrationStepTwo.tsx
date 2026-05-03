@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -7,68 +6,47 @@ import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 
-import PersonalInfoSection from "./FormSections/PersonalInfoSection";
-import MaritalInfoSection from "./FormSections/MaritalInfoSection";
+import SpiritualBackgroundSection from "./FormSections/SpiritualBackgroundSection";
 import SpiritualInfoSection from "./FormSections/SpiritualInfoSection";
 import EducationSection from "./FormSections/EducationSection";
 import MinistrySection from "./FormSections/MinistrySection";
 import EmploymentSection from "./FormSections/EmploymentSection";
 import ReferenceSection from "./FormSections/ReferenceSection";
-import { StepTwoFormData } from "../types";
+import { StepTwoFormData, SpiritualHistoryItem } from "../types";
 
-// Updated form schema with optional fields
 const formSchema = z.object({
-  address: z.string().min(1, "Address is required"),
-  phoneNumbers: z.string().min(1, "Phone number is required"),
-  email: z.string().email("Invalid email address").min(1, "Email is required"),
-  recommendedBy: z.string().min(1, "Recommender is required"),
-  placeOfBirth: z.string().min(1, "Place of birth is required"),
-  isDivorced: z.enum(["Yes", "No"]).optional(),
-  divorceCount: z.string().optional(),
-  lastDivorceDate: z.string().optional(),
-  childrenCount: z.string().optional(),
-  spouseName: z.string().optional(),
-  isSpouseBeliever: z.enum(["Yes", "No", "Not Married"]).optional(),
-  spouseDateOfBirth: z.string().optional(),
-  anniversaryDate: z.string().optional(),
+  dateOfNewBirth: z.string().min(1, "Date of new birth is required"),
+  dateOfWaterBaptism: z.string().min(1, "Date of water baptism is required"),
+  dateOfHolyGhostBaptism: z.string().min(1, "Date of Holy Ghost baptism is required"),
+  ministryGift: z.string().min(1, "Ministry gift is required"),
+  spiritualGifts: z.string().min(1, "Spiritual gifts are required"),
+
   acceptedChristDate: z.string().min(1, "Date is required"),
-  waterBaptized: z.enum(["Yes", "No"], {
-    required_error: "Please select an option",
-  }),
-  prayInTongues: z.enum(["Yes", "No"], {
-    required_error: "Please select an option",
-  }),
-  
-  // Optional fields for tongue-related questions
+  waterBaptized: z.enum(["Yes", "No"], { required_error: "Please select an option" }),
+  prayInTongues: z.enum(["Yes", "No"], { required_error: "Please select an option" }),
   believeInTongues: z.enum(["Yes", "No"]).optional(),
   desireTongues: z.enum(["Yes", "No"]).optional(),
   spiritualGiftsManifest: z.string().min(1, "This field is required"),
-  formalChristianTraining: z.enum(["Yes", "No"], {
-    required_error: "Please select an option",
-  }),
-  
-  // Optional fields for training and ordination
+
+  formalChristianTraining: z.enum(["Yes", "No"], { required_error: "Please select an option" }),
   trainingInstitution: z.string().optional(),
   trainingDuration: z.string().optional(),
-  previouslyOrdained: z.enum(["Yes", "No"], {
-    required_error: "Please select an option",
-  }),
+  previouslyOrdained: z.enum(["Yes", "No"], { required_error: "Please select an option" }),
   ordinationType: z.string().optional(),
   ordinationDate: z.string().optional(),
   ordinationBy: z.string().optional(),
+
   denominationalBackground: z.string().min(1, "This field is required"),
   currentAffiliation: z.string().min(1, "This field is required"),
   currentCapacity: z.string().min(1, "This field is required"),
   ministryDescription: z.string().min(1, "This field is required"),
   ministryDuration: z.string().min(1, "This field is required"),
   ministryIncome: z.string().min(1, "This field is required"),
-  otherEmployment: z.enum(["Yes", "No"], {
-    required_error: "Please select an option",
-  }),
-  
-  // Optional employment fields
+
+  otherEmployment: z.enum(["Yes", "No"], { required_error: "Please select an option" }),
   employmentDescription: z.string().optional(),
   employmentAddress: z.string().optional(),
+
   pastorName: z.string().min(1, "Pastor's name is required"),
   pastorEmail: z.string().email("Invalid email").min(1, "Pastor's email is required"),
   pastorPhone: z.string().min(1, "Pastor's phone is required"),
@@ -78,38 +56,37 @@ const formSchema = z.object({
   elderName: z.string().min(1, "Elder's name is required"),
   elderEmail: z.string().email("Invalid email").min(1, "Elder's email is required"),
   elderPhone: z.string().min(1, "Elder's phone is required"),
-  
-  // Social media is now optional
-  socialMedia: z.string().optional(),
 });
 
 interface RegistrationStepTwoProps {
   onSubmit: (data: StepTwoFormData) => void;
   onBack: () => void;
   isLoading?: boolean;
+  spiritualHistory: SpiritualHistoryItem[];
+  addSpiritualHistory: () => void;
+  updateSpiritualHistory: (id: number, value: string) => void;
+  removeSpiritualHistory: (id: number) => void;
+  initialValues?: StepTwoFormData | null;
 }
 
 const RegistrationStepTwo: React.FC<RegistrationStepTwoProps> = ({
   onSubmit,
   onBack,
   isLoading = false,
+  spiritualHistory,
+  addSpiritualHistory,
+  updateSpiritualHistory,
+  removeSpiritualHistory,
+  initialValues,
 }) => {
-  // Initialize form with updated default values
   const form = useForm<StepTwoFormData>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      address: "",
-      phoneNumbers: "",
-      email: "",
-      socialMedia: "",
-      recommendedBy: "",
-      placeOfBirth: "",
-      isDivorced: undefined, // Changed from "No" to undefined to make it truly optional
-      childrenCount: "",
-      spouseName: "", 
-      isSpouseBeliever: undefined, // Changed from "Yes" to undefined to make it truly optional
-      spouseDateOfBirth: "",
-      anniversaryDate: "",
+    defaultValues: initialValues ?? {
+      dateOfNewBirth: "",
+      dateOfWaterBaptism: "",
+      dateOfHolyGhostBaptism: "",
+      ministryGift: "",
+      spiritualGifts: "",
       acceptedChristDate: "",
       waterBaptized: "Yes",
       prayInTongues: "Yes",
@@ -132,8 +109,6 @@ const RegistrationStepTwo: React.FC<RegistrationStepTwoProps> = ({
       elderName: "",
       elderEmail: "",
       elderPhone: "",
-      
-      // Optional fields now have empty defaults
       trainingInstitution: "",
       trainingDuration: "",
       ordinationType: "",
@@ -146,18 +121,20 @@ const RegistrationStepTwo: React.FC<RegistrationStepTwoProps> = ({
     },
   });
 
-  // Handle form submission
   const handleSubmit = (data: StepTwoFormData) => {
-    console.log("Form data submitted:", data);
     onSubmit(data);
   };
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8">
-        <PersonalInfoSection form={form} />
-        <hr />
-        <MaritalInfoSection form={form} />
+        <SpiritualBackgroundSection
+          form={form}
+          spiritualHistory={spiritualHistory}
+          addSpiritualHistory={addSpiritualHistory}
+          updateSpiritualHistory={updateSpiritualHistory}
+          removeSpiritualHistory={removeSpiritualHistory}
+        />
         <hr />
         <SpiritualInfoSection form={form} />
         <hr />
