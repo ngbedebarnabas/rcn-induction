@@ -358,6 +358,7 @@ const Registration = () => {
           </p>
         </div>
 
+        {currentStep === 1 && (
         <div className="max-w-2xl mx-auto mb-8 rounded-xl border border-accent/30 bg-accent/5 p-6 shadow-sm">
           <h2 className="text-base font-semibold text-foreground mb-3">
             Before You Begin
