@@ -385,6 +385,7 @@ const Registration = () => {
             <li>How do you evaluate yourself in relationships with other people?</li>
             <li>If this council should choose not to ordain you, how will that affect your ministry?</li>
             <li>How does your spouse feel about you and the ministry?</li>
+          </ul>
         </div>
         )}
 
