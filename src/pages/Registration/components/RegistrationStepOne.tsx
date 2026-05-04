@@ -42,7 +42,7 @@ const stepOneSchema = z.object({
   lastDivorceDate: z.string().optional(),
   childrenCount: z.string().optional(),
   spouseName: z.string().optional(),
-  isSpouseBeliever: z.enum(["Yes", "No", "Not Married"]).optional(),
+  isSpouseBeliever: z.enum(["Yes", "No"]).optional(),
   spouseDateOfBirth: z.string().optional(),
   anniversaryDate: z.string().optional(),
 });

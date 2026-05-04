@@ -22,7 +22,7 @@ export interface StepOneFormData {
   lastDivorceDate?: string;
   childrenCount?: string;
   spouseName?: string;
-  isSpouseBeliever?: "Yes" | "No" | "Not Married";
+  isSpouseBeliever?: "Yes" | "No";
   spouseDateOfBirth?: string;
   anniversaryDate?: string;
 }
