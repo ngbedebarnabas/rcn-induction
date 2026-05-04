@@ -358,6 +358,7 @@ const Registration = () => {
           </p>
         </div>
 
+        {currentStep === 1 && (
         <div className="max-w-2xl mx-auto mb-8 rounded-xl border border-accent/30 bg-accent/5 p-6 shadow-sm">
           <h2 className="text-base font-semibold text-foreground mb-3">
             Before You Begin
@@ -386,6 +387,7 @@ const Registration = () => {
             <li>How does your spouse feel about you and the ministry?</li>
           </ul>
         </div>
+        )}
 
         <p className="text-muted-foreground mb-8 text-center text-sm max-w-2xl mx-auto">
           All fields marked with an asterisk (*) are required.
