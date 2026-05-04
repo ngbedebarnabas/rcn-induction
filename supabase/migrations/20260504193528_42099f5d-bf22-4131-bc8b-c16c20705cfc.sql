@@ -1,0 +1,1 @@
+ALTER TABLE public.registrations DROP COLUMN IF EXISTS recommender_full_name;

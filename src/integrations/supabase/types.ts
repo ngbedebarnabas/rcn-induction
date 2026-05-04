@@ -78,7 +78,6 @@ export type Database = {
           pray_in_tongues: string
           previously_ordained: string
           recommended_by: string
-          recommender_full_name: string | null
           recommender_phone: string | null
           relationship_evaluation: string | null
           response_document_url: string | null
@@ -157,7 +156,6 @@ export type Database = {
           pray_in_tongues: string
           previously_ordained: string
           recommended_by: string
-          recommender_full_name?: string | null
           recommender_phone?: string | null
           relationship_evaluation?: string | null
           response_document_url?: string | null
@@ -236,7 +234,6 @@ export type Database = {
           pray_in_tongues?: string
           previously_ordained?: string
           recommended_by?: string
-          recommender_full_name?: string | null
           recommender_phone?: string | null
           relationship_evaluation?: string | null
           response_document_url?: string | null
