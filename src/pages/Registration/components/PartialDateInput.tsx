@@ -29,8 +29,14 @@ const parse = (v: string) => {
 const compose = (year: string, month: string, day: string) => {
   if (!year && !month && !day) return "";
   const y = year || "";
-  const m = month ? month.padStart(2, "0") : "00";
-  const d = day ? day.padStart(2, "0") : "00";
+  const hasMonth = !!month;
+  const hasDay = !!day;
+  // If neither day nor month provided, store year only
+  if (!hasMonth && !hasDay) return y;
+  const m = hasMonth ? month.padStart(2, "0") : "00";
+  // If no day provided, store YYYY-MM
+  if (!hasDay) return `${y}-${m}`;
+  const d = day.padStart(2, "0");
   return `${y}-${m}-${d}`;
 };
 
