@@ -412,7 +412,7 @@ const RegistrationStepOne = ({
             onValueChange={(value) =>
               form.setValue(
                 "isSpouseBeliever",
-                value as "Yes" | "No" | "Not Married"
+                value as "Yes" | "No"
               )
             }
             className="flex flex-wrap gap-6"
@@ -424,10 +424,6 @@ const RegistrationStepOne = ({
             <div className="flex items-center space-x-2">
               <RadioGroupItem value="No" id="isSpouseBeliever-no" />
               <Label htmlFor="isSpouseBeliever-no">No</Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="Not Married" id="isSpouseBeliever-nm" />
-              <Label htmlFor="isSpouseBeliever-nm">Not Married</Label>
             </div>
           </RadioGroup>
         </div>
