@@ -291,18 +291,18 @@ const Registration = () => {
 
       console.log("Complete form data:", transformedData);
 
-      // Save to Supabase
-      const { data: insertedData, error } = await supabase
+      // Save to Supabase without requesting the inserted row back.
+      // Anonymous registrations have INSERT permission, but not SELECT access.
+      const { error } = await supabase
         .from("registrations")
-        .insert(transformedData)
-        .select();
+        .insert(transformedData);
 
       if (error) {
         console.error("Error submitting to database:", error);
         throw error;
       }
 
-      console.log("Data inserted successfully:", insertedData);
+      console.log("Data inserted successfully");
 
       toast({
         title: "Registration submitted",
