@@ -11,9 +11,11 @@ export interface StepOneFormData {
   lastName: string;
   address: string;
   email: string;
-  phoneNumbers: string;
+  phoneNumbers: string[];
   socialMediaHandles: string[];
   recommendedBy: string;
+  recommenderFullName: string;
+  recommenderPhone: string;
   placeOfBirth: string;
   dateOfBirth: string;
   maritalStatus: string;
