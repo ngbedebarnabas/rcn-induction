@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { toast } from "@/hooks/use-toast";
 import {
@@ -107,7 +106,7 @@ const Registration = () => {
       // Create a unique filename
       const fileExt = file.name.split(".").pop();
       const fileName = `${folder}/${uuidv4()}.${fileExt}`;
-      
+
       console.log(`Generated filename: ${fileName}`);
 
       // Check file size (limit to 5MB)
@@ -139,7 +138,10 @@ const Registration = () => {
       return fileName;
     } catch (error) {
       console.error("Error in uploadFile function:", error);
-      const errorMessage = error instanceof Error ? error.message : "Unknown error during file upload";
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "Unknown error during file upload";
       toast({
         title: "Upload failed",
         description: errorMessage,
@@ -204,7 +206,8 @@ const Registration = () => {
       let responseDocumentUrl: string | null = null;
       try {
         responseDocumentUrl = await uploadFile(responseDocument, "documents");
-        if (!responseDocumentUrl) throw new Error("Failed to upload response document");
+        if (!responseDocumentUrl)
+          throw new Error("Failed to upload response document");
       } catch (uploadError) {
         console.error("Document upload error:", uploadError);
         throw new Error("Failed to upload response document");
@@ -245,7 +248,9 @@ const Registration = () => {
         date_of_new_birth: cleanDateField(stepTwoData.acceptedChristDate),
         water_baptized: stepTwoData.waterBaptized,
         date_of_water_baptism: cleanDateField(stepTwoData.dateOfWaterBaptism),
-        date_of_holy_ghost_baptism: cleanDateField(stepTwoData.dateOfHolyGhostBaptism),
+        date_of_holy_ghost_baptism: cleanDateField(
+          stepTwoData.dateOfHolyGhostBaptism
+        ),
         pray_in_tongues: stepTwoData.prayInTongues,
         believe_in_tongues: stepTwoData.believeInTongues,
         desire_tongues: stepTwoData.desireTongues,
@@ -257,7 +262,11 @@ const Registration = () => {
         formal_christian_training: stepTwoData.formalChristianTraining,
         training_institution: stepTwoData.trainingInstitution,
         training_duration: stepTwoData.trainingDuration
-          ? `${stepTwoData.highestProgramme ? stepTwoData.highestProgramme + " — " : ""}${stepTwoData.trainingDuration}`
+          ? `${
+              stepTwoData.highestProgramme
+                ? stepTwoData.highestProgramme + " — "
+                : ""
+            }${stepTwoData.trainingDuration}`
           : stepTwoData.highestProgramme,
         previously_ordained: stepTwoData.previouslyOrdained,
         ordination_type: stepTwoData.ordinationType || null,
@@ -341,7 +350,6 @@ const Registration = () => {
     setShowPaymentModal(false);
   };
 
-
   return (
     <div>
       <PageHeader
@@ -359,34 +367,62 @@ const Registration = () => {
         </div>
 
         {currentStep === 1 && (
-        <div className="max-w-2xl mx-auto mb-8 rounded-xl border border-accent/30 bg-accent/5 p-6 shadow-sm">
-          <h2 className="text-base font-semibold text-foreground mb-3">
-            Before You Begin
-          </h2>
-          <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-            On a separate typed document (using font type:{" "}
-            <span className="font-medium text-foreground">Times New Roman</span>;
-            font size: <span className="font-medium text-foreground">12</span>;
-            and <span className="font-medium text-foreground">1.5 line spacing</span>),
-            you might want to prepare your responses to the following before you
-            commence the registration:
-          </p>
-          <ul className="list-disc pl-5 space-y-2 text-sm text-muted-foreground leading-relaxed">
-            <li>Share your experience of conversion, baptism, and any subsequent significant spiritual experience.</li>
-            <li>Your personal pattern of devotional prayer and Bible study.</li>
-            <li>Your family devotional pattern related to your wife and family.</li>
-            <li>Relate your experience in determining "God's call" to the ministry.</li>
-            <li>What evidence have you seen of God's blessing on your ministry?</li>
-            <li>What is your concept of ministry?</li>
-            <li>What is your vision for future ministry?</li>
-            <li>How do you define success in ministry?</li>
-            <li>What particular strengths/weaknesses have you identified so far in your ministry?</li>
-            <li>Do you, as a general rule, find it easy to get along with other people?</li>
-            <li>How do you evaluate yourself in relationships with other people?</li>
-            <li>If this council should choose not to ordain you, how will that affect your ministry?</li>
-            <li>How does your spouse feel about you and the ministry?</li>
-          </ul>
-        </div>
+          <div className="max-w-2xl mx-auto mb-8 rounded-xl border border-accent/30 bg-accent/5 p-6 shadow-sm">
+            <h2 className="text-base font-semibold text-foreground mb-3">
+              Before You Begin
+            </h2>
+            <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+              On a separate typed document (using font type:{" "}
+              <span className="font-medium text-foreground">
+                Times New Roman
+              </span>
+              ; font size:{" "}
+              <span className="font-medium text-foreground">12</span>; and{" "}
+              <span className="font-medium text-foreground">
+                1.5 line spacing
+              </span>
+              ), you might want to prepare your responses to the following
+              before you commence the registration:
+            </p>
+            <ul className="list-disc pl-5 space-y-2 text-sm text-muted-foreground leading-relaxed">
+              <li>
+                Share your experience of conversion, baptism, and any subsequent
+                significant spiritual experience.
+              </li>
+              <li>
+                Your personal pattern of devotional prayer and Bible study.
+              </li>
+              <li>
+                Your family devotional pattern related to your wife and family.
+              </li>
+              <li>
+                Relate your experience in determining "God's call" to the
+                ministry.
+              </li>
+              <li>
+                What evidence have you seen of God's blessing on your ministry?
+              </li>
+              <li>What is your concept of ministry?</li>
+              <li>What is your vision for future ministry?</li>
+              <li>How do you define success in ministry?</li>
+              <li>
+                What particular strengths/weaknesses have you identified so far
+                in your ministry?
+              </li>
+              <li>
+                Do you, as a general rule, find it easy to get along with other
+                people?
+              </li>
+              <li>
+                How do you evaluate yourself in relationships with other people?
+              </li>
+              <li>
+                If this council should choose not to ordain you, how will that
+                affect your ministry?
+              </li>
+              <li>How does your spouse feel about you and the ministry?</li>
+            </ul>
+          </div>
         )}
 
         <p className="text-muted-foreground mb-8 text-center text-sm max-w-2xl mx-auto">
