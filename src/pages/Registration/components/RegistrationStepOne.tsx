@@ -304,7 +304,7 @@ const RegistrationStepOne = ({
         <div className="space-y-3 text-left">
           <FormLabel>Social Media handles</FormLabel>
           <FormDescription>
-            Add as many handles as you like (e.g. @yourname on Instagram, Facebook URL).
+            Add your Social Media handles (e.g. @yourname on Instagram, Facebook URL).
           </FormDescription>
           {(handles ?? [""]).map((value, index) => (
             <div key={index} className="flex items-start gap-2">
