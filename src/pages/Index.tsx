@@ -2,6 +2,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
 import { GraduationCap, Book, Award, Zap, Users, ArrowRight } from "lucide-react";
+import gallery1 from "@/assets/gallery-1.jpg";
+import gallery2 from "@/assets/gallery-2.png";
+import gallery3 from "@/assets/gallery-3.jpg";
+import gallery4 from "@/assets/gallery-4.jpg";
+import gallery5 from "@/assets/gallery-5.png";
 
 const Index = () => {
   const benefits = [
@@ -33,14 +38,11 @@ const Index = () => {
   ];
 
   const galleryImages = [
-    { src: "/lovable-uploads/1fb935dc-2434-46f0-9afb-3f971b98334b.png", alt: "Minister adjusting another minister's tie" },
-    { src: "/lovable-uploads/72baae12-f642-4aba-bcaa-fa71c0c781e1.png", alt: "Minister speaking to a congregation" },
-    { src: "/lovable-uploads/c8d726b0-122b-46e4-88aa-7196caea0008.png", alt: "Ministers gathered in prayer" },
-    { src: "/lovable-uploads/3f847268-0593-494b-9e92-43a545c3e1d7.png", alt: "Minister presenting a certificate" },
-    { src: "/lovable-uploads/c288ad98-cc2f-4923-bdf1-5aafa20057d9.png", alt: "Minister praying over congregation" },
-    { src: "/lovable-uploads/00e0e4f1-712b-41bf-8a0f-5cb8d7f9e5f1.png", alt: "Minister teaching" },
-    { src: "/lovable-uploads/0c2d3306-b807-44d0-80d8-085f42f9dc74.png", alt: "Group of ministers" },
-    { src: "/lovable-uploads/9d5e2b83-ab8a-4bfa-b49d-b07ae659ab00.png", alt: "Large group of ordained ministers" },
+    { src: gallery1, alt: "Ordained ministers worshipping during ordination service" },
+    { src: gallery2, alt: "Minister presenting Certificate of Ordination" },
+    { src: gallery3, alt: "Minister laying hands in impartation prayer" },
+    { src: gallery4, alt: "Minister receiving ministerial collar" },
+    { src: gallery5, alt: "Group photo of ordained ministers at IEC 2024" },
   ];
 
   return (
