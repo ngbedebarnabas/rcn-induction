@@ -27,44 +27,59 @@ export interface StepOneFormData {
   anniversaryDate?: string;
 }
 
+export const SPIRITUAL_GIFT_OPTIONS = [
+  "Word of Knowledge",
+  "Word of Wisdom",
+  "Gift of Faith",
+  "Gifts of Healing",
+  "Discernment of Spirits",
+  "Prophecy",
+  "Working of Miracles",
+  "Gift of Diverse Kinds of Tongues",
+  "Gift of Interpretation of Tongues",
+  "Gift of Helps",
+  "Gift of Administration",
+] as const;
+
 export interface StepTwoFormData {
-  // Spiritual background (moved from old step 1)
-  dateOfNewBirth: string;
-  dateOfWaterBaptism: string;
-  dateOfHolyGhostBaptism: string;
-  ministryGift: string;
-  spiritualGifts: string;
-
   // Spiritual information
-  acceptedChristDate: string;
-  waterBaptized: string;
-  prayInTongues: string;
-  believeInTongues?: string;
-  desireTongues?: string;
-  spiritualGiftsManifest: string;
+  acceptedChristDate: string; // Date of New Birth
+  waterBaptized: "Yes" | "No";
+  dateOfWaterBaptism?: string;
+  dateOfHolyGhostBaptism?: string;
+  prayInTongues: "Yes" | "No";
+  believeInTongues?: "Yes" | "No";
+  desireTongues?: "Yes" | "No";
 
-  // Education / training
-  formalChristianTraining: string;
+  // Spiritual gifts (multi-select via checkboxes)
+  spiritualGiftsList: string[];
+  spiritualGiftsOther?: string;
+
+  // Theological education
+  formalChristianTraining: "Yes" | "No";
   trainingInstitution?: string;
+  highestProgramme?: string;
   trainingDuration?: string;
-  previouslyOrdained: string;
-  ordinationType?: string;
+
+  // Ordination
+  previouslyOrdained: "Yes" | "No";
+  ordinationType?: "Licensed" | "Ordained" | "";
   ordinationDate?: string;
   ordinationBy?: string;
+  ordinationDenomination?: string;
 
-  // Ministry
-  denominationalBackground: string;
+  // Ministry affiliation
   currentAffiliation: string;
   currentCapacity: string;
-  ministryDescription: string;
   ministryDuration: string;
   ministryIncome: string;
 
   // Employment
-  otherEmployment: string;
+  otherEmployment: "Yes" | "No";
   employmentDescription?: string;
-  employmentAddress?: string;
+}
 
+export interface StepThreeFormData {
   // References
   pastorName: string;
   pastorEmail: string;
@@ -75,20 +90,6 @@ export interface StepTwoFormData {
   elderName: string;
   elderEmail: string;
   elderPhone: string;
-}
-
-export interface StepThreeFormData {
-  conversionExperience: string;
-  devotionalPattern: string;
-  familyDevotional: string;
-  godsCallExperience: string;
-  ministryConcept: string;
-  futureVision: string;
-  ministrySuccessDefinition: string;
-  ministryStrengths: string;
-  ministryWeaknesses: string;
-  relationshipEvaluation: string;
-  nonOrdinationEffect: string;
-  spouseMinistryFeelings: string;
+  // Undertaking
   acceptTerms: boolean;
 }

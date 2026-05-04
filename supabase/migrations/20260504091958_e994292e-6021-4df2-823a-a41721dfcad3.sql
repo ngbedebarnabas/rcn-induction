@@ -1,0 +1,1 @@
+ALTER TABLE public.registrations ADD COLUMN IF NOT EXISTS response_document_url TEXT;

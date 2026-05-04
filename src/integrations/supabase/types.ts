@@ -76,6 +76,7 @@ export type Database = {
           previously_ordained: string
           recommended_by: string
           relationship_evaluation: string | null
+          response_document_url: string | null
           social_media: string | null
           spiritual_gifts: string | null
           spiritual_gifts_manifest: string
@@ -149,6 +150,7 @@ export type Database = {
           previously_ordained: string
           recommended_by: string
           relationship_evaluation?: string | null
+          response_document_url?: string | null
           social_media?: string | null
           spiritual_gifts?: string | null
           spiritual_gifts_manifest: string
@@ -222,6 +224,7 @@ export type Database = {
           previously_ordained?: string
           recommended_by?: string
           relationship_evaluation?: string | null
+          response_document_url?: string | null
           social_media?: string | null
           spiritual_gifts?: string | null
           spiritual_gifts_manifest?: string
