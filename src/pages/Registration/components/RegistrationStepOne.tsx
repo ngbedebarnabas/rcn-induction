@@ -115,6 +115,24 @@ const RegistrationStepOne = ({
     form.setValue("socialMediaHandles", next, { shouldDirty: true });
   };
 
+  const phones = form.watch("phoneNumbers") ?? [""];
+
+  const updatePhone = (index: number, value: string) => {
+    const next = [...(phones ?? [])];
+    next[index] = value;
+    form.setValue("phoneNumbers", next, { shouldDirty: true });
+  };
+
+  const addPhone = () => {
+    form.setValue("phoneNumbers", [...(phones ?? []), ""], { shouldDirty: true });
+  };
+
+  const removePhone = (index: number) => {
+    if ((phones ?? []).length <= 1) return;
+    const next = (phones ?? []).filter((_, i) => i !== index);
+    form.setValue("phoneNumbers", next, { shouldDirty: true });
+  };
+
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       setIsUploading(true);
