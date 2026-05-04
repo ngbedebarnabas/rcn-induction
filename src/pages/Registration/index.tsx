@@ -385,8 +385,8 @@ const Registration = () => {
             <li>How do you evaluate yourself in relationships with other people?</li>
             <li>If this council should choose not to ordain you, how will that affect your ministry?</li>
             <li>How does your spouse feel about you and the ministry?</li>
-          </ul>
         </div>
+        )}
 
         <p className="text-muted-foreground mb-8 text-center text-sm max-w-2xl mx-auto">
           All fields marked with an asterisk (*) are required.
