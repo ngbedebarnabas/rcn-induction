@@ -555,7 +555,7 @@ const RegistrationStepOne = ({
             name="anniversaryDate"
             render={({ field }) => (
               <FormItem className="text-left">
-                <FormLabel>Anniversary Date</FormLabel>
+                <FormLabel>Wedding Anniversary Date</FormLabel>
                 <FormControl>
                   <Input type="date" {...field} />
                 </FormControl>
