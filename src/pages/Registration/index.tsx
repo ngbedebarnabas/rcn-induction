@@ -441,6 +441,9 @@ const Registration = () => {
                   updateSpiritualHistory={updateSpiritualHistory}
                   removeSpiritualHistory={removeSpiritualHistory}
                   initialValues={stepTwoData}
+                  responseDocument={responseDocument}
+                  handleResponseDocumentChange={handleResponseDocumentChange}
+                  removeResponseDocument={removeResponseDocument}
                 />
               ) : (
                 <RegistrationStepThree
