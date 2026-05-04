@@ -264,19 +264,41 @@ const RegistrationStepOne = ({
             )}
           />
 
-          <FormField
-            control={form.control}
-            name="phoneNumbers"
-            render={({ field }) => (
-              <FormItem className="text-left">
-                <FormLabel>Phone Number(s) *</FormLabel>
-                <FormControl>
-                  <Input placeholder="Enter phone number(s)" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+        </div>
+
+        <div className="space-y-3 text-left">
+          <FormLabel>Phone Number(s) *</FormLabel>
+          <FormDescription>
+            Please include your country code (e.g. +234 800 000 0000).
+          </FormDescription>
+          {(phones ?? [""]).map((value, index) => (
+            <div key={index} className="flex items-start gap-2">
+              <Input
+                value={value}
+                onChange={(e) => updatePhone(index, e.target.value)}
+                placeholder="+234 800 000 0000"
+                className="flex-1"
+              />
+              <Button
+                type="button"
+                variant="outline"
+                size="icon"
+                onClick={() => removePhone(index)}
+                disabled={(phones ?? []).length <= 1}
+                className={(phones ?? []).length <= 1 ? "opacity-50" : ""}
+              >
+                <Minus className="h-4 w-4" />
+              </Button>
+            </div>
+          ))}
+          <Button
+            type="button"
+            variant="outline"
+            onClick={addPhone}
+            className="w-full"
+          >
+            <Plus className="h-4 w-4 mr-2" /> Add Another Phone Number
+          </Button>
         </div>
 
         <div className="space-y-3 text-left">
