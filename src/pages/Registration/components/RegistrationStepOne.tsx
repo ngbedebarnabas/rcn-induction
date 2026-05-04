@@ -36,7 +36,6 @@ const stepOneSchema = z.object({
   phoneNumbers: z.array(z.string()).min(1, "Phone number is required"),
   socialMediaHandles: z.array(z.string()).optional(),
   recommendedBy: z.string().min(1, "This field is required"),
-  recommenderFullName: z.string().min(1, "Recommender's full name is required"),
   recommenderPhone: z.string().min(1, "Recommender's phone number is required"),
   placeOfBirth: z.string().min(1, "Place of birth is required"),
   dateOfBirth: z.string().min(1, "Date of birth is required"),
@@ -79,7 +78,6 @@ const RegistrationStepOne = ({
       phoneNumbers: [""],
       socialMediaHandles: [""],
       recommendedBy: "",
-      recommenderFullName: "",
       recommenderPhone: "",
       placeOfBirth: "",
       dateOfBirth: "",
@@ -345,20 +343,6 @@ const RegistrationStepOne = ({
                 <FormLabel>Who recommended you? *</FormLabel>
                 <FormControl>
                   <Input placeholder="Name of your recommender" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="recommenderFullName"
-            render={({ field }) => (
-              <FormItem className="text-left">
-                <FormLabel>Full Name of Recommender *</FormLabel>
-                <FormControl>
-                  <Input placeholder="Recommender's full name" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

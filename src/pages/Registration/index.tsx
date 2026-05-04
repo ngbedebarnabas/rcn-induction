@@ -235,7 +235,6 @@ const Registration = () => {
         phone_numbers: (stepOneData.phoneNumbers ?? []).filter(Boolean).join(", "),
         social_media: (stepOneData.socialMediaHandles ?? []).join(", "),
         recommended_by: stepOneData.recommendedBy,
-        recommender_full_name: stepOneData.recommenderFullName,
         recommender_phone: stepOneData.recommenderPhone,
         place_of_birth: stepOneData.placeOfBirth,
         date_of_birth: cleanDateField(stepOneData.dateOfBirth),
