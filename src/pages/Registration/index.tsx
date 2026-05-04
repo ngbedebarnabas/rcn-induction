@@ -407,7 +407,7 @@ const Registration = () => {
                   ? "Step 1: Personal Bio-Data"
                   : currentStep === 2
                   ? "Step 2: Spiritual & Ministerial Information"
-                  : "Step 3: Ministry Reflection Questions"}
+                  : "Step 3: Referee & Statement of Undertaking"}
               </CardTitle>
               <CardDescription>
                 {currentStep === 1
