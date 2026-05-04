@@ -1,70 +1,42 @@
-
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { UseFormReturn } from "react-hook-form";
-import { StepTwoFormData } from "../types";
+import { UseFormReturn, FieldValues, Path } from "react-hook-form";
 
-interface YesNoOptionsProps {
-  name: keyof StepTwoFormData;
-  form: UseFormReturn<StepTwoFormData>;
-  isRequired?: boolean;
-  dependantField?: boolean;
+interface YesNoOptionsProps<T extends FieldValues> {
+  name: Path<T>;
+  form: UseFormReturn<T>;
   showNotMarriedOption?: boolean;
 }
 
-export const YesNoOptions = ({ 
-  name, 
-  form, 
-  isRequired = true, 
-  dependantField = false,
-  showNotMarriedOption = false
-}: YesNoOptionsProps) => {
-  if (showNotMarriedOption) {
-    return (
-      <RadioGroup 
-        defaultValue={form.getValues(name) as string}
-        onValueChange={(value) => form.setValue(name, value)}
-        className="flex gap-6"
-      >
-        <div className="flex items-center space-x-2">
-          <RadioGroupItem value="Yes" id={`${name}-yes`} />
-          <Label htmlFor={`${name}-yes`}>Yes</Label>
-        </div>
-        <div className="flex items-center space-x-2">
-          <RadioGroupItem value="No" id={`${name}-no`} />
-          <Label htmlFor={`${name}-no`}>No</Label>
-        </div>
-        <div className="flex items-center space-x-2">
-          <RadioGroupItem value="Not Married" id={`${name}-not-married`} />
-          <Label htmlFor={`${name}-not-married`}>Not Married</Label>
-        </div>
-      </RadioGroup>
-    );
-  }
+export function YesNoOptions<T extends FieldValues>({
+  name,
+  form,
+  showNotMarriedOption = false,
+}: YesNoOptionsProps<T>) {
+  const value = form.watch(name) as unknown as string | undefined;
 
   return (
-    <div className="flex gap-6">
+    <RadioGroup
+      value={value ?? ""}
+      onValueChange={(v) =>
+        form.setValue(name, v as never, { shouldValidate: true, shouldDirty: true })
+      }
+      className="flex flex-wrap gap-6"
+    >
       <div className="flex items-center space-x-2">
-        <Input 
-          type="radio" 
-          id={`${name}-yes`}
-          value="Yes"
-          {...form.register(name, { required: isRequired && !dependantField })}
-          className="h-4 w-4"
-        />
-        <Label htmlFor={`${name}-yes`}>Yes</Label>
+        <RadioGroupItem value="Yes" id={`${String(name)}-yes`} />
+        <Label htmlFor={`${String(name)}-yes`}>Yes</Label>
       </div>
       <div className="flex items-center space-x-2">
-        <Input 
-          type="radio" 
-          id={`${name}-no`}
-          value="No"
-          {...form.register(name, { required: isRequired && !dependantField })}
-          className="h-4 w-4"
-        />
-        <Label htmlFor={`${name}-no`}>No</Label>
+        <RadioGroupItem value="No" id={`${String(name)}-no`} />
+        <Label htmlFor={`${String(name)}-no`}>No</Label>
       </div>
-    </div>
+      {showNotMarriedOption && (
+        <div className="flex items-center space-x-2">
+          <RadioGroupItem value="Not Married" id={`${String(name)}-not-married`} />
+          <Label htmlFor={`${String(name)}-not-married`}>Not Married</Label>
+        </div>
+      )}
+    </RadioGroup>
   );
-};
+}

@@ -35,9 +35,20 @@ const Registration = () => {
   >([{ id: 1, text: "" }]);
   const [passportImage, setPassportImage] = useState<File | null>(null);
   const [passportPreview, setPassportPreview] = useState<string | null>(null);
+  const [responseDocument, setResponseDocument] = useState<File | null>(null);
   const [stepOneData, setStepOneData] = useState<StepOneFormData | null>(null);
   const [stepTwoData, setStepTwoData] = useState<StepTwoFormData | null>(null);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
+
+  const handleResponseDocumentChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    if (event.target.files && event.target.files[0]) {
+      setResponseDocument(event.target.files[0]);
+    }
+  };
+
+  const removeResponseDocument = () => setResponseDocument(null);
 
   // Add another spiritual history entry
   const addSpiritualHistory = () => {
@@ -179,20 +190,37 @@ const Registration = () => {
         throw new Error("Passport image is required");
       }
 
-      // Upload passport if present
-      let passportUrl = null;
+      if (!responseDocument) {
+        throw new Error("Response document is required");
+      }
+
+      // Upload passport
+      let passportUrl: string | null = null;
       try {
-        console.log("Uploading passport image");
         passportUrl = await uploadFile(passportImage, "passports");
-        console.log("Passport URL:", passportUrl);
-        
-        if (!passportUrl) {
-          throw new Error("Failed to upload passport image");
-        }
+        if (!passportUrl) throw new Error("Failed to upload passport image");
       } catch (uploadError) {
         console.error("Passport upload error:", uploadError);
         throw new Error("Failed to upload passport image");
       }
+
+      // Upload response document
+      let responseDocumentUrl: string | null = null;
+      try {
+        responseDocumentUrl = await uploadFile(responseDocument, "documents");
+        if (!responseDocumentUrl) throw new Error("Failed to upload response document");
+      } catch (uploadError) {
+        console.error("Document upload error:", uploadError);
+        throw new Error("Failed to upload response document");
+      }
+
+      // Combine spiritual gifts (multi-select + "Other")
+      const spiritualGiftsCombined = [
+        ...(stepTwoData.spiritualGiftsList ?? []),
+        ...(stepTwoData.spiritualGiftsOther
+          ? [`Other: ${stepTwoData.spiritualGiftsOther}`]
+          : []),
+      ].join(", ");
 
       // Map form data to database column names
       const transformedData = {
@@ -216,61 +244,52 @@ const Registration = () => {
         anniversary_date: cleanDateField(stepOneData.anniversaryDate),
         passport_url: passportUrl,
 
-        // Step two data – Spiritual / Ministry
-        date_of_new_birth: cleanDateField(stepTwoData.dateOfNewBirth),
+        // Step two – Spiritual / Ministerial
+        accepted_christ_date: cleanDateField(stepTwoData.acceptedChristDate),
+        date_of_new_birth: cleanDateField(stepTwoData.acceptedChristDate),
+        water_baptized: stepTwoData.waterBaptized,
         date_of_water_baptism: cleanDateField(stepTwoData.dateOfWaterBaptism),
         date_of_holy_ghost_baptism: cleanDateField(stepTwoData.dateOfHolyGhostBaptism),
-        ministry_gift: stepTwoData.ministryGift,
-        spiritual_gifts: stepTwoData.spiritualGifts,
-        spiritual_history: spiritualHistory
-          .map((item) => item.text)
-          .filter(Boolean),
-        accepted_christ_date: cleanDateField(stepTwoData.acceptedChristDate),
-        water_baptized: stepTwoData.waterBaptized,
         pray_in_tongues: stepTwoData.prayInTongues,
         believe_in_tongues: stepTwoData.believeInTongues,
         desire_tongues: stepTwoData.desireTongues,
-        spiritual_gifts_manifest: stepTwoData.spiritualGiftsManifest,
+        spiritual_gifts: spiritualGiftsCombined,
+        spiritual_gifts_manifest: spiritualGiftsCombined,
+        spiritual_history: spiritualHistory
+          .map((item) => item.text)
+          .filter(Boolean),
         formal_christian_training: stepTwoData.formalChristianTraining,
         training_institution: stepTwoData.trainingInstitution,
-        training_duration: stepTwoData.trainingDuration,
+        training_duration: stepTwoData.trainingDuration
+          ? `${stepTwoData.highestProgramme ? stepTwoData.highestProgramme + " — " : ""}${stepTwoData.trainingDuration}`
+          : stepTwoData.highestProgramme,
         previously_ordained: stepTwoData.previouslyOrdained,
-        ordination_type: stepTwoData.ordinationType,
+        ordination_type: stepTwoData.ordinationType || null,
         ordination_date: cleanDateField(stepTwoData.ordinationDate),
         ordination_by: stepTwoData.ordinationBy,
-        denominational_background: stepTwoData.denominationalBackground,
+        denominational_background: stepTwoData.ordinationDenomination ?? "",
         current_affiliation: stepTwoData.currentAffiliation,
         current_capacity: stepTwoData.currentCapacity,
-        ministry_description: stepTwoData.ministryDescription,
+        ministry_description: stepTwoData.currentCapacity,
         ministry_duration: stepTwoData.ministryDuration,
         ministry_income: stepTwoData.ministryIncome,
+        ministry_gift: null,
         other_employment: stepTwoData.otherEmployment,
         employment_description: stepTwoData.employmentDescription,
-        employment_address: stepTwoData.employmentAddress,
-        pastor_name: stepTwoData.pastorName,
-        pastor_email: stepTwoData.pastorEmail,
-        pastor_phone: stepTwoData.pastorPhone,
-        minister_name: stepTwoData.ministerName,
-        minister_email: stepTwoData.ministerEmail,
-        minister_phone: stepTwoData.ministerPhone,
-        elder_name: stepTwoData.elderName,
-        elder_email: stepTwoData.elderEmail,
-        elder_phone: stepTwoData.elderPhone,
-        
-        // Step three data
-        conversion_experience: data.conversionExperience,
-        devotional_pattern: data.devotionalPattern,
-        family_devotional: data.familyDevotional,
-        gods_call_experience: data.godsCallExperience,
-        ministry_concept: data.ministryConcept,
-        future_vision: data.futureVision,
-        ministry_success_definition: data.ministrySuccessDefinition,
-        ministry_strengths: data.ministryStrengths,
-        ministry_weaknesses: data.ministryWeaknesses,
-        relationship_evaluation: data.relationshipEvaluation,
-        non_ordination_effect: data.nonOrdinationEffect,
-        spouse_ministry_feelings: data.spouseMinistryFeelings,
-        
+        employment_address: null,
+        response_document_url: responseDocumentUrl,
+
+        // Step three – Referees & Undertaking
+        pastor_name: data.pastorName,
+        pastor_email: data.pastorEmail,
+        pastor_phone: data.pastorPhone,
+        minister_name: data.ministerName,
+        minister_email: data.ministerEmail,
+        minister_phone: data.ministerPhone,
+        elder_name: data.elderName,
+        elder_email: data.elderEmail,
+        elder_phone: data.elderPhone,
+
         payment_status: "pending",
       };
 
@@ -322,6 +341,7 @@ const Registration = () => {
     setSpiritualHistory([{ id: 1, text: "" }]);
     setPassportImage(null);
     setPassportPreview(null);
+    setResponseDocument(null);
     setShowPaymentModal(false);
   };
 
@@ -421,6 +441,9 @@ const Registration = () => {
                   updateSpiritualHistory={updateSpiritualHistory}
                   removeSpiritualHistory={removeSpiritualHistory}
                   initialValues={stepTwoData}
+                  responseDocument={responseDocument}
+                  handleResponseDocumentChange={handleResponseDocumentChange}
+                  removeResponseDocument={removeResponseDocument}
                 />
               ) : (
                 <RegistrationStepThree
