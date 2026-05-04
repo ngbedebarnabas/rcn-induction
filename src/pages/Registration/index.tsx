@@ -341,6 +341,7 @@ const Registration = () => {
     setSpiritualHistory([{ id: 1, text: "" }]);
     setPassportImage(null);
     setPassportPreview(null);
+    setResponseDocument(null);
     setShowPaymentModal(false);
   };
 
