@@ -27,10 +27,11 @@ const parse = (v: string) => {
 };
 
 const compose = (year: string, month: string, day: string) => {
-  if (!year) return "";
+  if (!year && !month && !day) return "";
+  const y = year || "";
   const m = month ? month.padStart(2, "0") : "00";
   const d = day ? day.padStart(2, "0") : "00";
-  return `${year}-${m}-${d}`;
+  return `${y}-${m}-${d}`;
 };
 
 export const PartialDateInput = ({ value, onChange }: PartialDateInputProps) => {
