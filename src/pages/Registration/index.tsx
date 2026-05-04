@@ -35,9 +35,20 @@ const Registration = () => {
   >([{ id: 1, text: "" }]);
   const [passportImage, setPassportImage] = useState<File | null>(null);
   const [passportPreview, setPassportPreview] = useState<string | null>(null);
+  const [responseDocument, setResponseDocument] = useState<File | null>(null);
   const [stepOneData, setStepOneData] = useState<StepOneFormData | null>(null);
   const [stepTwoData, setStepTwoData] = useState<StepTwoFormData | null>(null);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
+
+  const handleResponseDocumentChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    if (event.target.files && event.target.files[0]) {
+      setResponseDocument(event.target.files[0]);
+    }
+  };
+
+  const removeResponseDocument = () => setResponseDocument(null);
 
   // Add another spiritual history entry
   const addSpiritualHistory = () => {
