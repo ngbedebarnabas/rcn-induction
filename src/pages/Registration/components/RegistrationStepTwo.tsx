@@ -26,7 +26,7 @@ import { FileUp, Trash2, Loader2 } from "lucide-react";
 import { YesNoOptions } from "./YesNoOptions";
 import { PartialDateInput } from "./PartialDateInput";
 
-const hasYear = (v?: string) => !!v && /^\d{4}-/.test(v);
+const hasYear = (v?: string) => !!v && /^\d{4}(-|$)/.test(v);
 import {
   StepTwoFormData,
   SpiritualHistoryItem,
