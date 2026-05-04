@@ -337,9 +337,6 @@ const Registration = () => {
     setShowPaymentModal(false);
   };
 
-  const proceedToPayment = () => {
-    window.location.href = "https://paystack.com/pay/rcnordinands";
-  };
 
   return (
     <div>
@@ -449,24 +446,17 @@ const Registration = () => {
         )}
       </div>
 
-      {/* Payment Dialog */}
+      {/* Success Dialog */}
       <Dialog open={showPaymentModal} onOpenChange={setShowPaymentModal}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Complete Your Registration</DialogTitle>
+            <DialogTitle>Registration Success</DialogTitle>
             <DialogDescription>
-              Thank you for registering for RCN Ordination Induction Program. To
-              complete your registration, please proceed to make a payment.
+              Further information will be communicated on the WhatsApp Group.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button
-              variant="outline"
-              onClick={() => setShowPaymentModal(false)}
-            >
-              Later
-            </Button>
-            <Button onClick={proceedToPayment}>Proceed to Payment</Button>
+            <Button onClick={() => setShowPaymentModal(false)}>Close</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
