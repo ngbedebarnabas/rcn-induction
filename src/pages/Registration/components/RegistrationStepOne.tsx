@@ -173,19 +173,6 @@ const RegistrationStepOne = ({
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <FormField
               control={form.control}
-              name="lastName"
-              render={({ field }) => (
-                <FormItem className="text-left">
-                  <FormLabel>Surname (Last Name) *</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Surname" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
               name="firstName"
               render={({ field }) => (
                 <FormItem className="text-left">
@@ -205,6 +192,19 @@ const RegistrationStepOne = ({
                   <FormLabel>Middle Name</FormLabel>
                   <FormControl>
                     <Input placeholder="Middle name (optional)" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="lastName"
+              render={({ field }) => (
+                <FormItem className="text-left">
+                  <FormLabel>Last Name (Surname) *</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Last name" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
