@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "@/hooks/use-toast";
 import {
   Card,
@@ -39,6 +39,10 @@ const Registration = () => {
   const [stepOneData, setStepOneData] = useState<StepOneFormData | null>(null);
   const [stepTwoData, setStepTwoData] = useState<StepTwoFormData | null>(null);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [currentStep]);
 
   const handleResponseDocumentChange = (
     event: React.ChangeEvent<HTMLInputElement>
