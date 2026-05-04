@@ -1,6 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { CheckCircle } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface SuccessMessageProps {
   onRegisterAnother: () => void;
@@ -14,7 +15,9 @@ const SuccessMessage = ({ onRegisterAnother }: SuccessMessageProps) => {
       <p className="text-gray-600 mb-6">
         Thank you for registering for the RCN Induction Training Programme.
       </p>
-      <Button onClick={onRegisterAnother}>Register Another Person</Button>
+      <Button asChild>
+        <Link to="/">Done!</Link>
+      </Button>
     </div>
   );
 };
