@@ -295,7 +295,7 @@ const RegistrationStepOne = ({
             type="button"
             variant="outline"
             onClick={addPhone}
-            className="w-full"
+            className="mx-auto"
           >
             <Plus className="h-4 w-4 mr-2" /> Add Another Phone Number
           </Button>
