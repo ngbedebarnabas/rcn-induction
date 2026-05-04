@@ -181,8 +181,9 @@ const RegistrationStepTwo: React.FC<RegistrationStepTwoProps> = ({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Date of Water Baptism *</FormLabel>
+                  <FormDescription>Year is required. Day and Month are optional.</FormDescription>
                   <FormControl>
-                    <Input type="date" {...field} />
+                    <PartialDateInput value={field.value || ""} onChange={field.onChange} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -196,8 +197,9 @@ const RegistrationStepTwo: React.FC<RegistrationStepTwoProps> = ({
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Date of Holy Ghost Baptism</FormLabel>
+                <FormDescription>Day and Month are optional.</FormDescription>
                 <FormControl>
-                  <Input type="date" {...field} />
+                  <PartialDateInput value={field.value || ""} onChange={field.onChange} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
