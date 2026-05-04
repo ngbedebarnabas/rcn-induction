@@ -353,6 +353,34 @@ const RegistrationStepOne = ({
 
           <FormField
             control={form.control}
+            name="recommenderFullName"
+            render={({ field }) => (
+              <FormItem className="text-left">
+                <FormLabel>Full Name of Recommender *</FormLabel>
+                <FormControl>
+                  <Input placeholder="Recommender's full name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="recommenderPhone"
+            render={({ field }) => (
+              <FormItem className="text-left">
+                <FormLabel>Phone Number of Recommender *</FormLabel>
+                <FormControl>
+                  <Input placeholder="+234 800 000 0000" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
             name="placeOfBirth"
             render={({ field }) => (
               <FormItem className="text-left">
