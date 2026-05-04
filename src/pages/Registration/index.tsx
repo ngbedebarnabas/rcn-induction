@@ -40,6 +40,10 @@ const Registration = () => {
   const [stepTwoData, setStepTwoData] = useState<StepTwoFormData | null>(null);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [currentStep]);
+
   const handleResponseDocumentChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
