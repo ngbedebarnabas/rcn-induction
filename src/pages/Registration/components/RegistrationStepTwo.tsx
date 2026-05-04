@@ -35,7 +35,7 @@ import {
 
 const formSchema = z
   .object({
-    acceptedChristDate: z.string().min(1, "Date of new birth is required"),
+    acceptedChristDate: z.string().refine(hasYear, "Year of new birth is required"),
     waterBaptized: z.enum(["Yes", "No"], { required_error: "Please select an option" }),
     dateOfWaterBaptism: z.string().optional(),
     dateOfHolyGhostBaptism: z.string().optional(),
@@ -61,8 +61,8 @@ const formSchema = z
     employmentDescription: z.string().optional(),
   })
   .refine(
-    (d) => d.waterBaptized !== "Yes" || (d.dateOfWaterBaptism && d.dateOfWaterBaptism.length > 0),
-    { message: "Date of water baptism is required", path: ["dateOfWaterBaptism"] }
+    (d) => d.waterBaptized !== "Yes" || hasYear(d.dateOfWaterBaptism),
+    { message: "Year of water baptism is required", path: ["dateOfWaterBaptism"] }
   );
 
 interface RegistrationStepTwoProps {
