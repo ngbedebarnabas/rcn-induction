@@ -42,7 +42,7 @@ const stepOneSchema = z.object({
   lastDivorceDate: z.string().optional(),
   childrenCount: z.string().optional(),
   spouseName: z.string().optional(),
-  isSpouseBeliever: z.enum(["Yes", "No", "Not Married"]).optional(),
+  isSpouseBeliever: z.enum(["Yes", "No"]).optional(),
   spouseDateOfBirth: z.string().optional(),
   anniversaryDate: z.string().optional(),
 });
@@ -412,7 +412,7 @@ const RegistrationStepOne = ({
             onValueChange={(value) =>
               form.setValue(
                 "isSpouseBeliever",
-                value as "Yes" | "No" | "Not Married"
+                value as "Yes" | "No"
               )
             }
             className="flex flex-wrap gap-6"
@@ -424,10 +424,6 @@ const RegistrationStepOne = ({
             <div className="flex items-center space-x-2">
               <RadioGroupItem value="No" id="isSpouseBeliever-no" />
               <Label htmlFor="isSpouseBeliever-no">No</Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="Not Married" id="isSpouseBeliever-nm" />
-              <Label htmlFor="isSpouseBeliever-nm">Not Married</Label>
             </div>
           </RadioGroup>
         </div>
