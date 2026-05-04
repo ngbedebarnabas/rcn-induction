@@ -41,7 +41,7 @@ const Registration = () => {
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
-  }, [currentStep]);
+  }, [currentStep, isSubmitted]);
 
   const handleResponseDocumentChange = (
     event: React.ChangeEvent<HTMLInputElement>
