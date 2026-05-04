@@ -159,8 +159,9 @@ const RegistrationStepTwo: React.FC<RegistrationStepTwoProps> = ({
             render={({ field }) => (
               <FormItem>
                 <FormLabel>When did you accept Christ (Date of New Birth)? *</FormLabel>
+                <FormDescription>Year is required. Day and Month are optional.</FormDescription>
                 <FormControl>
-                  <Input type="date" {...field} />
+                  <PartialDateInput value={field.value || ""} onChange={field.onChange} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
