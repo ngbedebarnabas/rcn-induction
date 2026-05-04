@@ -28,7 +28,9 @@ import { useState } from "react";
 import { toast } from "@/hooks/use-toast";
 
 const stepOneSchema = z.object({
-  fullName: z.string().min(1, "Full name is required"),
+  firstName: z.string().min(1, "First name is required"),
+  middleName: z.string().optional(),
+  lastName: z.string().min(1, "Last name (surname) is required"),
   address: z.string().min(1, "Address is required"),
   email: z.string().email("Invalid email address").min(1, "Email is required"),
   phoneNumbers: z.string().min(1, "Phone number is required"),
@@ -67,7 +69,9 @@ const RegistrationStepOne = ({
   const form = useForm<z.infer<typeof stepOneSchema>>({
     resolver: zodResolver(stepOneSchema),
     defaultValues: initialValues ?? {
-      fullName: "",
+      firstName: "",
+      middleName: "",
+      lastName: "",
       address: "",
       email: "",
       phoneNumbers: "",
@@ -161,22 +165,53 @@ const RegistrationStepOne = ({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleFormSubmit)} className="space-y-6">
-        <FormField
-          control={form.control}
-          name="fullName"
-          render={({ field }) => (
-            <FormItem className="text-left">
-              <FormLabel>Full Name *</FormLabel>
-              <FormDescription>
-                Please print using ink or type as it should appear on your certificate.
-              </FormDescription>
-              <FormControl>
-                <Input placeholder="Surname, first name, other name(s)" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div className="space-y-2 text-left">
+          <FormLabel>Full Name *</FormLabel>
+          <FormDescription>
+            Please type your name as it should appear on your certificate.
+          </FormDescription>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <FormField
+              control={form.control}
+              name="lastName"
+              render={({ field }) => (
+                <FormItem className="text-left">
+                  <FormLabel>Surname (Last Name) *</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Surname" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="firstName"
+              render={({ field }) => (
+                <FormItem className="text-left">
+                  <FormLabel>First Name *</FormLabel>
+                  <FormControl>
+                    <Input placeholder="First name" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="middleName"
+              render={({ field }) => (
+                <FormItem className="text-left">
+                  <FormLabel>Middle Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Middle name (optional)" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+        </div>
 
         <FormField
           control={form.control}

@@ -6,7 +6,9 @@ export interface SpiritualHistoryItem {
 
 export interface StepOneFormData {
   // Personal Bio-Data
-  fullName: string;
+  firstName: string;
+  middleName?: string;
+  lastName: string;
   address: string;
   email: string;
   phoneNumbers: string;

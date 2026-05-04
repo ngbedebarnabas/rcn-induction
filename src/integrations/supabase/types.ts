@@ -40,15 +40,18 @@ export type Database = {
           employment_address: string | null
           employment_description: string | null
           family_devotional: string | null
+          first_name: string
           formal_christian_training: string
-          full_name: string
+          full_name: string | null
           future_vision: string | null
           gods_call_experience: string | null
           id: string
           is_divorced: string
           is_spouse_believer: string
           last_divorce_date: string | null
+          last_name: string
           marital_status: string
+          middle_name: string | null
           minister_email: string
           minister_name: string
           minister_phone: string
@@ -114,15 +117,18 @@ export type Database = {
           employment_address?: string | null
           employment_description?: string | null
           family_devotional?: string | null
+          first_name: string
           formal_christian_training: string
-          full_name: string
+          full_name?: string | null
           future_vision?: string | null
           gods_call_experience?: string | null
           id?: string
           is_divorced: string
           is_spouse_believer: string
           last_divorce_date?: string | null
+          last_name: string
           marital_status: string
+          middle_name?: string | null
           minister_email: string
           minister_name: string
           minister_phone: string
@@ -188,15 +194,18 @@ export type Database = {
           employment_address?: string | null
           employment_description?: string | null
           family_devotional?: string | null
+          first_name?: string
           formal_christian_training?: string
-          full_name?: string
+          full_name?: string | null
           future_vision?: string | null
           gods_call_experience?: string | null
           id?: string
           is_divorced?: string
           is_spouse_believer?: string
           last_divorce_date?: string | null
+          last_name?: string
           marital_status?: string
+          middle_name?: string | null
           minister_email?: string
           minister_name?: string
           minister_phone?: string

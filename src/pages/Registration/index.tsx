@@ -224,7 +224,12 @@ const Registration = () => {
       // Map form data to database column names
       const transformedData = {
         // Step one data – Personal Bio-Data
-        full_name: stepOneData.fullName,
+        first_name: stepOneData.firstName,
+        middle_name: stepOneData.middleName || null,
+        last_name: stepOneData.lastName,
+        full_name: [stepOneData.firstName, stepOneData.middleName, stepOneData.lastName]
+          .filter(Boolean)
+          .join(" "),
         address: stepOneData.address,
         email: stepOneData.email,
         phone_numbers: stepOneData.phoneNumbers,
