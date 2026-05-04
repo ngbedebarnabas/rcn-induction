@@ -130,17 +130,9 @@ const Registration = () => {
 
       console.log("File uploaded successfully:", data);
 
-      // Get the public URL
-      const { data: urlData } = supabase.storage
-        .from("registrations")
-        .getPublicUrl(fileName);
-
-      if (!urlData || !urlData.publicUrl) {
-        throw new Error("Failed to get public URL for uploaded file");
-      }
-
-      console.log("Public URL:", urlData.publicUrl);
-      return urlData.publicUrl;
+      // Bucket is private; store the storage path so admins can generate
+      // signed URLs when viewing registrations.
+      return fileName;
     } catch (error) {
       console.error("Error in uploadFile function:", error);
       const errorMessage = error instanceof Error ? error.message : "Unknown error during file upload";
