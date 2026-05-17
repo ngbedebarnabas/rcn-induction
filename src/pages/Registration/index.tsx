@@ -109,9 +109,9 @@ const Registration = () => {
 
       console.log(`Generated filename: ${fileName}`);
 
-      // Check file size (limit to 5MB)
-      if (file.size > 5 * 1024 * 1024) {
-        throw new Error("File size exceeds 5MB limit");
+      // Check file size (limit to 10MB)
+      if (file.size > 10 * 1024 * 1024) {
+        throw new Error("File size exceeds 10MB limit");
       }
 
       // Upload the file with robust error handling
