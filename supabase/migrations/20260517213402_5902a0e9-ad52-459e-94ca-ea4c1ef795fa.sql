@@ -1,0 +1,1 @@
+update storage.buckets set allowed_mime_types = array['image/png','image/jpeg','image/jpg','image/webp','application/pdf','application/msword','application/vnd.openxmlformats-officedocument.wordprocessingml.document','application/vnd.oasis.opendocument.text','application/rtf','text/rtf','text/plain'], file_size_limit = 10485760 where id = 'registrations';
