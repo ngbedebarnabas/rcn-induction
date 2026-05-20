@@ -44,7 +44,17 @@ const signedUrl = async (path: string | null) => {
   return data.signedUrl;
 };
 
-const buildOrdinandPdf = (r: Registration) => {
+const formatDate = (d: string | null) => {
+  if (!d) return "—";
+  const date = new Date(d);
+  if (isNaN(date.getTime())) return d;
+  return date.toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  });
+};
+
   const doc = new jsPDF({ unit: "pt", format: "a4" });
   const margin = 48;
   let y = margin;
