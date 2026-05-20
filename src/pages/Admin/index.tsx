@@ -55,6 +55,7 @@ const formatDate = (d: string | null) => {
   });
 };
 
+const buildOrdinandPdf = (r: Registration) => {
   const doc = new jsPDF({ unit: "pt", format: "a4" });
   const margin = 48;
   let y = margin;
