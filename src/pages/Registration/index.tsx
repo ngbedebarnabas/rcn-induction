@@ -582,6 +582,8 @@ const Registration = () => {
               {currentStep === 1 ? (
                 <RegistrationStepOne
                   onSubmit={onSubmitStepOne}
+                  onSaveDraft={(data) => saveDraft({ stepOne: data, step: 1 })}
+                  isSavingDraft={isSavingDraft}
                   passportPreview={passportPreview}
                   handlePassportChange={handlePassportChange}
                   removePassport={removePassport}
