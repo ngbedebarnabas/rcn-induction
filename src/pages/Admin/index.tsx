@@ -359,7 +359,7 @@ const buildOrdinandPdf = (r: Registration) => {
   y += 24;
 
   const fullName = getFullName(r);
-  const dateOfNewBirth = formatDate(r.date_of_new_birth || r.accepted_christ_date);
+  const dateOfNewBirth = formatPartialDate(r.date_of_new_birth || r.accepted_christ_date);
   const historyAll = (r.spiritual_history ?? []).filter(Boolean);
   const extractYear = (s: string) => {
     const match = s.match(/\b(19|20)\d{2}\b/);
