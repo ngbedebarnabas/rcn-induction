@@ -374,24 +374,25 @@ const buildOrdinandPdf = (r: Registration) => {
     doc.text(label, margin, y);
     y += 16;
     doc.setFont("helvetica", "normal");
-    doc.setFontSize(12);
+    doc.setFontSize(14);
     const lines = doc.splitTextToSize(value || "—", contentWidth);
     doc.text(lines, margin, y);
-    y += lines.length * 14 + 14;
+    y += lines.length * 16 + 16;
   };
 
   writeField("Full Name", fullName);
   writeField("Date of New Birth", dateOfNewBirth);
+  writeField("Spiritual Gifts Manifesting", gifts);
 
   doc.setFont("helvetica", "bold");
   doc.setFontSize(11);
   doc.text("Service History", margin, y);
   y += 16;
   doc.setFont("helvetica", "normal");
-  doc.setFontSize(12);
+  doc.setFontSize(14);
   if (history.length === 0) {
     doc.text("—", margin, y);
-    y += 18;
+    y += 20;
   } else {
     history.forEach((item) => {
       const year = extractYear(item);
@@ -399,17 +400,15 @@ const buildOrdinandPdf = (r: Registration) => {
       const cleanItem = item.replace(/^\s*(19|20)\d{2}\s*[-–—.]*\s*/, "").trim();
       const display = `${yearStr}. ${cleanItem || item}`;
       const lines = doc.splitTextToSize(display, contentWidth);
-      if (y + lines.length * 14 > doc.internal.pageSize.getHeight() - margin) {
+      if (y + lines.length * 16 > doc.internal.pageSize.getHeight() - margin) {
         doc.addPage();
         y = margin;
       }
       doc.text(lines, margin, y);
-      y += lines.length * 14 + 4;
+      y += lines.length * 16 + 4;
     });
   }
   y += 12;
-
-  writeField("Spiritual Gifts Manifesting", gifts);
 
   doc.save(`Ordinand Profile - ${fullName}.pdf`);
 };
