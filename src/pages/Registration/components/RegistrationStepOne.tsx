@@ -52,6 +52,8 @@ const stepOneSchema = z.object({
 
 interface RegistrationStepOneProps {
   onSubmit: (data: StepOneFormData) => void;
+  onSaveDraft?: (data: StepOneFormData) => void;
+  isSavingDraft?: boolean;
   passportPreview: string | null;
   handlePassportChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   removePassport: () => void;
