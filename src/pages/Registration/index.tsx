@@ -530,6 +530,30 @@ const Registration = () => {
           All fields marked with an asterisk (*) are required.
         </p>
 
+        {!isSubmitted && currentStep === 1 && (
+          <ResumeRegistration onResume={handleResumeDraft} />
+        )}
+
+        {!isSubmitted && currentStep > 1 && stepOneData?.email && (
+          <div className="max-w-2xl mx-auto mb-6 flex justify-end">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => saveDraft()}
+              disabled={isSavingDraft}
+              className="gap-2"
+            >
+              {isSavingDraft ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <Save className="h-4 w-4" />
+              )}
+              Save & continue later
+            </Button>
+          </div>
+        )}
+
         {isSubmitted ? (
           <Card className="max-w-2xl mx-auto border-0 shadow-md">
             <CardContent className="pt-6">
