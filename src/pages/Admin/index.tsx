@@ -358,7 +358,7 @@ const buildOrdinandPdf = (r: Registration) => {
 
   doc.setFont("helvetica", "bold");
   doc.setFontSize(11);
-  doc.text("Service History (most recent 5)", margin, y);
+  doc.text("Service History", margin, y);
   y += 16;
   doc.setFont("helvetica", "normal");
   doc.setFontSize(12);
@@ -366,8 +366,12 @@ const buildOrdinandPdf = (r: Registration) => {
     doc.text("—", margin, y);
     y += 18;
   } else {
-    history.forEach((item, idx) => {
-      const lines = doc.splitTextToSize(`${idx + 1}. ${item}`, contentWidth);
+    history.forEach((item) => {
+      const year = extractYear(item);
+      const yearStr = year > 0 ? String(year) : "—";
+      const cleanItem = item.replace(/^\s*(19|20)\d{2}\s*[-–—.]*\s*/, "").trim();
+      const display = `${yearStr}. ${cleanItem || item}`;
+      const lines = doc.splitTextToSize(display, contentWidth);
       if (y + lines.length * 14 > doc.internal.pageSize.getHeight() - margin) {
         doc.addPage();
         y = margin;
