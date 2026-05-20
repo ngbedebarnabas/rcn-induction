@@ -71,6 +71,13 @@ const RegistrationStepOne = ({
 }: RegistrationStepOneProps) => {
   const [isUploading, setIsUploading] = useState(false);
 
+  useEffect(() => {
+    if (initialValues) {
+      form.reset(initialValues);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialValues]);
+
   const form = useForm<z.infer<typeof stepOneSchema>>({
     resolver: zodResolver(stepOneSchema),
     defaultValues: initialValues ?? {
