@@ -130,6 +130,33 @@ const formatDate = (d: string | null) => {
   });
 };
 
+const MONTH_NAMES = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December",
+];
+
+const formatPartialDate = (d: string | null) => {
+  if (!d) return "—";
+  const parts = d.split("-");
+  const year = parts[0];
+  if (!year || isNaN(Number(year))) return d;
+
+  // Year only: "2023"
+  if (parts.length === 1) return year;
+
+  const monthNum = parseInt(parts[1], 10);
+  const monthName = MONTH_NAMES[monthNum - 1] || parts[1];
+
+  // Year and month only: "2023-01" or "2023-01-00"
+  if (parts.length === 2 || parts[2] === "00" || !parts[2]) {
+    return `${monthName} ${year}`;
+  }
+
+  // Full date: "2023-01-15"
+  const day = parts[2];
+  return `${day} ${monthName} ${year}`;
+};
+
 const formatValue = (v: string | string[] | null): string => {
   if (v === null || v === undefined || v === "") return "—";
   if (Array.isArray(v)) {
@@ -228,7 +255,7 @@ const DetailDialog = ({
             <Separator />
 
             <Section title="Spiritual Information">
-              <Field label="Date of New Birth" value={formatDate(r.date_of_new_birth || r.accepted_christ_date)} />
+              <Field label="Date of New Birth" value={formatPartialDate(r.date_of_new_birth || r.accepted_christ_date)} />
               <Field label="Water Baptized?" value={r.water_baptized} />
               <Field label="Date of Water Baptism" value={formatDate(r.date_of_water_baptism)} />
               <Field label="Date of Holy Ghost Baptism" value={formatDate(r.date_of_holy_ghost_baptism)} />
@@ -332,7 +359,7 @@ const buildOrdinandPdf = (r: Registration) => {
   y += 24;
 
   const fullName = getFullName(r);
-  const dateOfNewBirth = formatDate(r.date_of_new_birth || r.accepted_christ_date);
+  const dateOfNewBirth = formatPartialDate(r.date_of_new_birth || r.accepted_christ_date);
   const historyAll = (r.spiritual_history ?? []).filter(Boolean);
   const extractYear = (s: string) => {
     const match = s.match(/\b(19|20)\d{2}\b/);
