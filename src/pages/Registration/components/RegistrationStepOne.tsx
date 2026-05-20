@@ -620,15 +620,31 @@ const RegistrationStepOne = ({
           )}
         </div>
 
-        <Button type="submit" className="w-full" disabled={isUploading}>
-          {isUploading ? (
-            "Uploading..."
-          ) : (
-            <>
-              Next Step <ArrowRight className="ml-2 h-4 w-4" />
-            </>
-          )}
-        </Button>
+        <div className="flex flex-col sm:flex-row gap-3">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={handleSaveDraft}
+            disabled={isSavingDraft || isUploading || !onSaveDraft}
+            className="sm:w-auto gap-2"
+          >
+            {isSavingDraft ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <Save className="h-4 w-4" />
+            )}
+            Save & continue later
+          </Button>
+          <Button type="submit" className="flex-1" disabled={isUploading}>
+            {isUploading ? (
+              "Uploading..."
+            ) : (
+              <>
+                Next Step <ArrowRight className="ml-2 h-4 w-4" />
+              </>
+            )}
+          </Button>
+        </div>
       </form>
     </Form>
   );
