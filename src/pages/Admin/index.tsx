@@ -44,6 +44,17 @@ const signedUrl = async (path: string | null) => {
   return data.signedUrl;
 };
 
+const formatDate = (d: string | null) => {
+  if (!d) return "—";
+  const date = new Date(d);
+  if (isNaN(date.getTime())) return d;
+  return date.toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  });
+};
+
 const buildOrdinandPdf = (r: Registration) => {
   const doc = new jsPDF({ unit: "pt", format: "a4" });
   const margin = 48;
@@ -61,7 +72,7 @@ const buildOrdinandPdf = (r: Registration) => {
   y += 24;
 
   const fullName = getFullName(r);
-  const dateOfNewBirth = r.date_of_new_birth || r.accepted_christ_date || "—";
+  const dateOfNewBirth = formatDate(r.date_of_new_birth || r.accepted_christ_date);
   const historyAll = (r.spiritual_history ?? []).filter(Boolean);
   const history = historyAll.slice(-5).reverse(); // most recent first
   const gifts = r.spiritual_gifts_manifest || "—";
