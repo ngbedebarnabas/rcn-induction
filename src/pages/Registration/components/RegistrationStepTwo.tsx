@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -121,6 +122,13 @@ const RegistrationStepTwo: React.FC<RegistrationStepTwoProps> = ({
       employmentDescription: "",
     },
   });
+
+  useEffect(() => {
+    if (initialValues) {
+      form.reset(initialValues);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialValues]);
 
   const watchWaterBaptized = form.watch("waterBaptized");
   const watchPrayInTongues = form.watch("prayInTongues");

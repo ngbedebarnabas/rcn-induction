@@ -24,7 +24,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { ArrowRight, User, Trash2, Plus, Minus, Save, Loader2 } from "lucide-react";
 import { StepOneFormData } from "../types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "@/hooks/use-toast";
 
 const stepOneSchema = z.object({
@@ -70,6 +70,13 @@ const RegistrationStepOne = ({
   initialValues,
 }: RegistrationStepOneProps) => {
   const [isUploading, setIsUploading] = useState(false);
+
+  useEffect(() => {
+    if (initialValues) {
+      form.reset(initialValues);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialValues]);
 
   const form = useForm<z.infer<typeof stepOneSchema>>({
     resolver: zodResolver(stepOneSchema),
