@@ -374,10 +374,10 @@ const buildOrdinandPdf = (r: Registration) => {
     doc.text(label, margin, y);
     y += 16;
     doc.setFont("helvetica", "normal");
-    doc.setFontSize(14);
+    doc.setFontSize(16);
     const lines = doc.splitTextToSize(value || "—", contentWidth);
     doc.text(lines, margin, y);
-    y += lines.length * 16 + 16;
+    y += lines.length * 18 + 18;
   };
 
   writeField("Full Name", fullName);
@@ -389,10 +389,10 @@ const buildOrdinandPdf = (r: Registration) => {
   doc.text("Service History", margin, y);
   y += 16;
   doc.setFont("helvetica", "normal");
-  doc.setFontSize(14);
+  doc.setFontSize(16);
   if (history.length === 0) {
     doc.text("—", margin, y);
-    y += 20;
+    y += 22;
   } else {
     history.forEach((item) => {
       const year = extractYear(item);
@@ -400,12 +400,12 @@ const buildOrdinandPdf = (r: Registration) => {
       const cleanItem = item.replace(/^\s*(19|20)\d{2}\s*[-–—.]*\s*/, "").trim();
       const display = `${yearStr}. ${cleanItem || item}`;
       const lines = doc.splitTextToSize(display, contentWidth);
-      if (y + lines.length * 16 > doc.internal.pageSize.getHeight() - margin) {
+      if (y + lines.length * 18 > doc.internal.pageSize.getHeight() - margin) {
         doc.addPage();
         y = margin;
       }
       doc.text(lines, margin, y);
-      y += lines.length * 16 + 4;
+      y += lines.length * 18 + 4;
     });
   }
   y += 12;
