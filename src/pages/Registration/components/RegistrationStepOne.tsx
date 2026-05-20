@@ -186,6 +186,20 @@ const RegistrationStepOne = ({
     } as StepOneFormData);
   };
 
+  const handleSaveDraft = () => {
+    if (!onSaveDraft) return;
+
+    const values = form.getValues();
+    const cleanedHandles = (values.socialMediaHandles ?? [])
+      .map((h) => h.trim())
+      .filter(Boolean);
+
+    onSaveDraft({
+      ...values,
+      socialMediaHandles: cleanedHandles,
+    } as StepOneFormData);
+  };
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleFormSubmit)} className="space-y-6">
