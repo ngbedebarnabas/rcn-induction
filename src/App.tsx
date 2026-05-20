@@ -6,6 +6,7 @@ import Contact from './pages/Contact';
 import NotFound from './pages/NotFound';
 import Layout from './components/Layout';
 import Registration from './pages/Registration';
+import Admin from './pages/Admin';
 import { Toaster } from "@/components/ui/toaster";
 
 import './App.css';
