@@ -283,22 +283,7 @@ const DetailDialog = ({
 
             <Separator />
 
-            <Section title="Essay Responses">
-              <Field label="Conversion Experience" value={r.conversion_experience} />
-              <Field label="Devotional Pattern" value={r.devotional_pattern} />
-              <Field label="Family Devotional" value={r.family_devotional} />
-              <Field label="God's Call Experience" value={r.gods_call_experience} />
-              <Field label="Ministry Concept" value={r.ministry_concept} />
-              <Field label="Future Vision" value={r.future_vision} />
-              <Field label="Ministry Strengths" value={r.ministry_strengths} />
-              <Field label="Ministry Weaknesses" value={r.ministry_weaknesses} />
-              <Field label="Relationship Evaluation" value={r.relationship_evaluation} />
-              <Field label="Non-Ordination Effect" value={r.non_ordination_effect} />
-              <Field label="Spouse Ministry Feelings" value={r.spouse_ministry_feelings} />
-              <Field label="Ministry Success Definition" value={r.ministry_success_definition} />
-            </Section>
-
-            <Separator />
+            <Section title="Documents & Status">
 
             <Section title="Documents & Status">
               <div className="col-span-1 sm:col-span-2 flex flex-wrap gap-3">
