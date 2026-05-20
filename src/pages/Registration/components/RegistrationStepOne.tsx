@@ -62,6 +62,8 @@ interface RegistrationStepOneProps {
 
 const RegistrationStepOne = ({
   onSubmit,
+  onSaveDraft,
+  isSavingDraft,
   passportPreview,
   handlePassportChange,
   removePassport,
