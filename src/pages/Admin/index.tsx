@@ -284,8 +284,6 @@ const DetailDialog = ({
             <Separator />
 
             <Section title="Documents & Status">
-
-            <Section title="Documents & Status">
               <div className="col-span-1 sm:col-span-2 flex flex-wrap gap-3">
                 {signedPassport && (
                   <Button
