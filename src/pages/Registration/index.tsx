@@ -406,6 +406,14 @@ const Registration = () => {
 
       console.log("Data inserted successfully");
 
+      // Remove the saved draft now that the registration is complete
+      if (stepOneData?.email) {
+        await supabase
+          .from("registration_drafts")
+          .delete()
+          .ilike("email", stepOneData.email.trim().toLowerCase());
+      }
+
       toast({
         title: "Registration submitted",
         description:
