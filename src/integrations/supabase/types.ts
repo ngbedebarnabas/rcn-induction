@@ -14,6 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      registration_drafts: {
+        Row: {
+          created_at: string
+          current_step: number
+          email: string
+          id: string
+          spiritual_history: Json | null
+          step_one_data: Json | null
+          step_two_data: Json | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          current_step?: number
+          email: string
+          id?: string
+          spiritual_history?: Json | null
+          step_one_data?: Json | null
+          step_two_data?: Json | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          current_step?: number
+          email?: string
+          id?: string
+          spiritual_history?: Json | null
+          step_one_data?: Json | null
+          step_two_data?: Json | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       registrations: {
         Row: {
           accepted_christ_date: string
