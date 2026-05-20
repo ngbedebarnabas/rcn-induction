@@ -20,13 +20,16 @@ import RegistrationStepOne from "./components/RegistrationStepOne";
 import RegistrationStepTwo from "./components/RegistrationStepTwo";
 import RegistrationStepThree from "./components/RegistrationStepThree";
 import SuccessMessage from "./components/SuccessMessage";
+import ResumeRegistration from "./components/ResumeRegistration";
 import { StepOneFormData, StepTwoFormData, StepThreeFormData } from "./types";
 import PageHeader from "@/components/PageHeader";
 import { v4 as uuidv4 } from "uuid";
 import { supabase } from "@/integrations/supabase/client";
+import { Save, Loader2 } from "lucide-react";
 
 const Registration = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSavingDraft, setIsSavingDraft] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [currentStep, setCurrentStep] = useState<1 | 2 | 3>(1);
   const [spiritualHistory, setSpiritualHistory] = useState<
