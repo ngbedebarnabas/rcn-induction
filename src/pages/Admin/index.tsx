@@ -130,6 +130,33 @@ const formatDate = (d: string | null) => {
   });
 };
 
+const MONTH_NAMES = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December",
+];
+
+const formatPartialDate = (d: string | null) => {
+  if (!d) return "—";
+  const parts = d.split("-");
+  const year = parts[0];
+  if (!year || isNaN(Number(year))) return d;
+
+  // Year only: "2023"
+  if (parts.length === 1) return year;
+
+  const monthNum = parseInt(parts[1], 10);
+  const monthName = MONTH_NAMES[monthNum - 1] || parts[1];
+
+  // Year and month only: "2023-01" or "2023-01-00"
+  if (parts.length === 2 || parts[2] === "00" || !parts[2]) {
+    return `${monthName} ${year}`;
+  }
+
+  // Full date: "2023-01-15"
+  const day = parts[2];
+  return `${day} ${monthName} ${year}`;
+};
+
 const formatValue = (v: string | string[] | null): string => {
   if (v === null || v === undefined || v === "") return "—";
   if (Array.isArray(v)) {
