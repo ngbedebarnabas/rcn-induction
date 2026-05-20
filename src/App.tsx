@@ -7,6 +7,7 @@ import NotFound from './pages/NotFound';
 import Layout from './components/Layout';
 import Registration from './pages/Registration';
 import Admin from './pages/Admin';
+import AdminLogin from './pages/Admin/Login';
 import { Toaster } from "@/components/ui/toaster";
 
 import './App.css';
@@ -20,6 +21,7 @@ const App = () => {
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/registration" element={<Registration />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="*" element={<NotFound />} />
         </Route>

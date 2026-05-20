@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "@/hooks/use-toast";
-import { Download, FileText, Image as ImageIcon, Loader2, Lock } from "lucide-react";
+import { Download, FileText, Image as ImageIcon, Loader2, LogOut } from "lucide-react";
 import PageHeader from "@/components/PageHeader";
 import jsPDF from "jspdf";
 
@@ -26,9 +27,6 @@ type Registration = {
   created_at: string | null;
 };
 
-const ADMIN_KEY = "rcn_admin_authed";
-// Simple shared password gate. Change as needed.
-const ADMIN_PASSWORD = "rcn-admin-2026";
 
 const getFullName = (r: Registration) =>
   r.full_name?.trim() ||
@@ -111,15 +109,40 @@ const buildOrdinandPdf = (r: Registration) => {
 };
 
 const Admin = () => {
-  const [authed, setAuthed] = useState(() => sessionStorage.getItem(ADMIN_KEY) === "1");
-  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const [checkingAuth, setCheckingAuth] = useState(true);
   const [loading, setLoading] = useState(false);
   const [rows, setRows] = useState<Registration[]>([]);
   const [query, setQuery] = useState("");
 
   useEffect(() => {
-    if (!authed) return;
-    (async () => {
+    let mounted = true;
+
+    const verifyAndLoad = async (userId: string | undefined) => {
+      if (!userId) {
+        navigate("/admin/login", { replace: true });
+        return;
+      }
+      const { data: roleData, error: roleErr } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", userId)
+        .eq("role", "admin")
+        .maybeSingle();
+
+      if (roleErr || !roleData) {
+        toast({
+          title: "Not authorized",
+          description: "Your account doesn't have admin access.",
+          variant: "destructive",
+        });
+        await supabase.auth.signOut();
+        navigate("/admin/login", { replace: true });
+        return;
+      }
+
+      if (!mounted) return;
+      setCheckingAuth(false);
       setLoading(true);
       const { data, error } = await supabase
         .from("registrations")
@@ -133,8 +156,21 @@ const Admin = () => {
         setRows((data as Registration[]) ?? []);
       }
       setLoading(false);
-    })();
-  }, [authed]);
+    };
+
+    const { data: sub } = supabase.auth.onAuthStateChange((_evt, session) => {
+      if (!session) navigate("/admin/login", { replace: true });
+    });
+
+    supabase.auth.getSession().then(({ data }) => {
+      verifyAndLoad(data.session?.user.id);
+    });
+
+    return () => {
+      mounted = false;
+      sub.subscription.unsubscribe();
+    };
+  }, [navigate]);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -155,38 +191,15 @@ const Admin = () => {
     window.open(url, "_blank", "noopener,noreferrer");
   };
 
-  if (!authed) {
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    navigate("/admin/login", { replace: true });
+  };
+
+  if (checkingAuth) {
     return (
-      <div className="container mx-auto py-20 px-4 max-w-md">
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Lock className="h-5 w-5" /> Admin Access
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                if (password === ADMIN_PASSWORD) {
-                  sessionStorage.setItem(ADMIN_KEY, "1");
-                  setAuthed(true);
-                } else {
-                  toast({ title: "Incorrect password", variant: "destructive" });
-                }
-              }}
-              className="space-y-4"
-            >
-              <Input
-                type="password"
-                placeholder="Enter admin password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <Button type="submit" className="w-full">Sign in</Button>
-            </form>
-          </CardContent>
-        </Card>
+      <div className="flex items-center justify-center py-32 text-muted-foreground">
+        <Loader2 className="h-5 w-5 animate-spin mr-2" /> Verifying access…
       </div>
     );
   }
@@ -198,6 +211,11 @@ const Admin = () => {
         subtitle="Review submitted registrations, verify uploaded documents, and download ordinand profiles."
       />
       <div className="container mx-auto py-10 px-4">
+        <div className="flex justify-end mb-4">
+          <Button variant="outline" size="sm" onClick={handleSignOut}>
+            <LogOut className="h-4 w-4 mr-1" /> Sign out
+          </Button>
+        </div>
         <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between mb-6">
           <Input
             placeholder="Search by name or email…"
