@@ -283,23 +283,6 @@ const DetailDialog = ({
 
             <Separator />
 
-            <Section title="Essay Responses">
-              <Field label="Conversion Experience" value={r.conversion_experience} />
-              <Field label="Devotional Pattern" value={r.devotional_pattern} />
-              <Field label="Family Devotional" value={r.family_devotional} />
-              <Field label="God's Call Experience" value={r.gods_call_experience} />
-              <Field label="Ministry Concept" value={r.ministry_concept} />
-              <Field label="Future Vision" value={r.future_vision} />
-              <Field label="Ministry Strengths" value={r.ministry_strengths} />
-              <Field label="Ministry Weaknesses" value={r.ministry_weaknesses} />
-              <Field label="Relationship Evaluation" value={r.relationship_evaluation} />
-              <Field label="Non-Ordination Effect" value={r.non_ordination_effect} />
-              <Field label="Spouse Ministry Feelings" value={r.spouse_ministry_feelings} />
-              <Field label="Ministry Success Definition" value={r.ministry_success_definition} />
-            </Section>
-
-            <Separator />
-
             <Section title="Documents & Status">
               <div className="col-span-1 sm:col-span-2 flex flex-wrap gap-3">
                 {signedPassport && (
@@ -351,7 +334,11 @@ const buildOrdinandPdf = (r: Registration) => {
   const fullName = getFullName(r);
   const dateOfNewBirth = formatDate(r.date_of_new_birth || r.accepted_christ_date);
   const historyAll = (r.spiritual_history ?? []).filter(Boolean);
-  const history = historyAll.slice(-5).reverse(); // most recent first
+  const extractYear = (s: string) => {
+    const match = s.match(/\b(19|20)\d{2}\b/);
+    return match ? parseInt(match[0], 10) : 0;
+  };
+  const history = [...historyAll].sort((a, b) => extractYear(b) - extractYear(a));
   const gifts = r.spiritual_gifts_manifest || "—";
 
   const writeField = (label: string, value: string) => {
@@ -371,7 +358,7 @@ const buildOrdinandPdf = (r: Registration) => {
 
   doc.setFont("helvetica", "bold");
   doc.setFontSize(11);
-  doc.text("Service History (most recent 5)", margin, y);
+  doc.text("Service History", margin, y);
   y += 16;
   doc.setFont("helvetica", "normal");
   doc.setFontSize(12);
@@ -379,8 +366,12 @@ const buildOrdinandPdf = (r: Registration) => {
     doc.text("—", margin, y);
     y += 18;
   } else {
-    history.forEach((item, idx) => {
-      const lines = doc.splitTextToSize(`${idx + 1}. ${item}`, contentWidth);
+    history.forEach((item) => {
+      const year = extractYear(item);
+      const yearStr = year > 0 ? String(year) : "—";
+      const cleanItem = item.replace(/^\s*(19|20)\d{2}\s*[-–—.]*\s*/, "").trim();
+      const display = `${yearStr}. ${cleanItem || item}`;
+      const lines = doc.splitTextToSize(display, contentWidth);
       if (y + lines.length * 14 > doc.internal.pageSize.getHeight() - margin) {
         doc.addPage();
         y = margin;
