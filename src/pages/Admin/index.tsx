@@ -72,7 +72,7 @@ const buildOrdinandPdf = (r: Registration) => {
   y += 24;
 
   const fullName = getFullName(r);
-  const dateOfNewBirth = r.date_of_new_birth || r.accepted_christ_date || "—";
+  const dateOfNewBirth = formatDate(r.date_of_new_birth || r.accepted_christ_date);
   const historyAll = (r.spiritual_history ?? []).filter(Boolean);
   const history = historyAll.slice(-5).reverse(); // most recent first
   const gifts = r.spiritual_gifts_manifest || "—";
