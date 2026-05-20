@@ -162,11 +162,94 @@ const Registration = () => {
     return dateValue;
   };
 
+  // Persist (upsert) the current registration progress to Supabase
+  const saveDraft = async (
+    overrides?: {
+      stepOne?: StepOneFormData | null;
+      stepTwo?: StepTwoFormData | null;
+      step?: 1 | 2 | 3;
+      silent?: boolean;
+    }
+  ) => {
+    const one = overrides?.stepOne ?? stepOneData;
+    const two = overrides?.stepTwo ?? stepTwoData;
+    const step = overrides?.step ?? currentStep;
+    const email = one?.email?.trim().toLowerCase();
+
+    if (!email) {
+      if (!overrides?.silent) {
+        toast({
+          title: "Email required",
+          description:
+            "Please fill in your email in Step 1 before saving your progress.",
+          variant: "destructive",
+        });
+      }
+      return false;
+    }
+
+    try {
+      if (!overrides?.silent) setIsSavingDraft(true);
+      const { error } = await supabase.from("registration_drafts").upsert(
+        {
+          email,
+          current_step: step,
+          step_one_data: one as any,
+          step_two_data: (two as any) ?? null,
+          spiritual_history: spiritualHistory as any,
+          updated_at: new Date().toISOString(),
+        },
+        { onConflict: "email" }
+      );
+
+      if (error) throw error;
+
+      if (!overrides?.silent) {
+        toast({
+          title: "Progress saved",
+          description: `You can resume later by entering ${email}.`,
+        });
+      }
+      return true;
+    } catch (err: any) {
+      console.error("Error saving draft:", err);
+      if (!overrides?.silent) {
+        toast({
+          title: "Could not save progress",
+          description: err.message ?? "Please try again.",
+          variant: "destructive",
+        });
+      }
+      return false;
+    } finally {
+      if (!overrides?.silent) setIsSavingDraft(false);
+    }
+  };
+
+  // Restore a previously saved draft
+  const handleResumeDraft = (draft: {
+    email: string;
+    current_step: number;
+    step_one_data: any;
+    step_two_data: any;
+    spiritual_history: any;
+  }) => {
+    if (draft.step_one_data) setStepOneData(draft.step_one_data);
+    if (draft.step_two_data) setStepTwoData(draft.step_two_data);
+    if (Array.isArray(draft.spiritual_history) && draft.spiritual_history.length > 0) {
+      setSpiritualHistory(draft.spiritual_history);
+    }
+    const step = Math.min(3, Math.max(1, draft.current_step || 1)) as 1 | 2 | 3;
+    setCurrentStep(step);
+  };
+
   // Handle form submission for step 1
   const onSubmitStepOne = (data: StepOneFormData) => {
     console.log("Step one data:", data);
     setStepOneData(data);
     setCurrentStep(2);
+    // Auto-save in the background
+    saveDraft({ stepOne: data, step: 2, silent: true });
   };
 
   // Handle form submission for step 2
@@ -174,6 +257,7 @@ const Registration = () => {
     console.log("Step two data:", data);
     setStepTwoData(data);
     setCurrentStep(3);
+    saveDraft({ stepTwo: data, step: 3, silent: true });
   };
 
   // Handle form submission for step 3
