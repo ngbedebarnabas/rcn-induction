@@ -370,14 +370,14 @@ const buildOrdinandPdf = (r: Registration) => {
 
   const writeField = (label: string, value: string) => {
     doc.setFont("helvetica", "bold");
-    doc.setFontSize(11);
-    doc.text(label, margin, y);
-    y += 16;
-    doc.setFont("helvetica", "normal");
     doc.setFontSize(16);
+    doc.text(label, margin, y);
+    y += 20;
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(14);
     const lines = doc.splitTextToSize(value || "—", contentWidth);
     doc.text(lines, margin, y);
-    y += lines.length * 18 + 18;
+    y += lines.length * 16 + 16;
   };
 
   writeField("Full Name", fullName);
@@ -385,14 +385,14 @@ const buildOrdinandPdf = (r: Registration) => {
   writeField("Spiritual Gifts Manifesting", gifts);
 
   doc.setFont("helvetica", "bold");
-  doc.setFontSize(11);
-  doc.text("Service History", margin, y);
-  y += 16;
-  doc.setFont("helvetica", "normal");
   doc.setFontSize(16);
+  doc.text("Service History", margin, y);
+  y += 20;
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(14);
   if (history.length === 0) {
     doc.text("—", margin, y);
-    y += 22;
+    y += 20;
   } else {
     history.forEach((item) => {
       const year = extractYear(item);
@@ -400,12 +400,12 @@ const buildOrdinandPdf = (r: Registration) => {
       const cleanItem = item.replace(/^\s*(19|20)\d{2}\s*[-–—.]*\s*/, "").trim();
       const display = `${yearStr}. ${cleanItem || item}`;
       const lines = doc.splitTextToSize(display, contentWidth);
-      if (y + lines.length * 18 > doc.internal.pageSize.getHeight() - margin) {
+      if (y + lines.length * 16 > doc.internal.pageSize.getHeight() - margin) {
         doc.addPage();
         y = margin;
       }
       doc.text(lines, margin, y);
-      y += lines.length * 18 + 4;
+      y += lines.length * 16 + 4;
     });
   }
   y += 12;
