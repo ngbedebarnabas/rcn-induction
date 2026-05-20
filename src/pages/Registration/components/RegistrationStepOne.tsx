@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { ArrowRight, User, Trash2, Plus, Minus } from "lucide-react";
+import { ArrowRight, User, Trash2, Plus, Minus, Save, Loader2 } from "lucide-react";
 import { StepOneFormData } from "../types";
 import { useState } from "react";
 import { toast } from "@/hooks/use-toast";
@@ -52,6 +52,8 @@ const stepOneSchema = z.object({
 
 interface RegistrationStepOneProps {
   onSubmit: (data: StepOneFormData) => void;
+  onSaveDraft?: (data: StepOneFormData) => void;
+  isSavingDraft?: boolean;
   passportPreview: string | null;
   handlePassportChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   removePassport: () => void;
@@ -60,6 +62,8 @@ interface RegistrationStepOneProps {
 
 const RegistrationStepOne = ({
   onSubmit,
+  onSaveDraft,
+  isSavingDraft,
   passportPreview,
   handlePassportChange,
   removePassport,
@@ -178,6 +182,20 @@ const RegistrationStepOne = ({
 
     onSubmit({
       ...formData,
+      socialMediaHandles: cleanedHandles,
+    } as StepOneFormData);
+  };
+
+  const handleSaveDraft = () => {
+    if (!onSaveDraft) return;
+
+    const values = form.getValues();
+    const cleanedHandles = (values.socialMediaHandles ?? [])
+      .map((h) => h.trim())
+      .filter(Boolean);
+
+    onSaveDraft({
+      ...values,
       socialMediaHandles: cleanedHandles,
     } as StepOneFormData);
   };
@@ -602,15 +620,31 @@ const RegistrationStepOne = ({
           )}
         </div>
 
-        <Button type="submit" className="w-full" disabled={isUploading}>
-          {isUploading ? (
-            "Uploading..."
-          ) : (
-            <>
-              Next Step <ArrowRight className="ml-2 h-4 w-4" />
-            </>
-          )}
-        </Button>
+        <div className="flex flex-col sm:flex-row gap-3">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={handleSaveDraft}
+            disabled={isSavingDraft || isUploading || !onSaveDraft}
+            className="sm:w-auto gap-2"
+          >
+            {isSavingDraft ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <Save className="h-4 w-4" />
+            )}
+            Save & continue later
+          </Button>
+          <Button type="submit" className="flex-1" disabled={isUploading}>
+            {isUploading ? (
+              "Uploading..."
+            ) : (
+              <>
+                Next Step <ArrowRight className="ml-2 h-4 w-4" />
+              </>
+            )}
+          </Button>
+        </div>
       </form>
     </Form>
   );
