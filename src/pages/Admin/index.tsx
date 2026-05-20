@@ -255,7 +255,7 @@ const DetailDialog = ({
             <Separator />
 
             <Section title="Spiritual Information">
-              <Field label="Date of New Birth" value={formatDate(r.date_of_new_birth || r.accepted_christ_date)} />
+              <Field label="Date of New Birth" value={formatPartialDate(r.date_of_new_birth || r.accepted_christ_date)} />
               <Field label="Water Baptized?" value={r.water_baptized} />
               <Field label="Date of Water Baptism" value={formatDate(r.date_of_water_baptism)} />
               <Field label="Date of Holy Ghost Baptism" value={formatDate(r.date_of_holy_ghost_baptism)} />
